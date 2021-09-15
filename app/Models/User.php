@@ -41,4 +41,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function fullName(){
+        if(is_null($this->fName)){
+            return 'No Name';
+        }
+        return "$this->fName $this->mName $this->lName";
+    }
 }
