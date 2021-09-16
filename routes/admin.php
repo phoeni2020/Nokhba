@@ -23,5 +23,10 @@ Route::group(['prefix'=>'teachers'],function (){
     Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
 });
 
+Route::group(['prefix'=>'category'],function (){
+    Route::view('/','dashbord.catgory.index')->name('admin.catgory.index');
+    //Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
+});
+
 Route::get('/{page}',[Admin\DashbordController::class,'index'])->name('page');
 

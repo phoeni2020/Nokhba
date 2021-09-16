@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class authController extends Controller
@@ -16,27 +17,40 @@ class authController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function signUp(Request $request){
-        $validatedData = $request->validate([
-            //'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
 
-        $user = User::create([
-            //'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-        ]);
-        unset($validatedData);
+        $validatedData = Validator::make($request->all(), [
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8',
+            ],
+            [
+                'email.required' => 'E-mail Is Required Field',
+                'email.unique' => 'The E-mail MUST Be Unique',
+                'email.email' => 'The E-mail Field MUST Be Like Email Format user@example.com',
+                'password.required' => 'Password Is Required Field',
+                'password.min' => 'Password MUST Be At Least 8 Chars',
+            ]
+        );
+        if($validatedData->fails()){
+            return response()->json($validatedData->errors());
+        }
+        else {
+            $data = $validatedData->validated();
+            $user = User::create([
+                //'name' => $validatedData['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+            unset($data);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth_token')->plainTextToken;
 
-        unset($user);
+            unset($user);
 
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ]);
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
+        }
     }
 
     /**

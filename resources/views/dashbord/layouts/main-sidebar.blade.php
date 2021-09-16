@@ -56,6 +56,13 @@
                         </a>
                     </li>
 
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{ route('admin.catgory.index') }}">
+                            <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
+                            <span class="side-menu__label">التصنيفات</span>
+                        </a>
+                    </li>
+
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/admin/' . $page='#') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
