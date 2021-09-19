@@ -3,13 +3,40 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 use Laravel\Sanctum\PersonalAccessToken;
 use PHPUnit\TextUI\Exception;
 
 class userController extends Controller
 {
+    use SendsPasswordResetEmails;
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
+    public function getResetToken(Request $request)
+    {
+        $this->validate($request, ['email' => 'required|email']);
+        $sent = $this->sendResetLinkEmail($request);
+
+
+        return ($sent)
+            ? response()->json(['message'=>'Success'])
+            : response()->json(['message'=>'Failed']);
+
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $this->validateEmail($request);
+        $response = $this->broker()->sendResetLink(
+            $request->only('email')
+        );
+        return $response == Password::RESET_LINK_SENT ? 1 : 0;
+    }
     /**
      * @param PersonalAccessToken $userToken
      * @param Request $request
@@ -58,6 +85,43 @@ class userController extends Controller
         }
 
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+/*    public function forgot_password(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'email' => "required|email",
+        );
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
+        }
+        else {
+            try {
+                $response = Password::sendResetLink($request->only('email'), function (\http\Message  $message) {
+                    $message->subject($this->getEmailSubject());
+                });
+                switch ($response) {
+                    case Password::RESET_LINK_SENT:
+                        return response()->json(array("status" => 200, "message" => trans($response), "data" => array()));
+                    case Password::INVALID_USER:
+                        return response()->json(array("status" => 400, "message" => trans($response), "data" => array()));
+                }
+            }
+            catch (\Swift_TransportException $ex) {
+                $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
+            }
+            catch (Exception $ex) {
+                $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
+            }
+        }
+        return response()->json($arr);
+    }*/
+
     /**
      * Show the form for creating a new resource.
      *

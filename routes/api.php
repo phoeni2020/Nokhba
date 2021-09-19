@@ -20,16 +20,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function (){
     Route::post('signup',[\App\Http\Controllers\Api\User\authController::class,'signUp'])->name('api.user.signup');
     Route::post('login',[\App\Http\Controllers\Api\User\authController::class,'signIn'])->name('api.user.signin');
-
+    Route::post('forgotPassword', [\App\Http\Controllers\Api\User\userController::class,'getResetToken']);
+    Route::prefix('teacher')->group(function (){
+        Route::post('/index',[\App\Http\Controllers\Api\teachersController::class,'index']);
+        //Route::put('/completeData',[\App\Http\Controllers\Api\User\userController::class,'completeData']);
+    });
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::prefix('user')->group(function (){
             Route::get('/',[\App\Http\Controllers\Api\User\userController::class,'show']);
             Route::put('/completeData',[\App\Http\Controllers\Api\User\userController::class,'completeData']);
         });
-        Route::prefix('teacher')->group(function (){
-            Route::post('/index',[\App\Http\Controllers\Api\teachersController::class,'index']);
-            //Route::put('/completeData',[\App\Http\Controllers\Api\User\userController::class,'completeData']);
-        });
+
 
     });
 });
+
