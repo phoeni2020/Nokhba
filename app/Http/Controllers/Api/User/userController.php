@@ -29,29 +29,29 @@ class userController extends Controller
      * @return Exception|\Illuminate\Http\JsonResponse|Exception
      */
     public function completeData(Request $request){
-
         try {
-            $validatedData = $request->validate([
-                'fName'=>'required|string|min:3',
-                'mName'=>'required|string|min:3',
-                'lName'=>'required|string|min:3',
-                'phone'=>'required|string|min:10',
-                //'governorate'=>'required|string|exists:governorate',
-                'city'=>'required|string',
-                //'center'=>'required|string|exists:center',
-                'parentPhone'=>'required|string|min:10',
-            ]);
-
-            $user = $request->user();
-
-            $user->fName = $validatedData['fName'];
-            $user->mName = $validatedData['mName'];
-            $user->lName = $validatedData['lName'];
-            $user->phone = $validatedData['phone'];
-            $user->city = $validatedData['city'];
-            $user->parentPhone = $validatedData['parentPhone'];
-            $user->save();
-            return response()->json(['user'=>$user,'dataComplete'=>true]);
+            if($request->hasHeader('token')){
+                $validatedData = $request->validate([
+                    'fName'=>'required|string|min:3',
+                    'mName'=>'required|string|min:3',
+                    'lName'=>'required|string|min:3',
+                    'phone'=>'required|string|min:10',
+                    //'governorate'=>'required|string|exists:governorate',
+                    'city'=>'required|string',
+                    //'center'=>'required|string|exists:center',
+                    'parentPhone'=>'required|string|min:10',
+                ]);
+                $user = $request->user();
+                $user->fName = $validatedData['fName'];
+                $user->mName = $validatedData['mName'];
+                $user->lName = $validatedData['lName'];
+                $user->phone = $validatedData['phone'];
+                $user->city = $validatedData['city'];
+                $user->parentPhone = $validatedData['parentPhone'];
+                $user->save();
+                return response()->json(['token'=>$request->header('token'),'user'=>$user,'dataComplete'=>true]);
+            }
+            return response()->json(['error' =>401,'errorMsg'=>'You Must Send User Token In Header As Token Header Regardless Of Authorization']);
         }
         catch (Exception $e){
             return $e;

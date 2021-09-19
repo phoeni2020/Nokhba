@@ -42,7 +42,7 @@
             serverSide: true,
             searching: false,
             pageLength: 25,
-            lengthMenu: [[10, 25, 50, 100,200], [10, 25, 50,100,200]],
+            lengthMenu: [10, 25, 50, 100,200],
             dom: 'Blfrtip',
             "order": [[ {{isset($tableConfig['tableCheckboxs']) ? 1 : 0}}, "desc" ]],
             ajax: {

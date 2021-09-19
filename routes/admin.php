@@ -25,6 +25,7 @@ Route::group(['prefix'=>'teachers'],function (){
 
 Route::group(['prefix'=>'category'],function (){
     Route::view('/','dashbord.catgory.index')->name('admin.catgory.index');
+    Route::view('/create','dashbord.catgory.create')->name('admin.catgory.create');
     Route::post('/fillTableCatgory',[Admin\CatgoryController::class,'fillTableCatgory'])->name('admin.catgory.dataTables');
 });
 

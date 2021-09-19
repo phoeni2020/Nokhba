@@ -19,7 +19,7 @@
                 ]
         ];
         $buttonsSettings = [
-        'add' => ['lable'=>'Add New Catgory','link'=>route('admin.catgory.dataTables')]
+        'add' => ['lable'=>'Add New Catgory','link'=>route('admin.catgory.create')]
         ];
     @endphp
     <div class="row row-sm">
