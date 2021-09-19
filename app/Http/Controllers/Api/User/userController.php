@@ -17,11 +17,10 @@ class userController extends Controller
      */
     public function show(Request $request){
         $user = $request->user();
-
         if(is_null($user->fName)){
-            return response()->json(['user'=>$user,'dataComplete'=>false]);
+            return response()->json(['user'=>$user,'token'=>$request->token,'dataComplete'=>false]);
         }
-        return response()->json(['user'=>$user,'dataComplete'=>true]);
+        return response()->json(['user'=>$user,'token'=>$request->token,'dataComplete'=>true]);
     }
 
     /**
@@ -52,7 +51,6 @@ class userController extends Controller
             $user->city = $validatedData['city'];
             $user->parentPhone = $validatedData['parentPhone'];
             $user->save();
-
             return response()->json(['user'=>$user,'dataComplete'=>true]);
         }
         catch (Exception $e){
