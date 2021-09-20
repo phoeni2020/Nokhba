@@ -16,7 +16,7 @@ class AboutusController extends Controller
     public function index()
     {
         $about = About::all()->first();
-        return response()->json('about' => $about);
+        return response()->json(['about' => $about->body]);
     }
 
     /**
