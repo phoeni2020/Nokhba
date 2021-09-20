@@ -18,7 +18,7 @@ class userController extends Controller
     use SendsPasswordResetEmails;
     public function getResetToken(Request $request)
     {
-        $this->validate($request, ['email' => 'required|email']);
+        $this->validate($request, ['email' => 'required|email|exists:users']);
         $sent = $this->sendResetLinkEmail($request);
         return ($sent)
             ? response()->json(['message'=>'Success','status'=>200])
