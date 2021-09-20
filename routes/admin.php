@@ -22,11 +22,14 @@ Route::group(['prefix'=>'teachers'],function (){
     Route::view('/','dashbord.teachers.index')->name('admin.teachers.index');
     Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
 });
-
 Route::group(['prefix'=>'category'],function (){
     Route::view('/','dashbord.catgory.index')->name('admin.catgory.index');
     Route::view('/create','dashbord.catgory.create')->name('admin.catgory.create');
     Route::post('/fillTableCatgory',[Admin\CatgoryController::class,'fillTableCatgory'])->name('admin.catgory.dataTables');
+});
+Route::group(['prefix'=>'about'],function (){
+    Route::view('/create','dashbord.about.create');
+    Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
 });
 
 Route::get('/{page}',[Admin\DashbordController::class,'index'])->name('page');
