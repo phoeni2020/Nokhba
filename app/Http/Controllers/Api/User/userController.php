@@ -3,29 +3,26 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use PHPUnit\TextUI\Exception;
 
 class userController extends Controller
 {
     use SendsPasswordResetEmails;
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function getResetToken(Request $request)
     {
         $this->validate($request, ['email' => 'required|email']);
         $sent = $this->sendResetLinkEmail($request);
-
-
         return ($sent)
-            ? response()->json(['message'=>'Success'])
-            : response()->json(['message'=>'Failed']);
+            ? response()->json(['message'=>'Success','status'=>200])
+            : response()->json(['message'=>'Failed','status'=>500]);
 
     }
 
@@ -85,43 +82,6 @@ class userController extends Controller
         }
 
     }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-/*    public function forgot_password(Request $request)
-    {
-        $input = $request->all();
-        $rules = array(
-            'email' => "required|email",
-        );
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
-        }
-        else {
-            try {
-                $response = Password::sendResetLink($request->only('email'), function (\http\Message  $message) {
-                    $message->subject($this->getEmailSubject());
-                });
-                switch ($response) {
-                    case Password::RESET_LINK_SENT:
-                        return response()->json(array("status" => 200, "message" => trans($response), "data" => array()));
-                    case Password::INVALID_USER:
-                        return response()->json(array("status" => 400, "message" => trans($response), "data" => array()));
-                }
-            }
-            catch (\Swift_TransportException $ex) {
-                $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
-            }
-            catch (Exception $ex) {
-                $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
-            }
-        }
-        return response()->json($arr);
-    }*/
-
     /**
      * Show the form for creating a new resource.
      *
@@ -144,36 +104,110 @@ class userController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+                $validatedData = $request->validate([
+                    'fName'=>'required|string|min:3',
+                    'mName'=>'required|string|min:3',
+                    'lName'=>'required|string|min:3',
+                    'phone'=>'required|string|min:10',
+                    'email'=>'required|string|email',
+                    //'governorate'=>'required|string|exists:governorate',
+                    'city'=>'required|string',
+                    //'center'=>'required|string|exists:center',
+                    'parentPhone'=>'required|string|min:10',
+                ]);
+                $user = $request->user();
+                $user->fName = $validatedData['fName'];
+                $user->mName = $validatedData['mName'];
+                $user->lName = $validatedData['lName'];
+                $user->lName = $validatedData['email'];
+                $user->phone = $validatedData['phone'];
+                $user->city = $validatedData['city'];
+                $user->parentPhone = $validatedData['parentPhone'];
+                $user->save();
+                return response()->json(['token'=>$request->header('token'),'user'=>$user,'dataComplete'=>true]);
+        }
+        catch (Exception $e){
+            return $e;
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function changePassword(Request $request)
+    {
+        $input = $request->all();
+        $userid = Auth::guard('sanctum')->user()->id;
+        $rules = array(
+            'oldPassword' => 'required',
+            'newPassword' => 'required|min:6',
+            'confirmPassword' => 'required|same:newPassword',
+        );
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
+        }
+        else {
+                try
+                {
+                    if ((Hash::check(request('oldPassword'), Auth::user()->password)) == false) {
+                        $arr = array("status" => 400, "message" => "Check your old password.", "data" => array());
+                    }
+                    else if ((Hash::check(request('newPassword'), Auth::user()->password)) == true) {
+                        $arr = array("status" => 400, "message" => "Please enter a password which is not similar then current password.", "data" => array());
+                    }
+                    else {
+                        User::where('id', $userid)->update(['password' => Hash::make($input['newPassword'])]);
+                        $arr = array("status" => 200, "message" => "Password updated successfully.",
+                            "data" => array('user'=>$request->user(),'token'=>$request->header('token')));
+                    }
+                }
+                catch (\Exception $ex)
+            {
+                if (isset($ex->errorInfo[2])) {
+                    $msg = $ex->errorInfo[2];
+                } else {
+                    $msg = $ex->getMessage();
+                }
+                $arr = array("status" => 400, "message" => $msg, "data" => array());
+            }
+        }
+        return \Response::json($arr);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $token
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        try {
+            if(Auth::guard('sanctum')->user()->id == $id){
+                Auth::guard('sanctum')->user()->destroy($id);
+            }
+            $arr = array("status" => 400, "message" => 'User Deleted', "data" => array());
+        }
+        catch (\Exception $ex)
+        {
+            if (isset($ex->errorInfo[2])) {
+                $msg = $ex->errorInfo[2];
+            } else {
+                $msg = $ex->getMessage();
+            }
+            $arr = array("status" => 400, "message" => $msg, "data" => array());
+        }
+        return \Response::json($arr);
     }
 }
