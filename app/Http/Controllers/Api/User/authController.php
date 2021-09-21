@@ -43,11 +43,19 @@ class authController extends Controller
             unset($data);
 
             $token = $user->createToken('auth_token')->plainTextToken;
-
+            if(is_null($user->fName)){
+                return response()->json([
+                    'token' => $token,
+                    'token_type' => 'Bearer',
+                    'user'=>$user,
+                    'completeData' =>false
+                ]);
+            }
             return response()->json([
                 'token' => $token,
                 'token_type' => 'Bearer',
-                'user'=>$user
+                'user'=>$user,
+                'completeData' =>true
             ]);
         }
     }
@@ -67,12 +75,19 @@ class authController extends Controller
         $user = User::where('email', $request['email'])->firstOrFail();
 
         $token = $user->createToken('auth_token')->plainTextToken;
-
+        if(is_null($user->fName)){
+            return response()->json([
+                'token' => $token,
+                'token_type' => 'Bearer',
+                'user'=>$user,
+                'completeData' =>false
+            ]);
+        }
         return response()->json([
             'token' => $token,
             'token_type' => 'Bearer',
-            'user'=>$user
+            'user'=>$user,
+            'completeData' =>true
         ]);
     }
-
 }

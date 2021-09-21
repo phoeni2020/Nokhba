@@ -146,20 +146,22 @@ class userController extends Controller
      */
     public function changePassword(Request $request)
     {
-        $input = $request->all();
-        $userid = Auth::guard('sanctum')->user()->id;
-        $rules = array(
-            'oldPassword' => 'required',
-            'newPassword' => 'required|min:6',
-            'confirmPassword' => 'required|same:newPassword',
-        );
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
-        }
-        else {
-                try
-                {
+        try {
+
+                $input = $request->all();
+                $userid = Auth::guard('sanctum')->user()->id;
+
+                $rules = array(
+                    'oldPassword' => 'required',
+                    'newPassword' => 'required|min:6',
+                    'confirmPassword' => 'required|same:newPassword',
+                );
+
+                $validator = Validator::make($input, $rules);
+
+                if ($validator->fails()) {
+                    $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
+                } else {
                     if ((Hash::check(request('oldPassword'), Auth::user()->password)) == false) {
                         $arr = array("status" => 400, "message" => "Check your old password.", "data" => array());
                     }
@@ -169,10 +171,11 @@ class userController extends Controller
                     else {
                         User::where('id', $userid)->update(['password' => Hash::make($input['newPassword'])]);
                         $arr = array("status" => 200, "message" => "Password updated successfully.",
-                            "data" => array('user'=>$request->user(),'token'=>$request->header('token')));
+                            "data" => array('user' => $request->user(), 'token' => $request->header('token')));
                     }
                 }
-                catch (\Exception $ex)
+        }
+        catch (\Exception $ex)
             {
                 if (isset($ex->errorInfo[2])) {
                     $msg = $ex->errorInfo[2];
@@ -181,7 +184,6 @@ class userController extends Controller
                 }
                 $arr = array("status" => 400, "message" => $msg, "data" => array());
             }
-        }
         return \Response::json($arr);
     }
 

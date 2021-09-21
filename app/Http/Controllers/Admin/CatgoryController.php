@@ -57,6 +57,17 @@ class CatgoryController extends Controller
     }
 
     /**
+     * @return false|string
+     */
+    public function fillCategoryDropdown(){
+        $catgoryObject = Catgory::select("id as id", "name as text");
+        $searchword = request()->search;
+        (!empty($searchword)) ? $catgoryObject->where([['name', 'LIKE', "%{$searchword}%"]]) : '';
+        $categries =  $catgoryObject->get()->toArray();
+        return json_encode($categries);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -74,7 +85,7 @@ class CatgoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

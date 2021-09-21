@@ -22,21 +22,31 @@
         'add' => ['lable'=>'Add New Catgory','link'=>route('admin.catgory.create')]
         ];
     @endphp
-    <div class="row row-sm">
-        <div class="col-xl-12">
-            <!-- div -->
-            <div class="card mg-b-20" id="tabs-style2">
-                <div class="card-body">
-                    <div class="main-content-label mg-b-5">
-                        <x-button-setting :buttonsSettings="$buttonsSettings"/>
-                    </div>
-                    <p class="mg-b-20"></p>
-                    <div class="text-wrap">
-                        <div class="example">
-                            <div class="panel panel-primary tabs-style-2">
-                                <div class="table-responsive">
-                                    <x-table-filter :filterConfig="$filterConfig" />
-                                    <x-data-table :tableConfig="$tableConfig" />
+    <div class="container-fluid">
+        <div class="breadcrumb-header justify-content-between">
+            <div class="my-auto">
+                <div class="d-flex">
+                    <h4 class="content-title mb-0 my-auto">Catgories Page</h4>
+                </div>
+            </div>
+            <x-button-setting :buttonsSettings="$buttonsSettings"/>
+        </div>
+        <div class="row row-sm">
+            <div class="col-xl-12">
+                <div class="card mg-b-20">
+                    <div class="card-body">
+                        <div class="main-content-label mg-b-5">
+                            <p class="label">
+                                Catgories DataTable
+                            </p>
+                        </div>
+                        <div class="text-wrap">
+                            <div class="example">
+                                <div class="panel panel-primary tabs-style-2">
+                                    <div class="table-responsive">
+                                        <x-table-filter :filterConfig="$filterConfig" />
+                                        <x-data-table :tableConfig="$tableConfig" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -44,8 +54,6 @@
                 </div>
             </div>
         </div>
-        <!-- /div -->
     </div>
-
 @endsection
 
