@@ -31,7 +31,7 @@ class authController extends Controller
             ]
         );
         if($validatedData->fails()){
-            return response()->json($validatedData->errors());
+            return response()->json($validatedData->errors(),401);
         }
         else {
             $data = $validatedData->validated();
