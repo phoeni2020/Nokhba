@@ -1,13 +1,15 @@
 @extends('dashbord.layouts.master')
 @section('css')
-    <!-- Internal Select2 css -->
+    <!--- Internal Select2 css-->
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
-    <!--Internal  Datetimepicker-slider css -->
-    <link href="{{URL::asset('assets/plugins/amazeui-datetimepicker/css/amazeui.datetimepicker.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/pickerjs/picker.min.css')}}" rel="stylesheet">
-    <!-- Internal Spectrum-colorpicker css -->
-    <link href="{{URL::asset('assets/plugins/spectrum-colorpicker/spectrum.css')}}" rel="stylesheet">
+    <!---Internal Fileupload css-->
+    <link href="{{URL::asset('assets/plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css"/>
+    <!---Internal Fancy uploader css-->
+    <link href="{{URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
+    <!--Internal Sumoselect css-->
+    <link rel="stylesheet" href="{{URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css')}}">
+    <!--Internal  TelephoneInput css-->
+    <link rel="stylesheet" href="{{URL::asset('assets/plugins/telephoneinput/telephoneinput-rtl.css')}}">
 @endsection
 
 @section('page-header')
@@ -59,6 +61,47 @@
                             <div class="pd-30 pd-sm-40 ">
                                 <div class="form-group col-md-10 col-sm-6 col-xs-12">
                                     <fieldset>
+                                            <legend>Main Category :-</legend>
+                                            <div class="row row-sm mb-5">
+                                                <!-- Cheack Button -->
+                                                <div class="col-md-3">
+                                                    <label class="form-label mg-b-0">Is Main</label>
+                                                </div>
+                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                    <input type="checkbox" name="main" >
+                                                </div>
+                                            </div>
+                                    </fieldset>
+                                    <hr>
+                                </div>
+                                <div class="form-group col-md-10 col-sm-6 col-xs-12">
+                                    <fieldset>
+                                            <legend>Is Parent :-</legend>
+                                            <div class="row row-sm mb-5">
+                                                <!-- Dropdown -->
+                                                <div class="col-lg-3">
+                                                    <label class="form-label mg-b-0">Main</label>
+                                                </div>
+                                                <div class="col-lg-3 mg-t-2 mg-md-t-0">
+                                                        <select class="js-example-basic-single form-control category" name="parent">
+
+                                                        </select>
+                                                    </div>
+                                            </div>
+                                            <div class="row row-sm mb-5">
+                                                <!-- Cheack Button -->
+                                                <div class="col-md-3">
+                                                    <label class="form-label mg-b-0">Is Parent</label>
+                                                </div>
+                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                    <input type="checkbox" name="main" >
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    <hr>
+                                </div>
+                                <div class="form-group col-md-10 col-sm-6 col-xs-12">
+                                    <fieldset>
                                         <legend>Has Parent :-</legend>
                                         <div class="row row-sm mb-5">
                                             <!-- Dropdown -->
@@ -74,15 +117,10 @@
                                         <div class="row row-sm mb-5">
                                                 <!-- Cheack Button -->
                                                 <div class="col-md-3">
-                                                    <label class="form-label mg-b-0">Is Parent</label>
+                                                    <label class="form-label mg-b-0">Is Main</label>
                                                 </div>
                                                 <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked />
-                                                        <label class="form-check-label" for="flexSwitchCheckChecked"
-                                                        >Checked switch checkbox input</label
-                                                        >
-                                                    </div>
+                                                    <input type="checkbox" name="main" >
                                                 </div>
                                             </div>
                                     </fieldset>
@@ -103,22 +141,42 @@
     </div>
 @endsection
 @section('js')
-    <!--Internal  Datepicker js -->
-    <script src="{{URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
-    <!--Internal  jquery.maskedinput js -->
-    <script src="{{URL::asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.js')}}"></script>
-    <!--Internal  spectrum-colorpicker js -->
-    <script src="{{URL::asset('assets/plugins/spectrum-colorpicker/spectrum.js')}}"></script>
-    <!-- Internal Select2.min js -->
-    <script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
-    <!--Internal Ion.rangeSlider.min js -->
-    <script src="{{URL::asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js')}}"></script>
-    <!--Internal  jquery-simple-datetimepicker js -->
-    <script src="{{URL::asset('assets/plugins/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js')}}"></script>
-    <!-- Ionicons js -->
-    <script src="{{URL::asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.js')}}"></script>
-    <!--Internal  pickerjs js -->
-    <script src="{{URL::asset('assets/plugins/pickerjs/picker.min.js')}}"></script>
-    <!-- Internal form-elements js -->
-    <script src="{{URL::asset('assets/js/form-elements.js')}}"></script>
+    <!--Internal Fileuploads js-->
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+    <!--Internal Fancy uploader js-->
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+    <!--Internal  Form-elements js-->
+    <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
+    <script>
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+            $('.category').select2({
+                placeholder: 'choose category',
+                ajax: {
+                    url: "http://localhost/freelance/Nokhba(Dev)/public/admin/category/fillCategoryDropdown",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+    </script>
 @endsection

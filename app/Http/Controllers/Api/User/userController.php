@@ -53,7 +53,7 @@ class userController extends Controller
     public function show(Request $request){
         $user = $request->user();
         if(is_null($user->fName)){
-            return response()->json(['user'=>$user,'token'=>$request->token,'dataComplete'=>false]);
+            return response()->json(['user'=>$user,'token'=>$request->header('token'),'dataComplete'=>false]);
         }
         return response()->json(['user'=>$user,'token'=>$request->header('token'),'dataComplete'=>true]);
     }
@@ -209,7 +209,7 @@ class userController extends Controller
             $user = $request->user();
             // Revoke a specific token...
             $user->currentAccessToken()->delete();
-            return response()->json([''],200);
+            return response()->json(['massage' =>'user logged out'],200);
         }
         catch (\Exception $ex){
             if (isset($ex->errorInfo[2])) {
