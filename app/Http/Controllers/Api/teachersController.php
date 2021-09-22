@@ -29,8 +29,6 @@ class teachersController extends Controller
         /*======================================================================= */
         $CoursesObject = Teachers::query()
             ->join('users','teachers.user_id','=','users.id')
-            ->join('catgories','teachers.user_id','=','catgories.user_id')
-            ->where('catgories.main','=',0)
             ->select(['users.fName','users.mName','users.lName','teachers.*']);
         if (!empty(request('filter'))) {
             $filterData = [];
@@ -52,8 +50,8 @@ class teachersController extends Controller
         $teachersObject = [];
         foreach ($teachers as $teacher){
             $categories = $teacher->mainCategories;
-
-            $teachersObject+=['teacher' =>$teacher];
+            //$teacher ['mainCategories'] = $categories;
+            $teachersObject['teachers'][]=['teacher' => $teacher];
         }
         return response()->json($teachersObject);
 
