@@ -25,9 +25,13 @@ Route::prefix('v1')->group(function (){
     Route::post('login',[User\authController::class,'signIn'])->name('api.user.signin');
     Route::post('forgotPassword', [User\userController::class,'getResetToken']);
     Route::get('about', [Api\AboutusController::class,'index']);
+
     Route::prefix('teacher')->group(function (){
         Route::post('/index',[Api\teachersController::class,'index']);
         //Route::put('/completeData',[User\userController::class,'completeData']);
+    });
+    Route::prefix('category')->group(function (){
+        Route::post('{:any}',[Api\CategoryController::class,'getCategories']);
     });
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::prefix('user')->group(function (){
@@ -36,6 +40,7 @@ Route::prefix('v1')->group(function (){
             Route::put('/update',[User\userController::class,'update']);
             Route::put('/updatePassword',[User\userController::class,'changePassword']);
             Route::delete('/destroy/{id}',[User\userController::class,'destroy']);
+            Route::get('/logout',[User\userController::class,'logOut']);
         });
     });
 });

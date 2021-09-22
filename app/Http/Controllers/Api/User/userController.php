@@ -16,6 +16,12 @@ use PHPUnit\TextUI\Exception;
 class userController extends Controller
 {
     use SendsPasswordResetEmails;
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function getResetToken(Request $request)
     {
         $this->validate($request, ['email' => 'required|email|exists:users']);
@@ -26,6 +32,10 @@ class userController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return int
+     */
     public function sendResetLinkEmail(Request $request)
     {
         $this->validateEmail($request);
@@ -34,6 +44,7 @@ class userController extends Controller
         );
         return $response == Password::RESET_LINK_SENT ? 1 : 0;
     }
+
     /**
      * @param PersonalAccessToken $userToken
      * @param Request $request
@@ -81,26 +92,6 @@ class userController extends Controller
             return $e;
         }
 
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -212,4 +203,24 @@ class userController extends Controller
         }
         return \Response::json($arr);
     }
+
+    public function logOut(Request $request){
+        try{
+            $user = $request->user();
+            // Revoke a specific token...
+            $user->currentAccessToken()->delete();
+            return response()->json([''],200);
+        }
+        catch (\Exception $ex){
+            if (isset($ex->errorInfo[2])) {
+                $msg = $ex->errorInfo[2];
+            } else {
+                $msg = $ex->getMessage();
+            }
+            return response()->json(array("status" => 500, "message" => $msg));
+        }
+
+    }
+
+
 }
