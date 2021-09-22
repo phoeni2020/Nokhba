@@ -44,7 +44,7 @@ class userController extends Controller
         if(is_null($user->fName)){
             return response()->json(['user'=>$user,'token'=>$request->token,'dataComplete'=>false]);
         }
-        return response()->json(['user'=>$user,'token'=>$request->token,'dataComplete'=>true]);
+        return response()->json(['user'=>$user,'token'=>$request->header('token'),'dataComplete'=>true]);
     }
 
     /**
