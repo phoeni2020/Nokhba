@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\catgoryResource;
 use App\Models\Catgory;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 class CatgoryController extends Controller
 {
     private $filterData =[];
@@ -85,7 +86,49 @@ class CatgoryController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|string|min:3',
+                'desc' => 'required|string|min:8',
+                'img' => 'required|mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+            ],
+            [
+                'name.required' => 'Name Is Required Field',
+                'name.min' => 'Minimum Characters Is 3',
+                'desc.required' => 'Description is required',
+                'img.required' => 'Photo Is Required Field',
+                'img.mimes' => 'The File Must Be Image',
+                'img.max' => 'The Image Must Be Maximam 10 Megabytes ',
+            ]
+        );
 
+        if($validatedData->fails()){
+
+            return redirect()->back()->withErrors($validatedData->errors()->messages());
+        }
+
+        $image = $request->file('img');
+
+        $imageExt = time().$image->extension();
+
+        $img = Image::make($image->path());
+
+        $destinationPath = public_path('/assets/img/thaumbnail/');
+
+        $img->resize(150, 150, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($destinationPath.$imageExt);
+
+        $destinationPath = public_path('assets/img/uploaded');
+
+        $image->move($destinationPath, $imageExt);
+
+        $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt;
+
+        $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt;
+
+        //return response()->json([$thumbnailsUrl,$imageUrl]);
     }
 
     /**

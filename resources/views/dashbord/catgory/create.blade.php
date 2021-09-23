@@ -23,8 +23,24 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12">
-                <div class="card">
-                    <form action="{{route('admin.catgory.store')}}" method="post" enctype="multipart/form">
+                <div class="card-body pb-0">
+                    <div class="alert alert-custom alert-notice alert-danger fade show mb-5" role="alert">
+                            <div class="alert-icon">
+                                <i class="flaticon-warning"></i>
+                            </div>
+                            @if($errors->any())
+                                {!! implode('', $errors->all('<div class="alert-text">:message</div>')) !!}
+                            @endif
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">
+                                    <i class="ki ki-close"></i>
+                                </span>
+                                </button>
+                            </div>
+                        </div>
+                    <div class="card">
+                    <form action="{{route('admin.catgory.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <h3 class="mg-b-20">Baisc Information About Catgory</h3>
@@ -67,8 +83,13 @@
                                                 <div class="col-md-3">
                                                     <label class="form-label mg-b-0">Is Main</label>
                                                 </div>
-                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                     <input type="checkbox" name="main" >
+                                                </div>
+                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                    <p>
+                                                        هذا يعني ان هذا التصنيف تصنيف رئيسي يظهر في شاشه المدرس في التطبيق
+                                                    </p>
                                                 </div>
                                             </div>
                                     </fieldset>
@@ -80,21 +101,41 @@
                                             <div class="row row-sm mb-5">
                                                 <!-- Dropdown -->
                                                 <div class="col-lg-3">
-                                                    <label class="form-label mg-b-0">Main</label>
+                                                    <label class="form-label mg-b-0">Main Category</label>
                                                 </div>
                                                 <div class="col-lg-3 mg-t-2 mg-md-t-0">
                                                         <select class="js-example-basic-single form-control category" name="parent">
 
                                                         </select>
-                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-2 mg-md-t-0">
+                                                    <p>
+                                                    هنا يتم اختيار التصنيف المرغوب بالوراثه منه علي سبيل المثال :-
+                                                        <br>
+                                                        تصنيف الباب الاول يرث من تصنيف الدورات
+                                                        <br>
+                                                        او
+                                                        <br>
+                                                         تصنيف الفصل اﻻول - مبادئ الفيزياء الكهربائيه يرث من تصنيف الباب اﻻول الفيزياء الكهربائيه
+                                                    </p>
+                                                </div>
                                             </div>
                                             <div class="row row-sm mb-5">
                                                 <!-- Cheack Button -->
                                                 <div class="col-md-3">
                                                     <label class="form-label mg-b-0">Is Parent</label>
                                                 </div>
-                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                     <input type="checkbox" name="main" >
+                                                </div>
+                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                    <p>
+                                                       هذا يعني ان هذا التصنيف تصنيف فرعي قد يأتي بعد
+                                                         تصنيف رئيسي أو تصنيف فرعي اخر و يوجد بعده عده
+                                                        تصنيفات اخري علي سبيل المثال :-
+                                                        <br>
+                                                        الباب الاول الفيزياء الكهربائيه يأتي بعد منها الفصل اﻻول مبادئ الفيزياء الكهربائيه
+                                                    </p>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -112,17 +153,17 @@
                                                     <select class="js-example-basic-single form-control category" name="parent">
 
                                                     </select>
-                                                </div>
-                                        </div>
-                                        <div class="row row-sm mb-5">
-                                                <!-- Cheack Button -->
-                                                <div class="col-md-3">
-                                                    <label class="form-label mg-b-0">Is Main</label>
-                                                </div>
-                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                    <input type="checkbox" name="main" >
-                                                </div>
                                             </div>
+                                            <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                <p>
+                                                    هذا يعني ان هذا التصنيف تصنيف فرعي لا يأتي من بعده
+                                                    اي تصنيفات فرعيه تاتي من بعده دروس او فيديوهات او مرفقات
+                                                    تصنيفات اخري علي سبيل المثال :-
+                                                    <br>
+                                                    الفصل الاول مبادئ الفيزياء الكهربائيه يأتي بعد منه الدرس اﻻول في مبادئ الفيزياء الكهربيه
+                                                </p>
+                                            </div>
+                                        </div>
                                     </fieldset>
                                     <hr>
                                     <fieldset>
@@ -136,30 +177,21 @@
                         </div>
                     </form>
                 </div>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 @section('js')
-    <!--Internal Fileuploads js-->
-    <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
-    <!--Internal Fancy uploader js-->
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
-    <!--Internal  Form-elements js-->
-    <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
     <script>
+
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
-            $('.js-example-basic-single').select2();
+            console.log(CSRF_TOKEN);
             $('.category').select2({
                 placeholder: 'choose category',
                 ajax: {
-                    url: "http://localhost/freelance/Nokhba(Dev)/public/admin/category/fillCategoryDropdown",
+                    url: "{{route('admin.catgory.dropdown')}}",
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -179,4 +211,15 @@
             });
         });
     </script>
+    <!--Internal Fileuploads js-->
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+    <!--Internal Fancy uploader js-->
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+    <!--Internal  Form-elements js-->
+
 @endsection

@@ -67,15 +67,18 @@ class userController extends Controller
         try {
             if($request->hasHeader('token')){
                 $validatedData = $request->validate([
-                    'fName'=>'required|string|min:3',
-                    'mName'=>'required|string|min:3',
-                    'lName'=>'required|string|min:3',
-                    'phone'=>'required|string|min:10',
+                    'fName'=>'required|string|min:3|max:15',
+                    'mName'=>'required|string|min:3|max:15',
+                    'lName'=>'required|string|min:3|max:15',
+                    'phone'=>'required|string|min:10|max:15',
                     //'governorate'=>'required|string|exists:governorate',
                     'city'=>'required|string',
                     //'center'=>'required|string|exists:center',
                     'parentPhone'=>'required|string|min:10',
                 ]);
+                if ($validatedData->fails()) {
+                    return response()->json($validatedData->errors()->messages());
+                }
                 $user = $request->user();
                 $user->fName = $validatedData['fName'];
                 $user->mName = $validatedData['mName'];
@@ -105,16 +108,18 @@ class userController extends Controller
     {
         try {
                 $validatedData = $request->validate([
-                    'fName'=>'required|string|min:3',
-                    'mName'=>'required|string|min:3',
-                    'lName'=>'required|string|min:3',
-                    'phone'=>'required|string|min:10',
-                    'email'=>'required|string|email',
-                    //'governorate'=>'required|string|exists:governorate',
-                    'city'=>'required|string',
-                    //'center'=>'required|string|exists:center',
-                    'parentPhone'=>'required|string|min:10',
-                ]);
+                'fName'=>'required|string|min:3|max:15',
+                'mName'=>'required|string|min:3|max:15',
+                'lName'=>'required|string|min:3|max:15',
+                'phone'=>'required|string|min:10|max:15',
+                //'governorate'=>'required|string|exists:governorate',
+                'city'=>'required|string',
+                //'center'=>'required|string|exists:center',
+                'parentPhone'=>'required|string|min:10',
+            ]);
+                if ($validatedData->fails()) {
+                    return response()->json($validatedData->errors()->messages());
+                }
                 $user = $request->user();
                 $user->fName = $validatedData['fName'];
                 $user->mName = $validatedData['mName'];
