@@ -66,7 +66,7 @@ class userController extends Controller
     public function completeData(Request $request){
         try {
             if($request->hasHeader('token')){
-                $validatedData = $request->validate([
+                $validatedData =  Validator::make($request->all(),[
                     'fName'=>'required|string|min:3|max:15',
                     'mName'=>'required|string|min:3|max:15',
                     'lName'=>'required|string|min:3|max:15',
@@ -79,20 +79,21 @@ class userController extends Controller
                 if ($validatedData->fails()) {
                     return response()->json($validatedData->errors()->messages());
                 }
+                $data = $validatedData->validate();
                 $user = $request->user();
-                $user->fName = $validatedData['fName'];
-                $user->mName = $validatedData['mName'];
-                $user->lName = $validatedData['lName'];
-                $user->phone = $validatedData['phone'];
-                $user->city = $validatedData['city'];
-                $user->parentPhone = $validatedData['parentPhone'];
+                $user->fName = $data['fName'];
+                $user->mName = $data['mName'];
+                $user->lName = $data['lName'];
+                $user->phone = $data['phone'];
+                $user->city = $data['city'];
+                $user->parentPhone = $data['parentPhone'];
                 $user->save();
                 return response()->json(['token'=>$request->header('token'),'user'=>$user,'dataComplete'=>true]);
             }
             return response()->json(['error' =>401,'errorMsg'=>'You Must Send User Token In Header As Token Header Regardless Of Authorization']);
         }
         catch (Exception $e){
-            return $e;
+            return response()->json(['error'=>$e->getMessage()]);
         }
 
     }
@@ -107,7 +108,7 @@ class userController extends Controller
     public function update(Request $request)
     {
         try {
-                $validatedData = $request->validate([
+                $validatedData = Validator::make($request->all(),[
                 'fName'=>'required|string|min:3|max:15',
                 'mName'=>'required|string|min:3|max:15',
                 'lName'=>'required|string|min:3|max:15',
@@ -116,23 +117,23 @@ class userController extends Controller
                 'city'=>'required|string',
                 //'center'=>'required|string|exists:center',
                 'parentPhone'=>'required|string|min:10',
-            ]);
+                ]);
                 if ($validatedData->fails()) {
                     return response()->json($validatedData->errors()->messages());
                 }
+                $data = $validatedData->validate();
                 $user = $request->user();
-                $user->fName = $validatedData['fName'];
-                $user->mName = $validatedData['mName'];
-                $user->lName = $validatedData['lName'];
-                $user->lName = $validatedData['email'];
-                $user->phone = $validatedData['phone'];
-                $user->city = $validatedData['city'];
-                $user->parentPhone = $validatedData['parentPhone'];
+                $user->fName = $data['fName'];
+                $user->mName = $data['mName'];
+                $user->lName = $data['lName'];
+                $user->phone = $data['phone'];
+                $user->city = $data['city'];
+                $user->parentPhone = $data['parentPhone'];
                 $user->save();
                 return response()->json(['token'=>$request->header('token'),'user'=>$user,'dataComplete'=>true]);
         }
         catch (Exception $e){
-            return $e;
+            return response()->json(['error'=>$e->getMessage()]);
         }
     }
 
