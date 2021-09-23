@@ -77,7 +77,7 @@ class userController extends Controller
                     'parentPhone'=>'required|string|min:10',
                 ]);
                 if ($validatedData->fails()) {
-                    return response()->json($validatedData->errors()->messages());
+                    return response()->json($validatedData->errors()->messages(),422);
                 }
                 $data = $validatedData->validate();
                 $user = $request->user();
@@ -119,7 +119,7 @@ class userController extends Controller
                 'parentPhone'=>'required|string|min:10',
                 ]);
                 if ($validatedData->fails()) {
-                    return response()->json($validatedData->errors()->messages());
+                    return response()->json($validatedData->errors()->messages(),422);
                 }
                 $data = $validatedData->validate();
                 $user = $request->user();
@@ -144,7 +144,6 @@ class userController extends Controller
     public function changePassword(Request $request)
     {
         try {
-
                 $input = $request->all();
                 $userid = Auth::guard('sanctum')->user()->id;
 
@@ -153,7 +152,6 @@ class userController extends Controller
                     'newPassword' => 'required|min:6',
                     'confirmPassword' => 'required|same:newPassword',
                 );
-
                 $validator = Validator::make($input, $rules);
 
                 if ($validator->fails()) {
