@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\catgoryResource;
 use App\Models\Catgory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 class CatgoryController extends Controller
@@ -127,8 +128,12 @@ class CatgoryController extends Controller
         $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt;
 
         $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt;
+        $user = auth()->user()->id;
 
-        //return response()->json([$thumbnailsUrl,$imageUrl]);
+        if($request->has('main')){
+          $mainCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>0,
+                                            'is_parent'=>1,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+        }
     }
 
     /**
