@@ -48,4 +48,7 @@ class User extends Authenticatable
         }
         return "$this->fName $this->mName $this->lName";
     }
+    public function teacherOfSuper(){
+
+    }
 }

@@ -7,10 +7,11 @@
         $tableConfig = [
             'filter'=>true,
             'actionUrl'=>route('admin.catgory.dataTables'),
-            'tableHeaed'=>['Id','Category Name','Description','Created At','Updated Date'],
-            'tableColumnsNames'=>json_encode(['id','name','desc','created_at','updated_at']),
+            'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date'],
+            'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at']),
             'tableColumnsData'=> json_encode([
-                                                ['data'=>'id'],['data'=>'name'],['data'=>'desc'],
+                                                ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
+                                                ['data'=>'is_parent'],
                                                 ['data'=>'created_at'],['data'=>'updated_at'],
                                              ]),
         ];
@@ -31,6 +32,11 @@
             </div>
             <x-button-setting :buttonsSettings="$buttonsSettings"/>
         </div>
+        @if(Session::has('message'))
+            <p class="alert {{ Session::get('message_class', 'alert-success') }}">
+                {{ Session::get('message') }}
+            </p>
+        @endif
         <div class="row row-sm">
             <div class="col-xl-12">
                 <div class="card mg-b-20">

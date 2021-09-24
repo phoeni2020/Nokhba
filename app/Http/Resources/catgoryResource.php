@@ -17,9 +17,11 @@ class catgoryResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
+            'main'=>$this->main == 0 ? 'تصنيف رئيسي':'تصنيف فرعي',
+            'is_parent'=>$this->is_parent == 0 ? 'تصنيف فرعي ليس له تصنيفات ترث منه':'تصنيف فرعي له تصنيفات اخري ترث منه',
             'desc'=>$this->desc,
-            'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at,
+            'created_at'=>$this->created_at->format('m-d-Y'),
+            'updated_at'=>$this->updated_at->format('m-d-Y'),
         ];
     }
 }

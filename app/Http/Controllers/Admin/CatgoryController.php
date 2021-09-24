@@ -129,10 +129,52 @@ class CatgoryController extends Controller
 
         $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt;
         $user = auth()->user()->id;
-
         if($request->has('main')){
-          $mainCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>0,
-                                            'is_parent'=>1,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+            $mainCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>0,
+                                                'is_parent'=>1,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+            return redirect()->route('admin.catgory.index')->with(['message'=>'Category Created']);
+       }
+        elseif($request->has('is_parent')){
+            $validatedData = Validator::make(
+                $request->all(),
+                [
+                    'main_cat' => 'required|exists:catgories,id',
+                ],
+                [
+                    'main_cat.required' => 'Main Category Is Required Field',
+                ]
+            );
+            if($validatedData->fails()){
+
+                return redirect()->back()->withInput($request->all())->withErrors($validatedData->errors()->messages());
+            }
+            $parentCat = $request->parent ? $request->parent : 0;
+            $parentCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>$request->main_cat,
+                'is_parent'=>1,'parent'=>$parentCat,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+            return redirect()->route('admin.catgory.index')->with(['massage'=>'Category Created']);
+        }
+        elseif ($request->has('parentHasChild')){
+            $validatedData = Validator::make(
+                $request->all(),
+                [
+                    'parentHasChild' => 'required|exists:catgories,id',
+                ],
+                [
+                    'parentHasChild.required' => 'Parent Category Is Required Field',
+                ]
+            );
+            if($validatedData->fails()){
+
+                return redirect()->back()->withInput($request->all())->withErrors($validatedData->errors()->messages());
+            }
+            $main = Catgory::find($request->parentHasChild)->main;
+            $mainId = $main == 0 ? $request->parentHasChild:$main;
+            $parentCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>$mainId,
+                'is_parent'=>1,'parent'=>$request->parentHasChild,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+            return redirect()->route('admin.catgory.index')->with(['massage'=>'Category Created']);
+        }
+        else{
+            return redirect()->back()->withInput($request->all())->withErrors('Please Check Your Data');
         }
     }
 
