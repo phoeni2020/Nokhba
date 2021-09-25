@@ -36,7 +36,6 @@ class teachersController extends Controller
             $this->filterData($filterData);
             $CoursesObject->where($this->filterData);
         }
-
         /*======================================================================= */
         // filtered data
         $filteredDataCount = $CoursesObject->count();
@@ -50,6 +49,8 @@ class teachersController extends Controller
         $teachersObject = [];
         foreach ($teachers as $teacher){
             $teacher->mainCategories;
+            $teacher->fullName = $teacher->user->fullName();
+            unset($teacher->fName,$teacher->mName,$teacher->lName);
             $teachersObject['teachers'][]=$teacher;
         }
         $teachersObject['count'] = $recordsTotal;
