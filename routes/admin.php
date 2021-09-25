@@ -21,6 +21,7 @@ Route::group(['prefix'=>'course'],function (){
 
 Route::group(['prefix'=>'teachers'],function (){
     Route::view('/','dashbord.teachers.index')->name('admin.teachers.index');
+    Route::view('/create','dashbord.teachers.create')->name('admin.teachers.create');
     Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
 });
 
