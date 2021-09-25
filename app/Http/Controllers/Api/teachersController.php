@@ -51,7 +51,7 @@ class teachersController extends Controller
         foreach ($teachers as $teacher){
             $categories = $teacher->mainCategories;
             //$teacher ['mainCategories'] = $categories;
-            $teachersObject['teachers'][]=['teacher' => $teacher];
+            $teachersObject['teachers'][]=[$teacher];
         }
         $teachersObject['count'] = $recordsTotal;
         return response()->json($teachersObject);
