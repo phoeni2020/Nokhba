@@ -49,8 +49,7 @@ class teachersController extends Controller
         $teachersObject = [];
         foreach ($teachers as $teacher){
             $teacher->mainCategories;
-            $teacher->fullName = $teacher->user->fullName();
-            unset($teacher->fName,$teacher->mName,$teacher->lName);
+            //$teacher->fullName = $teacher->user->fullName()
             $teachersObject['teachers'][]=$teacher;
         }
         $teachersObject['count'] = $recordsTotal;
