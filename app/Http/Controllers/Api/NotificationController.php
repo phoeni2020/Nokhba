@@ -26,12 +26,16 @@ class NotificationController extends Controller
         $notificationObject->skip($startFrom)
             ->take($limit);
         $teachers = $notificationObject->get();
-        $teachersObject = [];
+        $response = [];
+        $response['count'] = $recordsTotal;
 
-        $teachersObject['count'] = $recordsTotal;
-        $teachersObject['notification'] = json_decode($teachers);
+        foreach ($teachers as $teacher) {
+            $array = json_decode($teacher->body,true);
+            $array['id']=$teacher->id;
+            $response['notifications'][]=$array;
+        }
 
-        return response()->json($teachersObject);
+        return response()->json($response);
 
     }
 
