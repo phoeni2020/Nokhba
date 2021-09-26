@@ -139,18 +139,20 @@ class CatgoryController extends Controller
                 $request->all(),
                 [
                     'main_cat' => 'required|exists:catgories,id',
+                    'parent' => 'required|exists:catgories,id',
                 ],
                 [
                     'main_cat.required' => 'Main Category Is Required Field',
+                    'parent.required' => 'parent Category Is Required Field',
                 ]
             );
+
             if($validatedData->fails()){
 
                 return redirect()->back()->withInput($request->all())->withErrors($validatedData->errors()->messages());
             }
-            $parentCat = $request->parent ? $request->parent : 0;
             $parentCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>$request->main_cat,
-                'is_parent'=>1,'parent'=>$parentCat,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+                'is_parent'=>1,'parent'=>$request->parent,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
             return redirect()->route('admin.catgory.index')->with(['massage'=>'Category Created']);
         }
         elseif ($request->has('parentHasChild')){

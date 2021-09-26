@@ -31,7 +31,7 @@ Route::prefix('v1')->group(function (){
         //Route::put('/completeData',[User\userController::class,'completeData']);
     });
     Route::prefix('category')->group(function (){
-        Route::post('{:any}',[Api\CategoryController::class,'getCategories']);
+        Route::get('/{id}',[Api\CategoryController::class,'getCategories']);
     });
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::prefix('user')->group(function (){
