@@ -62,6 +62,12 @@
                             <span class="side-menu__label">التصنيفات</span>
                         </a>
                     </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{ route('admin.notifications.index') }}">
+                            <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
+                            <span class="side-menu__label">اﻻشعارات</span>
+                        </a>
+                    </li>
 
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/admin/' . $page='#') }}">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +18,4 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//Route::get('/{page}',[\App\Http\Controllers\Admin\DashbordController::class,'index']);
+Route::get('/{page}',[\App\Http\Controllers\Admin\DashbordController::class,'index']);

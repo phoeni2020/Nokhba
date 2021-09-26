@@ -25,7 +25,6 @@ Route::prefix('v1')->group(function (){
     Route::post('login',[User\authController::class,'signIn'])->name('api.user.signin');
     Route::post('forgotPassword', [User\userController::class,'getResetToken']);
     Route::get('about', [Api\AboutusController::class,'index']);
-
     Route::prefix('teacher')->group(function (){
         Route::post('/index',[Api\teachersController::class,'index']);
         //Route::put('/completeData',[User\userController::class,'completeData']);
@@ -43,5 +42,6 @@ Route::prefix('v1')->group(function (){
             Route::get('/logout',[User\userController::class,'logOut']);
         });
     });
+    Route::get('notifications/{start}/{limit}',[Api\NotificationController::class,'index']);
 });
 
