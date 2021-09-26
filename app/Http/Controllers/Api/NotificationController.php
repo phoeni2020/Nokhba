@@ -16,16 +16,6 @@ class NotificationController extends Controller
      */
     public function index(Request $request,$start,$limit)
     {
-        $validatedData = $request->validate([
-            'requestOrder.order' => 'required|string',
-            'requestOrder.column' => 'required|string',
-            'requestOrder.length' => 'required|string',
-        ]);
-        //order column
-        $orderType = $validatedData['requestOrder']['order'];
-        $orderColumn = $validatedData['requestOrder']['column'];
-        $length = $validatedData['requestOrder']['length'];
-        /*======================================================================= */
         $notificationObject = Notifaction::query();
         /*======================================================================= */
         $filteredDataCount = $notificationObject->count();
