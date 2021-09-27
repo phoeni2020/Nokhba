@@ -82,7 +82,10 @@ class NotificationController extends Controller
             $arrayData = array('title' => $request->title, 'body' => $request->body, 'img' => $imageUrl, 'thaumbnail' => $thumbnailsUrl,
                 'action' => ['name' => $request->btnTitle, 'url' => $request->btnUrl]);
             $jsonObject = json_encode($arrayData);
-            Notifaction::create(['body'=>$jsonObject]);
+            for ($i=0;20>$i;$i++){
+                Notifaction::create(['body'=>$jsonObject]);
+            }
+            return redirect()->back();
         }
     }
 
