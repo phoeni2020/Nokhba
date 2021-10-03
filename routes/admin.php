@@ -13,10 +13,22 @@ use \App\Http\Controllers\Admin;
 |
 */
 //Auth::routes();
-Route::view('dashboard','dashbord.index');
+Route::view('/dashbord','dashbord.index')->name('admin.dashbord');
+
 Route::group(['prefix'=>'course'],function (){
     Route::view('/','dashbord.courses.index')->name('admin.course.index');
+    Route::view('/create','dashbord.courses.create')->name('admin.course.create');
+    Route::post('/store',[Admin\CourseController::class,'store'])->name('admin.course.store');
+
     Route::post('/fillTableCourse',[Admin\CourseController::class,'fillTableCourses'])->name('admin.course.dataTables');
+
+});
+Route::group(['prefix'=>'attach'],function (){
+    Route::view('/','dashbord.attach.index')->name('admin.attach.index');
+    Route::view('/create','dashbord.attach.create')->name('admin.attach.create');
+    Route::post('/store',[Admin\AttchController::class,'store'])->name('admin.attach.store');
+    Route::post('/fillTableAttachs',[Admin\AttchController::class,'fillTableAttachs'])->name('admin.attach.dataTables');
+
 });
 
 Route::group(['prefix'=>'teachers'],function (){
@@ -43,5 +55,15 @@ Route::group(['prefix'=>'notifications'],function (){
     Route::view('/create','dashbord.notifications.create')->name('admin.notifications.create');
     Route::post('/store',[\App\Http\Controllers\NotificationController::class,'store'])->name('admin.notification.store');
 });
+
+Route::group(['prefix'=>'users'],function (){
+    Route::view('/','dashbord.users.index')->name('admin.users.index');
+});
+
+Route::group(['prefix'=>'lessons'],function (){
+    Route::view('/','dashbord.lessons.index')->name('admin.lessons.index');
+});
+
+Route::get('/{page}',[\App\Http\Controllers\Admin\DashbordController::class,'index']);
 
 

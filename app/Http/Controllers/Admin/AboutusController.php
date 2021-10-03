@@ -27,7 +27,6 @@ class AboutusController extends Controller
     public function store(Request $request)
     {
       $about =  new About();
-
       $about->body = $request->about;
       $about->save();
 

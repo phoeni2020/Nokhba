@@ -37,6 +37,7 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
+        ddd($request);
         $validatedData = Validator::make(
             $request->all(),
             [
@@ -82,10 +83,8 @@ class NotificationController extends Controller
             $arrayData = array('title' => $request->title, 'body' => $request->body, 'img' => $imageUrl, 'thaumbnail' => $thumbnailsUrl,
                 'action' => ['name' => $request->btnTitle, 'url' => $request->btnUrl]);
             $jsonObject = json_encode($arrayData);
-            for ($i=0;20>$i;$i++){
-                Notifaction::create(['body'=>$jsonObject]);
-            }
-            return redirect()->back();
+            ddd($jsonObject);
+            Notifaction::create(['body'=>$jsonObject]);
         }
     }
 

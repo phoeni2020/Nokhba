@@ -48,14 +48,18 @@
                             <span class="side-menu__label">كورسات</span>
                         </a>
 					</li>
-
+                    <li class="slide">
+						<a class="side-menu__item" href="{{ route('admin.attach.index') }}">
+                            <ion-icon class="side-menu__icon" name="logo-youtube"></ion-icon>
+                            <span class="side-menu__label">المرفقات</span>
+                        </a>
+					</li>
                     <li class="slide">
                         <a class="side-menu__item" href="{{ route('admin.teachers.index') }}">
                             <ion-icon class="side-menu__icon mdi mdi-account-card-details"></ion-icon>
                             <span class="side-menu__label">أستاذه</span>
                         </a>
                     </li>
-
                     <li class="slide">
                         <a class="side-menu__item" href="{{ route('admin.catgory.index') }}">
                             <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
@@ -66,6 +70,19 @@
                         <a class="side-menu__item" href="{{ route('admin.notifications.index') }}">
                             <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
                             <span class="side-menu__label">اﻻشعارات</span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{ route('admin.users.index') }}">
+                            <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
+                            <span class="side-menu__label">المستخدمين</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{ route('admin.lessons.index') }}">
+                            <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
+                            <span class="side-menu__label">الدروس</span>
                         </a>
                     </li>
 

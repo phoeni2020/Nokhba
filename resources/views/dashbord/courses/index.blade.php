@@ -21,7 +21,7 @@
                 ]
             ];
         $buttonsSettings = [
-                'add' => ['lable'=>'Add New Course','link'=>route('admin.catgory.create')]
+                'add' => ['lable'=>'Add New Course','link'=>route('admin.course.create')]
             ];
     @endphp
     <div class="container-fluid">

@@ -13,6 +13,7 @@ return [
     |
     */
 
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
@@ -174,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

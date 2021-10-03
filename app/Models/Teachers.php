@@ -16,7 +16,18 @@ class Teachers extends Model
     public function categories() {
         return $this->hasMany(Catgory::class,'user_id');
     }
+
     public function mainCategories(){
         return $this->categories()->where('main','=',0)->select(['id','name','desc','user_id']);
+    }
+
+    public static function isTeacher(){
+
+        $id = auth()->id();
+        $result = parent::find($id);
+        if(is_null($result)){
+            return ['userId'=>$id,'object'=>$result,'isTeacher'=>false];
+        }
+        return ['userId'=>$id,'object'=>$result,'isTeacher'=>true];
     }
 }
