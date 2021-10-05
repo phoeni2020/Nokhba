@@ -20,14 +20,14 @@ class NotificationController extends Controller
         /*======================================================================= */
         $filteredDataCount = $notificationObject->count();
         /*======================================================================= */
-        //$recordsTotal = Notifaction::count();
+        $recordsTotal = Notifaction::count();
         /*======================================================================= */
         $startFrom = $start * $limit;
         $notificationObject->skip($startFrom)
             ->take($limit);
         $teachers = $notificationObject->get();
         $response = [];
-        $response['count'] = $filteredDataCount;
+        $response['count'] = $recordsTotal;
 
         foreach ($teachers as $teacher) {
             $array = json_decode($teacher->body,true);

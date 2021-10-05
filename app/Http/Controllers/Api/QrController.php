@@ -48,7 +48,7 @@ class QrController extends Controller
         $filteredDataCount = $CoursesObject->count();
         /*======================================================================= */
         $recordsTotal = DB::table('view_teacher_lesson_qrs')
-            ->count('*');
+            ->select('*');
         /*======================================================================= */
         $CoursesObject
             ->skip($start)
