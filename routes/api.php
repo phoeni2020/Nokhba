@@ -42,7 +42,7 @@ Route::prefix('v1')->group(function (){
             Route::get('/logout',[User\userController::class,'logOut']);
         });
         Route::prefix('qrcode')->group(function (){
-            Route::post('/{start}/{limit}',[Api\QrController::class,'index']);
+            Route::post('/',[Api\QrController::class,'index']);
         });
     });
     Route::get('notifications/{start}/{limit}',[Api\NotificationController::class,'index']);
