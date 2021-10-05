@@ -3,21 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\courseResource;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
+    use Teacher;
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -49,15 +42,16 @@ class CourseController extends Controller
         return $storeEventsData;
     }
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return false|string
      */
-    public function create()
-    {
-        //
+    public function fillCourseDropdown(){
+        $authId = $this->getTeacherId();
+        $catgoryObject = Course::select("id as id", "title as text")->where('user_id','=',$authId);
+        $searchword = request()->search;
+        (!empty($searchword)) ? $catgoryObject->where([['title', 'LIKE', "%{$searchword}%"]]) : '';
+        $categries =  $catgoryObject->get()->toArray();
+        return json_encode($categries);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -66,6 +60,7 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
     }
 
     /**

@@ -41,6 +41,9 @@ Route::prefix('v1')->group(function (){
             Route::delete('/destroy/{id}',[User\userController::class,'destroy']);
             Route::get('/logout',[User\userController::class,'logOut']);
         });
+        Route::prefix('qrcode')->group(function (){
+            Route::post('/{start}/{limit}',[Api\QrController::class,'index']);
+        });
     });
     Route::get('notifications/{start}/{limit}',[Api\NotificationController::class,'index']);
 });

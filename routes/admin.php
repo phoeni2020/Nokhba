@@ -23,11 +23,13 @@ Route::group(['prefix'=>'course'],function (){
     Route::post('/fillTableCourse',[Admin\CourseController::class,'fillTableCourses'])->name('admin.course.dataTables');
 
 });
+
 Route::group(['prefix'=>'attach'],function (){
     Route::view('/','dashbord.attach.index')->name('admin.attach.index');
     Route::view('/create','dashbord.attach.create')->name('admin.attach.create');
     Route::post('/store',[Admin\AttchController::class,'store'])->name('admin.attach.store');
     Route::post('/fillTableAttachs',[Admin\AttchController::class,'fillTableAttachs'])->name('admin.attach.dataTables');
+    Route::post('/fillAttchDropdown',[Admin\AttchController::class,'fillAttchDropdown'])->name('admin.attach.dropdown');
 
 });
 
@@ -62,6 +64,14 @@ Route::group(['prefix'=>'users'],function (){
 
 Route::group(['prefix'=>'lessons'],function (){
     Route::view('/','dashbord.lessons.index')->name('admin.lessons.index');
+    Route::post('/fillQrCodeDropdown',[Admin\CourseController::class,'fillCourseDropdown'])->name('admin.lessons.dropdown');
+
+});
+
+Route::group(['prefix'=>'qrcode'],function (){
+    Route::view('/','dashbord.qrcode.index')->name('admin.qrcode.index');
+    Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
+    Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
 });
 
 Route::get('/{page}',[\App\Http\Controllers\Admin\DashbordController::class,'index']);

@@ -48,6 +48,7 @@ class User extends Authenticatable
         }
         return "$this->fName $this->mName $this->lName";
     }
+
     public function assistant(){
         return $this->belongsTo(Teachers::class,'belongs_to_teacher');
     }

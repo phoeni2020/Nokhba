@@ -2,20 +2,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\attchResource;
-use App\Http\Resources\courseResource;
 use App\Models\Attch;
-use App\Models\Course;
-use App\Models\Teachers;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
 
 class AttchController extends Controller
 {
+    use Teacher;
+
     private $filterData =[];
+
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -64,6 +63,18 @@ class AttchController extends Controller
     }
 
     /**
+     * @return false|string
+     */
+    public function fillAttchDropdown(){
+        $authId = $this->getTeacherId();
+        $catgoryObject = Attch::select("id as id", "title as text")->where('user_id','=',$authId);
+        $searchword = request()->search;
+        (!empty($searchword)) ? $catgoryObject->where([['title', 'LIKE', "%{$searchword}%"]]) : '';
+        $categries =  $catgoryObject->get()->toArray();
+        return json_encode($categries);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -95,12 +106,7 @@ class AttchController extends Controller
 
         $attach = new Attch();
         $dataArray = $request->except('_token');
-        $response = Teachers::isTeacher();
-        $authId = $response['userId'];
-        if($response['isTeacher'] === false){
-            $teacher =  User::assistant();
-            $authId = $teacher->user->id;
-        }
+        $authId = $this->getTeacherId();
         foreach ($dataArray['attch'] as $attachedItem) {
 
             $image = $attachedItem['img'];
@@ -129,6 +135,7 @@ class AttchController extends Controller
         return redirect()->route('admin.attach.index')->with(['message'=>'Attachments Uploaded Successfully']);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Display the specified resource.
      *

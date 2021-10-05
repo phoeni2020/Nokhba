@@ -80,14 +80,18 @@
                                     <div class="form-group col-md-10 col-sm-6 col-xs-12">
                                         <fieldset>
                                             <legend>Attachment's :-</legend>
-                                            <div class="holder">
-                                                <div class="row row-sm mb-5 A-0">
+                                            <div id="attch">
+                                                <div class="row row-sm mb-5 attchClass">
                                                     <!-- Cheack Button -->
                                                     <div class="col-md-3">
-                                                        <label class="form-label mg-b-0">Is Main</label>
+                                                        <label class="form-label mg-b-0">Attachment</label>
                                                     </div>
-                                                    <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                        <input class="form-control" type="text" name="lesson[]" >
+                                                    <div class="col-md-6 mg-t-2 mg-md-t-0 attchInput">
+                                                        <div class="inputHolder">
+                                                            <select class="js-example-basic-single form-control attch" name="[attch][1]">
+
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                         <p>
@@ -100,7 +104,7 @@
                                             </div>
                                             <div class="row row-sm mb-5">
                                                 <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                    <button class="btn btn-primary B-0" type="button" data-acount="0" >Add More</button>
+                                                    <button class="btn btn-primary attchButton" type="button" data-acount="0" >Add More</button>
                                                 </div>
                                                 <div class="col-md-6 mg-t-2 mg-md-t-0">
                                                     <p>
@@ -110,6 +114,54 @@
                                             </div>
                                         </fieldset>
                                         <hr>
+                                        <fieldset id="holder">
+                                            <legend>Vedio's :-</legend>
+                                            <div class="continar">
+                                                <div class="row row-sm mb-5 vedio">
+                                                    <!-- Cheack Button -->
+                                                    <div class="col-md-3">
+                                                        <label class="form-label mg-b-0">Vedio Link</label>
+                                                    </div>
+                                                    <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                        <input class="form-control" type="text" name="[vedios][1][url]" >
+                                                    </div>
+                                                    <div class="col-md-3 mg-t-2 mg-md-t-0">
+                                                        <p>
+                                                            لازم يكون لينك لفيديو او لينك لـpdf
+                                                            مثلا زي كدا :-
+                                                            https://www.youtube.com/watch?v=0GwYU6xaTcU
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-sm mb-5 vedio">
+                                                    <!-- Cheack Button -->
+                                                    <div class="col-md-3">
+                                                        <label class="form-label mg-b-0">Description</label>
+                                                    </div>
+                                                    <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                        <input class="form-control" type="text" name="[vedios][1][desc]" >
+                                                    </div>
+                                                    <div class="col-md-3 mg-t-2 mg-md-t-0">
+                                                        <p>
+                                                            لازم يكون لينك لفيديو او لينك لـpdf
+                                                            مثلا زي كدا :-
+                                                            https://www.youtube.com/watch?v=0GwYU6xaTcU
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                        <div class="row row-sm mb-5">
+                                            <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                <button class="btn btn-primary vedioButton" type="button" data-acount="0" >Add More</button>
+                                            </div>
+                                            <div class="col-md-6 mg-t-2 mg-md-t-0">
+                                                <p>
+                                                    هذا يعني ان هذا التصنيف تصنيف رئيسي يظهر في شاشه المدرس في التطبيق
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                     <button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">Register</button>
                                     <button class="btn btn-dark pd-x-30 mg-t-5">Cancel</button>
@@ -125,26 +177,97 @@
 @section('js')
     <script>
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        function select2(element) {
+            $('.'+element).select2({
+                placeholder: 'choose attachment',
+                ajax: {
+                    url: "{{route('admin.attach.dropdown')}}",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
         $(document).ready(function() {
+            select2('attch')
+            $(function(){
+                function attachCount(event){
+                    var _this = $(this);
+
+                    var rows = (typeof _this.data('acount') == undefined || typeof _this.data('acount') == "undefined") ? rows : _this.data('acount');
+
+                    $('#'+event.data.element).append($('.attchClass').first().clone());
+
+                    $(_this).data('acount',rows+1);
+
+                    var lastRow = $('#'+event.data.element+' .'+event.data.parent+':last');
+
+                    lastRow.find('.'+event.data.holder).remove()
+
+                    lastRow.find('.'+event.data.appendTo).append(`<select class="js-example-basic-single form-control attch" name="[attch][${rows+1}]"></select>`);
+
+                    select2('attch')
+                }
+                $('.attchButton').on('click', {
+                        element:'attch',
+                        holder:'inputHolder',
+                        appendTo:'attchInput',
+                        parent:'attchClass',
+                    }, attachCount);
+
+                function vedioCount(event){
+                    var _this = $(this);
+
+                    var rows = (typeof _this.data('acount') == undefined || typeof _this.data('acount') == "undefined") ? rows : _this.data('acount');
+
+                    $('#'+event.data.element).append($('.continar').first().clone());
+
+                    $(_this).data('acount',rows+1);
+
+                    var lastRow = $('#'+event.data.element+' .'+event.data.parent+':last');
+
+                    lastRow.find('.attchName').attr('name', `attch[${rows+1}][title]`).val('');
+                    lastRow.find('.attachDesc').attr('name', `attch[${rows+1}][description]`).val('');
+                }
+                $('.vedioButton').on('click',{
+                    element:'holder',
+                    holder:'continar',
+                    appendTo:'vedio',
+                    parent:'continar',
+                },vedioCount);
+
+                function removeElement(){
+                    var _this = $(this);
+
+                    var count = _this.data('count');
+
+                    console.log(count);
+                }
+                $('.delBtn').on('click',removeElement);
+
+            });
             $('.B-0').click(function(){
                 var count = $('.B-0').data('acount');
                 var element = $(".A-0").clone();
-                console.log(element)
                 element.addClass("A-"+count).removeClass('A-0');
                 element.appendTo('.holder');
             });
         });
-
     </script>
     <!--Internal Fileuploads js-->
     <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
     <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
-    <!--Internal Fancy uploader js-->
     <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
-    <!--Internal  Form-elements js-->
-
 @endsection

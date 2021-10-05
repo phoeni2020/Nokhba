@@ -49,6 +49,12 @@
                         </a>
 					</li>
                     <li class="slide">
+                        <a class="side-menu__item" href="{{ route('admin.qrcode.index') }}">
+                            <ion-icon class="side-menu__icon" name="logo-youtube"></ion-icon>
+                            <span class="side-menu__label">QRCodes</span>
+                        </a>
+                    </li>
+                    <li class="slide">
 						<a class="side-menu__item" href="{{ route('admin.attach.index') }}">
                             <ion-icon class="side-menu__icon" name="logo-youtube"></ion-icon>
                             <span class="side-menu__label">المرفقات</span>
