@@ -43,6 +43,7 @@ Route::prefix('v1')->group(function (){
         });
         Route::prefix('qrcode')->group(function (){
             Route::post('/',[Api\QrController::class,'index']);
+            Route::post('/show',[Api\QrController::class,'showUpdate']);
         });
     });
     Route::get('notifications/{start}/{limit}',[Api\NotificationController::class,'index']);

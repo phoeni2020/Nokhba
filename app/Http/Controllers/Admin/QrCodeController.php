@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\Teacher;
 use App\Models\QrCode as qrModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class QrCodeController extends Controller
@@ -23,6 +24,15 @@ class QrCodeController extends Controller
         $qrCodes = json_decode($request->qrObject,true);
         $lessonId = $request->lesson;
         foreach($qrCodes as $qrCode){
+            $validatedData = Validator::make(
+                [$qrCode],
+                ['qrCode'=>'required|string|unique:qr_codes,code_text'],
+                [
+                    'qrCode.unique'=>'There Is Duplicated QrCode Please Try Again',
+                ]);
+            if($validatedData->fails()){
+                return response()->json($validatedData->errors()->messages());
+            }
             $pathUrl = url('images/QR/'.$qrCode.'.svg');
             $path = public_path('images/QR/'.$qrCode.'.svg');
             QrCode::size(300)->

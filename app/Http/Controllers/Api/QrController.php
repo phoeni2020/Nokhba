@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\dataFilter;
 use App\Models\QrCode;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class QrController extends Controller
 {
+    use dataFilter;
     private $filterData =[];
     private $data = [];
     /**
@@ -22,8 +24,8 @@ class QrController extends Controller
         $id = $request->user()->id;
         $start = $request->start;
         $limit = $request->limit;
-        DB::enableQueryLog();
-        $CoursesObject = DB::table('view_teacher_lesson_qrs')
+        unset($request);
+        $qrCodeObject = DB::table('view_teacher_lesson_qrs')
                         ->select('*')
                         ->where('student_id','=',$id);
         unset($id);
@@ -40,22 +42,27 @@ class QrController extends Controller
                 }
             }
             parse_str(html_entity_decode($dataFilter), $filterData);
+            unset($dataFilter);
             $this->filterData($filterData);
-            $CoursesObject->where($this->filterData);
+            unset($filterData);
+            $qrCodeObject->where($this->filterData);
+            unset($this->filterData);
         }
         /*======================================================================= */
         $recordsTotal = DB::table('view_teacher_lesson_qrs')
             ->count('*');
+        $responseObject = [];
+        $responseObject['count'] = $recordsTotal;
+        unset($recordsTotal);
         /*======================================================================= */
-        $CoursesObject
+        $qrCodeObject
             ->skip($start)
             ->take($limit)
             ->orderBy($orderColumn??'qrCode_id', $orderType ?? 'ASC');
-        $teachers = $CoursesObject->get();
-        $teachersObject = [];
-        $teachersObject['count'] = $recordsTotal;
+        $qrDataObject = $qrCodeObject->get()->all();
+        unset($qrCodeObject);
         $index = 0;
-        foreach ($teachers->all() as $element){
+        foreach ($qrDataObject as $element){
             $this->data[$index]['qr_Code']['qrcode_id'] = $element->qrCode_id;
             $this->data[$index]['qr_Code']['code_text'] = $element->code_text;
             $this->data[$index]['qr_Code']['code_url'] = $element->code_url;
@@ -76,49 +83,9 @@ class QrController extends Controller
             $this->data[$index]['teacher']['subject'] = $element->subject;
             $index++;
         }
-        $teachersObject['QrCode']=$this->data;
-        return response()->json($teachersObject);
+        $responseObject['QrCode']=$this->data;
+        return response()->json($responseObject);
 
-    }
-
-    /**
-     * @param $filterData
-     */
-    private function filterData($filterData)
-    {
-
-        foreach ($filterData as $key => $value) {
-            $op='LIKE';
-            if($key=='valid'){
-                $op = $value == true ? '>':'<';
-                $value =Carbon::now();
-                $key='valid_till';
-            }
-                (!empty($value)) ? array_push($this->filterData, ["$key","$op", "$value"]) : '';
-
-
-        }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -127,9 +94,27 @@ class QrController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showUpdate(Request $request)
     {
-        //
+        $validatedData = Validator::make(
+            $request->all(),
+            ['qrCode'=>'required|string|exists:qr_codes,code_text'],
+            [
+                'qrCode.required'=>'QrCode Is Must You May Scan It Or Enter It As Text',
+                'qrCode.exists'=>'QrCode Is Not Exists',
+            ]);
+        if($validatedData->fails()){
+            return response()->json($validatedData->errors()->messages());
+        }
+        $QrCode = QrCode::where('code_text','=',$request->qrCode)->get();
+        if( $QrCode[0]->used == 0){
+            $QrCode[0]->used = 1;
+            $QrCode[0]->student_id = $request->user()->id;
+            $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');
+            $QrCode[0]->save();
+            return response()->json($QrCode[0]);
+        }
+        return response()->json($QrCode[0]);
     }
 
     /**
