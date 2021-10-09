@@ -15,21 +15,31 @@ class QrController extends Controller
     use dataFilter;
     private $filterData =[];
     private $data = [];
+    private $index = 0;
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
+        $validatedData = Validator::make(
+            $request->all(),
+            ['start'=>'required','limit'=>'required'],
+            [
+                'start.required'=>'start Is Must',
+                'limit.required'=>'limit Is Must',
+            ]);
+        if($validatedData->fails()){
+            return response()->json($validatedData->errors()->messages(),400);
+        }
         $id = $request->user()->id;
         $start = $request->start;
         $limit = $request->limit;
+        $filter = $request->filter;
         unset($request);
         $qrCodeObject = DB::table('view_teacher_lesson_qrs')
                         ->select('*')
                         ->where('student_id','=',$id);
-        unset($id);
-        $filter = request('filter');
         if (!empty($filter)) {
             $filterData = [];
             $dataFilter ='';
@@ -50,7 +60,9 @@ class QrController extends Controller
         }
         /*======================================================================= */
         $recordsTotal = DB::table('view_teacher_lesson_qrs')
+            ->where('student_id','=',$id)
             ->count('*');
+        unset($id);
         $responseObject = [];
         $responseObject['count'] = $recordsTotal;
         unset($recordsTotal);
@@ -61,28 +73,28 @@ class QrController extends Controller
             ->orderBy($orderColumn??'qrCode_id', $orderType ?? 'ASC');
         $qrDataObject = $qrCodeObject->get()->all();
         unset($qrCodeObject);
-        $index = 0;
-        foreach ($qrDataObject as $element){
-            $this->data[$index]['qr_Code']['qrcode_id'] = $element->qrCode_id;
-            $this->data[$index]['qr_Code']['code_text'] = $element->code_text;
-            $this->data[$index]['qr_Code']['code_url'] = $element->code_url;
-            $this->data[$index]['qr_Code']['used'] = $element->used;
-            $this->data[$index]['qr_Code']['student_id'] = $element->student_id;
-            $this->data[$index]['lesson']['lesson_id'] = $element->lesson_id;
-            $this->data[$index]['lesson']['title'] = $element->title;
-            $this->data[$index]['lesson']['lessonDescription'] = $element->lessonDescription;
-            $this->data[$index]['lesson']['lessonImage'] = $element->lessonImage;
-            $this->data[$index]['lesson']['category_id'] = $element->category_id;
-            $this->data[$index]['lesson']['vedio'] = $element->vedio ?? 'ﻻ يوجد فيديو';
-            $this->data[$index]['teacher']['user_id'] = $element->user_id;
-            $this->data[$index]['teacher']['fName'] = $element->vedio;
-            $this->data[$index]['teacher']['mName'] = $element->fName;
-            $this->data[$index]['teacher']['lName'] = $element->lName;
-            $this->data[$index]['teacher']['short_description'] = $element->short_description;
-            $this->data[$index]['teacher']['long_description'] = $element->long_description;
-            $this->data[$index]['teacher']['subject'] = $element->subject;
-            $index++;
-        }
+        array_walk($qrDataObject,function ($qrDataObject){
+            $this->data[$this->index]['qr_Code']['qrcode_id'] = $qrDataObject->qrCode_id;
+            $this->data[$this->index]['qr_Code']['code_text'] = $qrDataObject->code_text;
+            $this->data[$this->index]['qr_Code']['code_url'] = $qrDataObject->code_url;
+            $this->data[$this->index]['qr_Code']['used'] = $qrDataObject->used;
+            $this->data[$this->index]['qr_Code']['student_id'] = $qrDataObject->student_id;
+            $this->data[$this->index]['qr_Code']['valid_till'] = $qrDataObject->valid_till;
+            $this->data[$this->index]['lesson']['lesson_id'] = $qrDataObject->lesson_id;
+            $this->data[$this->index]['lesson']['title'] = $qrDataObject->title;
+            $this->data[$this->index]['lesson']['lessonDescription'] = $qrDataObject->lessonDescription;
+            $this->data[$this->index]['lesson']['lessonImage'] = $qrDataObject->lessonImage;
+            $this->data[$this->index]['lesson']['category_id'] = $qrDataObject->category_id;
+            $this->data[$this->index]['lesson']['vedio'] = $qrDataObject->vedio ?? 'ﻻ يوجد فيديو';
+            $this->data[$this->index]['teacher']['id'] = $qrDataObject->user_id;
+            $this->data[$this->index]['teacher']['fName'] = $qrDataObject->vedio;
+            $this->data[$this->index]['teacher']['mName'] = $qrDataObject->fName;
+            $this->data[$this->index]['teacher']['lName'] = $qrDataObject->lName;
+            $this->data[$this->index]['teacher']['short_description'] = $qrDataObject->short_description;
+            $this->data[$this->index]['teacher']['long_description'] = $qrDataObject->long_description;
+            $this->data[$this->index]['teacher']['subject'] = $qrDataObject->subject;
+            $this->index++;
+        });
         $responseObject['QrCode']=$this->data;
         return response()->json($responseObject);
 
@@ -104,7 +116,7 @@ class QrController extends Controller
                 'qrCode.exists'=>'QrCode Is Not Exists',
             ]);
         if($validatedData->fails()){
-            return response()->json($validatedData->errors()->messages());
+            return response()->json($validatedData->errors()->messages(),400);
         }
         $QrCode = QrCode::where('code_text','=',$request->qrCode)->get();
         if( $QrCode[0]->used == 0){
@@ -114,7 +126,9 @@ class QrController extends Controller
             $QrCode[0]->save();
             return response()->json($QrCode[0]);
         }
-        return response()->json($QrCode[0]);
+        if($QrCode[0]->used == 1){
+            return response()->json(['massage'=>'This QrCode Has Been Used Before','qrCode'=>$QrCode[0]],402);
+        }
     }
 
     /**
