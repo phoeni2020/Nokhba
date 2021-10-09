@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\dataFilter;
+use App\Models\Catgory;
 use App\Models\QrCode;
+use App\Models\view\view_teacher_lesson_qr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,9 +39,8 @@ class QrController extends Controller
         $limit = $request->limit;
         $filter = $request->filter;
         unset($request);
-        $qrCodeObject = DB::table('view_teacher_lesson_qrs')
-                        ->select('*')
-                        ->where('student_id','=',$id);
+        $qrCodeObject = DB::table('view_teacher_lesson_qrs')->
+                        where('student_id','=',$id);
         if (!empty($filter)) {
             $filterData = [];
             $dataFilter ='';
@@ -72,7 +73,7 @@ class QrController extends Controller
             ->take($limit)
             ->orderBy($orderColumn??'qrCode_id', $orderType ?? 'ASC');
         $qrDataObject = $qrCodeObject->get()->all();
-        unset($qrCodeObject);
+        //unset($qrCodeObject);
         array_walk($qrDataObject,function ($qrDataObject){
             $this->data[$this->index]['qr_Code']['qrcode_id'] = $qrDataObject->qrCode_id;
             $this->data[$this->index]['qr_Code']['code_text'] = $qrDataObject->code_text;
@@ -93,6 +94,7 @@ class QrController extends Controller
             $this->data[$this->index]['teacher']['short_description'] = $qrDataObject->short_description;
             $this->data[$this->index]['teacher']['long_description'] = $qrDataObject->long_description;
             $this->data[$this->index]['teacher']['subject'] = $qrDataObject->subject;
+            $this->data[$this->index]['teacher']['mainCategories']=Catgory::where('user_id','=',$qrDataObject->user_id)->where('main','=',0)->select(['id','name','desc','user_id'])->get()->all();
             $this->index++;
         });
         $responseObject['QrCode']=$this->data;
