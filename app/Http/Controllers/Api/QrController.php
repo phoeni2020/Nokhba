@@ -87,8 +87,8 @@ class QrController extends Controller
             $this->data[$this->index]['lesson']['lessonImage'] = $qrDataObject->lessonImage;
             $this->data[$this->index]['lesson']['category_id'] = $qrDataObject->category_id;
             $this->data[$this->index]['lesson']['vedio'] = $qrDataObject->vedio ?? 'ﻻ يوجد فيديو';
-            $this->data[$this->index]['teacher']['id'] = $qrDataObject->user_id;
-            $this->data[$this->index]['teacher']['user_id'] = $qrDataObject->user_id;
+            $this->data[$this->index]['teacher']['id'] = intval($qrDataObject->user_id);
+            $this->data[$this->index]['teacher']['user_id'] = intval($qrDataObject->user_id);
             $this->data[$this->index]['teacher']['fName'] = $qrDataObject->vedio;
             $this->data[$this->index]['teacher']['mName'] = $qrDataObject->fName;
             $this->data[$this->index]['teacher']['lName'] = $qrDataObject->lName;

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Teachers extends Model
 {
     use HasFactory;
-
+    protected $casts =['id'=>'integer','user_id'=>'integer'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
