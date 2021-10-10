@@ -37,11 +37,11 @@ class teachersController extends Controller
             $CoursesObject->where($this->filterData);
         }
         /*======================================================================= */
-        // filtered data
-        $filteredDataCount = $CoursesObject->count();
-        /*======================================================================= */
         $recordsTotal = Teachers::count();
         /*======================================================================= */
+        if($recordsTotal == 0){
+            return response()->json(['count'=>0,'teachers'=>[]]);
+        }
         $CoursesObject->skip(request('requestOrder')['start'])
             ->take($length)
             ->orderBy($orderColumn, $orderType);
