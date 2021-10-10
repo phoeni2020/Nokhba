@@ -95,7 +95,7 @@ class QrController extends Controller
             $this->data[$this->index]['teacher']['short_description'] = $qrDataObject->short_description;
             $this->data[$this->index]['teacher']['long_description'] = $qrDataObject->long_description;
             $this->data[$this->index]['teacher']['subject'] = $qrDataObject->subject;
-            $this->data[$this->index]['teacher']['mainCategories']=Catgory::where('user_id','=',$qrDataObject->user_id)->where('main','=',0)->select(['id','name','desc','user_id'])->get()->all();
+            $this->data[$this->index]['teacher']['main_categories']=Catgory::where('user_id','=',$qrDataObject->user_id)->where('main','=',0)->select(['id','name','desc','user_id'])->get()->all();
             $this->index++;
         });
         $responseObject['QrCode']=$this->data;
