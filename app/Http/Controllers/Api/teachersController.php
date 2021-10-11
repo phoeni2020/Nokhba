@@ -29,7 +29,9 @@ class teachersController extends Controller
         /*======================================================================= */
         $CoursesObject = Teachers::query()
             ->join('users','teachers.user_id','=','users.id')
-            ->select(['users.fName','users.mName','users.lName','teachers.*'])->with('mainCategories');
+            ->select(['users.fName','users.mName','users.lName','teachers.*'])
+            ->with('mainCategories')
+            ->with('links');
         if (!empty(request('filter'))) {
             $filterData = [];
             parse_str(html_entity_decode(request('filter')), $filterData);
@@ -46,13 +48,8 @@ class teachersController extends Controller
             ->take($length)
             ->orderBy($orderColumn, $orderType);
         $teachers = $CoursesObject->get()->all();
-        $teachersObject = [];
-        foreach ($teachers as $teacher){
-            $teacher->mainCategories;
-            //$teacher->fullName = $teacher->user->fullName()
-            $teachersObject['teachers'][]=$teacher;
-        }
         $teachersObject['count'] = $recordsTotal;
+        $teachersObject['teachers'] = $teachers;
         return response()->json($teachersObject);
 
     }

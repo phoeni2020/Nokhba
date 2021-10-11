@@ -39,6 +39,7 @@ class authController extends Controller
                 //'name' => $validatedData['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
+                'student' => 1,
             ]);
             unset($data);
 

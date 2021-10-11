@@ -23,6 +23,10 @@ class Teachers extends Model
         return $this->hasMany(Catgory::class,'user_id','user_id');
     }
 
+    public function links(){
+        return $this->hasMany(Link::class,'teacher','user_id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

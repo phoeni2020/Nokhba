@@ -16,10 +16,6 @@ use \App\Http\Controllers\Api as Api;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::prefix('v1')->group(function (){
     Route::post('signup',[User\authController::class,'signUp'])->name('api.user.signup');
     Route::post('login',[User\authController::class,'signIn'])->name('api.user.signin');
@@ -43,6 +39,10 @@ Route::prefix('v1')->group(function (){
         });
         Route::prefix('qrcode')->group(function (){
             Route::post('/',[Api\QrController::class,'index']);
+            Route::post('/show',[Api\QrController::class,'showUpdate']);
+        });
+        Route::prefix('links')->group(function (){
+            Route::get('/',[Api\QrController::class,'index']);
             Route::post('/show',[Api\QrController::class,'showUpdate']);
         });
     });

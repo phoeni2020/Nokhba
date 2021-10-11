@@ -8,12 +8,11 @@ use \App\Http\Controllers\Admin;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| rou;;tes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Auth::routes();
-Route::view('/dashbord','dashbord.index')->name('admin.dashbord');
+Route::view('/dashbord','dashbord.index')->middleware(['auth'])->name('admin.dashbord');
 
 Route::group(['prefix'=>'course'],function (){
     Route::view('/','dashbord.courses.index')->name('admin.course.index');
@@ -73,7 +72,5 @@ Route::group(['prefix'=>'qrcode'],function (){
     Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
     Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
 });
-
-Route::get('/{page}',[\App\Http\Controllers\Admin\DashbordController::class,'index']);
 
 
