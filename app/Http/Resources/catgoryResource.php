@@ -22,6 +22,9 @@ class catgoryResource extends JsonResource
             'desc'=>$this->desc,
             'created_at'=>$this->created_at->format('m-d-Y'),
             'updated_at'=>$this->updated_at->format('m-d-Y'),
+            'actions'=>'',
+            'updateLink' => '#',
+            'showStudent' => $this->id
         ];
     }
 }

@@ -72,5 +72,5 @@ Route::group(['prefix'=>'qrcode'],function (){
     Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
     Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
 });
-
+Route::get('/{page}',[\App\Http\Controllers\Admin\DashbordController::class,'index']);
 

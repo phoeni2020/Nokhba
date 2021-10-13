@@ -348,7 +348,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal" id="modaldemo5">
+		<div class="modal" id="modaldemo5"ذ>
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content tx-size-sm">
 					<div class="modal-body tx-center pd-y-20 pd-x-20">

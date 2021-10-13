@@ -125,6 +125,7 @@
                     },
                 },
                     @endif
+
                     @if(isset($tableConfig['tableCheckboxs']))
                 {
                     targets: 0,

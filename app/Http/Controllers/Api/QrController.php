@@ -37,6 +37,7 @@ class QrController extends Controller
         $id = $request->user()->id;
         $start = $request->start;
         $limit = $request->limit;
+        $start = $start * $limit;
         $filter = $request->filter;
         unset($request);
         $qrCodeObject = DB::table('view_teacher_lesson_qrs')->

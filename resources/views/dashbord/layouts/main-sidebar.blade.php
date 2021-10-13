@@ -59,8 +59,8 @@
                     </li>
                     <li class="slide">
                         <a class="side-menu__item" href="{{ route('admin.users.index') }}">
-                            <i class="fas fa-users side-menu__icon"></i>
-                            <span class="side-menu__label">المستخدمين</span>
+                            <i class="fas fa-user-graduate side-menu__icon"></i>
+                            <span class="side-menu__label">الطلبه</span>
                         </a>
                     </li>
                     <li class="slide">
