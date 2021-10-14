@@ -72,7 +72,7 @@ class QrController extends Controller
             ->take($limit)
             ->orderBy($orderColumn??'qrCode_id', $orderType ?? 'ASC');
         $qrDataObject = $qrCodeObject->get()->all();
-        //unset($qrCodeObject);
+
         array_walk($qrDataObject,function ($qrDataObject){
             $this->data[$this->index]['qr_Code']['qrcode_id'] = $qrDataObject->qrCode_id;
             $this->data[$this->index]['qr_Code']['code_text'] = $qrDataObject->code_text;
@@ -97,9 +97,9 @@ class QrController extends Controller
             $this->data[$this->index]['teacher']['main_categories']=Catgory::where('user_id','=',$qrDataObject->user_id)->where('main','=',0)->select(['id','name','desc','user_id'])->get()->all();
             $this->index++;
         });
+
         $responseObject['QrCode']=$this->data;
         return response()->json($responseObject);
-
     }
 
     /**
