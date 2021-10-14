@@ -59,6 +59,7 @@ Route::group(['prefix'=>'notifications'],function (){
 
 Route::group(['prefix'=>'users'],function (){
     Route::view('/','dashbord.users.index')->name('admin.users.index');
+    Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.users.ajax.getuser');
 });
 
 Route::group(['prefix'=>'lessons'],function (){

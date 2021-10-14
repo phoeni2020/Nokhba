@@ -61,12 +61,10 @@ class QrController extends Controller
             unset($this->filterData);
         }
         /*======================================================================= */
-        $recordsTotal = DB::table('view_teacher_lesson_qrs')
-            ->where('student_id','=',$id)
-            ->count('*');
+
         unset($id);
         $responseObject = [];
-        $responseObject['count'] = $recordsTotal;
+        $responseObject['count'] = $qrCodeObject->count();
         unset($recordsTotal);
         /*======================================================================= */
         $qrCodeObject

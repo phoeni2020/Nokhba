@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class usersController extends Controller
@@ -81,5 +82,10 @@ class usersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getUser(){
+        $user = User::find(request('id'));
+        return response()->json($user->toArray());
     }
 }

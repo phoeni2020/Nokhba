@@ -90,72 +90,34 @@
             </div>
         </div>
     </div>
-
-    @push('Scripts')
-        <script src="{{URL::asset('assets/js/modal.js')}}"></script>
-        <script>
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $(document).on('click','.showData',function(event) {
-                event.preventDefault();
-                let _this = $(this);
-                var id = _this.attr('href');
-                let request = $.ajax({
-                    "url": "{{route('admin.catgory.dropdown')}}",
-                    "type": "POST",
-                    "dataType": "JSON",
-                    "data":
-                        {_token: CSRF_TOKEN,},
-                    "contentType": false,
-                    "processData": false,
-                });
-
-                _this.prop('disabled', true).addClass('spinner');
-
-                request.always((response)=>{
-                    _this.prop('disabled', false).removeClass('spinner');
-                });
-
-                request.done(function (response) {
-                    Swal.fire({
-                        text: "Product Deatails Added Successfully",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok",
-                        customClass: {
-                            confirmButton: "btn font-weight-bold btn-light"
-                        }
-                    }).then(function () {
-                        window.location.href = response.redirectTo;
-                    });
-                });
-
-
-                request.fail(function (response) {
-                    $.each(response.responseJSON.errors, function (key, value) {
-                        $("#validation-errors").append(`
-				<div class="alert alert-custom alert-notice alert-light-danger fade show" role="alert">
-				<div class="alert-icon"><i class="flaticon-warning"></i></div>
-				<div class="alert-text">${value}</div>
-				<div class="alert-close">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true"><i class="ki ki-close"></i></span>
-					</button>
-				</div>
-				</div>
-			`);
-                    });
-                });
-
-                $('.category').ajax({
-                            url: "{{route('admin.catgory.dropdown')}}",
-                            type: "post",
-                            dataType: 'json',
-                            delay: 250,
-                    });
-                    $('.modal-header').find('.modal-title').text(id);
-            });
-        </script>
-    @endpush
 @endsection
+@push('Scripts')
+    <script src="{{URL::asset('assets/js/modal.js')}}"></script>
+    <script>
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $(document).on('click','.showData',function(event) {
+            event.preventDefault();
+            let _this = $(this);
+            var id = _this.attr('href');
+            let request = $.ajax({
+                "url": "{{route('admin.users.ajax.getuser')}}",
+                "type": "POST",
+                "dataType": "JSON",
+                "data":
+                    {
+                        _token: CSRF_TOKEN,
+                        id:id
+                    },
+            });
+            request.done(function (response) {
+                $('.modal-header').find('.modal-title').text(response.fName+' '+response.mName+ ' ' +response.lName);
+            });
+
+            request.fail(function (response) {
+            });
+
+        });
+    </script>
+@endpush
 
 
