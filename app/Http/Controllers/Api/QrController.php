@@ -110,17 +110,8 @@ class QrController extends Controller
      */
     public function showUpdate(Request $request)
     {
-        $validatedData = Validator::make(
-            $request->all(),
-            ['qrCode'=>'required|string|exists:qr_codes,code_text'],
-            [
-                'qrCode.required'=>'QrCode Is Must You May Scan It Or Enter It As Text',
-                'qrCode.exists'=>'QrCode Is Not Exists',
-            ]);
-        if($validatedData->fails()){
-            return response()->json($validatedData->errors()->messages(),400);
-        }
-        $QrCode = QrCode::where('code_text','=',$request->qrCode)->get();
+
+        $QrCode = QrCode::where('code_text','=',$request->qrCode)->with('lesson','teacher','teacher.mainCategories')->get();
         if( $QrCode[0]->used == 0){
             $QrCode[0]->used = 1;
             $QrCode[0]->student_id = $request->user()->id;

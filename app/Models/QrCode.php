@@ -10,11 +10,30 @@ class QrCode extends Model
     use HasFactory;
 
     protected $fillable = ['code_text','code_url','lesson','used','student_id'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function mainCategories(){
         return $this->categories()->where('main','=',0)->select(['id','name','desc','user_id']);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function categories() {
         return $this->hasMany(Catgory::class,'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function lesson(){
+        return $this->hasOne(Course::class,'id','lesson');
+    }
+
+    public function teacher(){
+        return $this->hasOne(Teachers::class,'user_id','teacher_id');
     }
 
 }
