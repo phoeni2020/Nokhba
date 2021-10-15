@@ -120,8 +120,7 @@ class QrController extends Controller
                        'code_url'=>$QrCode[0]->code_url,'used'=>$QrCode[0]->used,
                        'student_id'=>$QrCode[0]->student_id,'valid_till'=>$QrCode[0]->valid_till,
                    ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
-                   $response['QrCode']=[$object];
-                   return response()->json($response);
+                   return response()->json($object);
                }
                if($QrCode[0]->used == 1){
                    return response()->json(['error'=>'This QrCode Has Been Used Before'],402);
