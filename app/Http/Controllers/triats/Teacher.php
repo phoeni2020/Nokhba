@@ -8,7 +8,7 @@ trait Teacher
 {
     public function getTeacherId(){
         $response = Teachers::isTeacher();
-        $authId = $response['userId'];
+        $authId = $response['object'][0]['id'];
         if($response['isTeacher'] === false){
             $teacher =  auth()->user()->assistant()->get();
             $authId = $teacher[0]->user->id;

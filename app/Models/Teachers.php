@@ -38,9 +38,8 @@ class Teachers extends Model
      * @return array
      */
     public static function isTeacher(){
-
         $id = auth()->id();
-        $result = parent::find($id);
+        $result = parent::where('user_id','=',$id)->get();
         if(is_null($result)){
             return ['userId'=>$id,'object'=>$result,'isTeacher'=>false];
         }

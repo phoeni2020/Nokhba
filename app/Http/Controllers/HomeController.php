@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\triats\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
+    use Teacher;
     /**
      * Create a new controller instance.
      *
@@ -23,6 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $viewObjectToUse = DB::table('view_teacher_lesson_qrs');
+        $id = $this->getTeacherId();
+        $usedQrBelongsTeacher = $viewObjectToUse->where('teacher','=',$id)->where('used','=',1);
+        $countQr = $usedQrBelongsTeacher->select('count(`id`)');
+        //$timesEnrollesToLessons = $timesEnrollesToLessons->select('DISTINCT student_id');
     }
 }

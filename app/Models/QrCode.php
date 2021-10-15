@@ -28,7 +28,7 @@ class QrCode extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function lesson(){
+    public function lessons(){
         return $this->hasOne(Course::class,'id','lesson');
     }
 
