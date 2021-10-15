@@ -40,8 +40,8 @@ class QrController extends Controller
         $start = $start * $limit;
         $filter = $request->filter;
         unset($request);
-        $qrCodeObject = DB::table('view_teacher_lesson_qrs')->
-                        where('student_id','=',$id);
+        $qrCodeObject =  QrCode::where('student_id','=',$id)->with('lessons','teacher','teacher.mainCategories');
+
         if (!empty($filter)) {
             $filterData = [];
             $dataFilter ='';
@@ -70,31 +70,20 @@ class QrController extends Controller
         $qrCodeObject
             ->skip($start)
             ->take($limit)
-            ->orderBy($orderColumn??'qrCode_id', $orderType ?? 'ASC');
+            ->orderBy($orderColumn??'id', $orderType ?? 'ASC');
+
         $qrDataObject = $qrCodeObject->get()->all();
+        /*$object = ;
+        $response['QrCode']=[$object];
+        return response()->json($response);*/
 
         array_walk($qrDataObject,function ($qrDataObject){
-            $this->data[$this->index]['qr_Code']['qrcode_id'] = $qrDataObject->qrCode_id;
-            $this->data[$this->index]['qr_Code']['code_text'] = $qrDataObject->code_text;
-            $this->data[$this->index]['qr_Code']['code_url'] = $qrDataObject->code_url;
-            $this->data[$this->index]['qr_Code']['used'] = $qrDataObject->used;
-            $this->data[$this->index]['qr_Code']['student_id'] = $qrDataObject->student_id;
-            $this->data[$this->index]['qr_Code']['valid_till'] = $qrDataObject->valid_till;
-            $this->data[$this->index]['lesson']['id'] = $qrDataObject->lesson_id;
-            $this->data[$this->index]['lesson']['title'] = $qrDataObject->title;
-            $this->data[$this->index]['lesson']['description'] = $qrDataObject->lessonDescription;
-            $this->data[$this->index]['lesson']['img'] = $qrDataObject->lessonImage;
-            $this->data[$this->index]['lesson']['category_id'] = $qrDataObject->category_id;
-            $this->data[$this->index]['lesson']['vedio'] = $qrDataObject->vedio ?? 'ﻻ يوجد فيديو';
-            $this->data[$this->index]['teacher']['id'] = intval($qrDataObject->user_id);
-            $this->data[$this->index]['teacher']['user_id'] = intval($qrDataObject->user_id);
-            $this->data[$this->index]['teacher']['fName'] = $qrDataObject->vedio;
-            $this->data[$this->index]['teacher']['mName'] = $qrDataObject->fName;
-            $this->data[$this->index]['teacher']['lName'] = $qrDataObject->lName;
-            $this->data[$this->index]['teacher']['short_description'] = $qrDataObject->short_description;
-            $this->data[$this->index]['teacher']['long_description'] = $qrDataObject->long_description;
-            $this->data[$this->index]['teacher']['subject'] = $qrDataObject->subject;
-            $this->data[$this->index]['teacher']['main_categories']=Catgory::where('user_id','=',$qrDataObject->user_id)->where('main','=',0)->select(['id','name','desc','user_id'])->get()->all();
+           $this->data[$this->index] = ['qr_Code'=>[
+                'qrcode_id'=>$qrDataObject->id,'code_text'=>$qrDataObject->code_text,
+                'code_url'=>$qrDataObject->code_url,'used'=>$qrDataObject->used,
+                'student_id'=>$qrDataObject->student_id,'valid_till'=>$qrDataObject->valid_till,
+            ],'lessons'=>$qrDataObject['lessons'],'teacher'=>$qrDataObject['teacher']];
+
             $this->index++;
         });
 
