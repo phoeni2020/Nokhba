@@ -18,6 +18,7 @@ use \App\Http\Controllers\Admin;
 Auth::routes();
 
 Route::group(['middleware'=>'auth'],function (){
+
     Route::group(['prefix'=>'index'],function (){
         Route::view('/','dashbord.index')->name('admin.dashbord');
         Route::get('/getdata',[Admin\DashbordController::class,'index'])->name('admin.dashbord.getdata');
@@ -26,8 +27,9 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group(['prefix'=>'course'],function (){
         Route::view('/','dashbord.courses.index')->name('admin.course.index');
         Route::view('/create','dashbord.courses.create')->name('admin.course.create');
+        Route::get('/edit/{id}',[Admin\CourseController::class,'edit'])->name('admin.course.edit');
+        Route::delete('/delete/{id}',[Admin\CourseController::class,'destroy'])->name('admin.course.delete');
         Route::post('/store',[Admin\CourseController::class,'store'])->name('admin.course.store');
-
         Route::post('/fillTableCourse',[Admin\CourseController::class,'fillTableCourses'])->name('admin.course.dataTables');
 
     });

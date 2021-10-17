@@ -2,27 +2,28 @@
 @section('page-header')
     @php
         $tableConfig = [
-            'filter'=>true,
-            'actionUrl'=>route('admin.catgory.dataTables'),
-            'hasActions' => true,
-            'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date','Actions'],
-            'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at','actions']),
-            'tableColumnsData'=> json_encode([
-                                                ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
-                                                ['data'=>'is_parent'],
-                                                ['data'=>'created_at'],['data'=>'updated_at'],['data'=>'actions','responsivePriority' => -1]
-                                             ]),
-            'tableColumnDefs' => [
-                   'link'=>  [
-                                    ['targets' => 1, 'orderable' => "true", 'column'=>'name', 'link'=>'#']
-                              ]],
-            'customActions' => json_encode([[
-                'linkColumn' => 'showStudent','attributes'=> "class='showData modal-effect btn btn-sm btn-clean btn-icon'
-                                                           title='add product details'
-                                                           data-toggle='modal'
-                                                           data-target='#modaldemo8'
-                                                           data-effect='effect-super-scaled'
-                                                           ",'icon'=>"fas fa-cog"],])
+                'filter'=>true,
+                'actionUrl'=>route('admin.catgory.dataTables'),
+                'hasActions' => true,
+                'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date','Actions'],
+                'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at','actions']),
+                'tableColumnsData'=> json_encode([
+                                                    ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
+                                                    ['data'=>'is_parent'],
+                                                    ['data'=>'created_at'],['data'=>'updated_at'],
+                                                    ['data'=>'actions','responsivePriority' => -1]
+                                                 ]),
+                'tableColumnDefs' => [
+                       'link'=>  [
+                                        ['targets' => 1, 'orderable' => "true", 'column'=>'name', 'link'=>'#']
+                                  ]],
+                'customActions' => json_encode([[
+                    'linkColumn' => 'showStudent','attributes'=> "class='showData modal-effect btn btn-sm btn-clean btn-icon'
+                                                               title='add product details'
+                                                               data-toggle='modal'
+                                                               data-target='#modaldemo8'
+                                                               data-effect='effect-super-scaled'
+                                                               ",'icon'=>"fas fa-cog"],])
             ];
         $filterConfig = ['inputs' => [
                     ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],

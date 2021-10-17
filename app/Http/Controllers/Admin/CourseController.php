@@ -149,7 +149,7 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+
     }
 
     /**
