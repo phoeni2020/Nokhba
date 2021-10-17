@@ -65,6 +65,16 @@
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
+                                            <label class="form-label mg-b-0">Category</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <select class="js-example-basic-single form-control category" name="category_id">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-4">
                                             <label class="form-label mg-b-0">Image</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
@@ -201,6 +211,27 @@
             });
         }
         $(document).ready(function() {
+            $('.category').select2({
+                placeholder: 'choose category',
+                ajax: {
+                    url: "{{route('admin.catgory.dropdown')}}",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
             select2('attch')
             $(function(){
                 function attachCount(event){

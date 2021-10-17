@@ -7,13 +7,16 @@
         $tableConfig = [
             'filter'=>true,
             'actionUrl'=>route('admin.lessons.dataTables'),
-            'tableHeaed'=>['Id','Lesson Title','Description','Videos','Thumbnails','Created At','Updated Date'],
-            'tableColumnsNames'=>json_encode(['id','title','description','img','vedios','created_at','updated_at']),
+            'tableHeaed'=>['Id','Lesson Title','Description','Thumbnails','Created At','Updated Date'],
+            'tableColumnsNames'=>json_encode(['id','title','description','img','created_at','updated_at']),
             'tableColumnsData'=> json_encode([
                                                 ['data'=>'id'],['data'=>'title'],['data'=>'description'],['data'=>'img'],
-                                                ['data'=>'vedios'],
                                                 ['data'=>'created_at'],['data'=>'updated_at'],
                                              ]),
+           'tableColumnDefs' => [
+                   'image'=>  [
+                                    ['targets' => 3, 'orderable' => "true", 'column'=>'img', 'link'=>'#']
+                              ]],
         ];
         $filterConfig = ['inputs' => [
                     ['lable' => 'Title Arabic','type' => 'text','placeholder'=>'Title Arabic','name' => 'title'],
