@@ -6,41 +6,45 @@
     @php
         $tableConfig = [
             'filter'=>true,
-            'actionUrl'=>route('admin.course.dataTables'),
-            'tableHeaed'=>['Id','Course Name','Created Date','Updated Date'],
-            'tableColumnsNames'=>json_encode(['id','name','created_at','updated_at']),
+            'actionUrl'=>route('admin.lessons.dataTables'),
+            'tableHeaed'=>['Id','Lesson Title','Description','Videos','Thumbnails','Created At','Updated Date'],
+            'tableColumnsNames'=>json_encode(['id','title','description','img','vedios','created_at','updated_at']),
             'tableColumnsData'=> json_encode([
-                                                ['data'=>'id'],['data'=>'name'],
+                                                ['data'=>'id'],['data'=>'title'],['data'=>'description'],['data'=>'img'],
+                                                ['data'=>'vedios'],
                                                 ['data'=>'created_at'],['data'=>'updated_at'],
                                              ]),
-            ];
+        ];
         $filterConfig = ['inputs' => [
-                    ['lable' => 'Course Name','type' => 'text','placeholder'=>'Course Name','name' => 'name'],
-                    ['lable' => 'Course Name','type' => 'text','placeholder'=>'Course Name','name' => 'name'],
-                    ['lable' => 'Course Name','type' => 'text','placeholder'=>'Course Name','name' => 'name'],
+                    ['lable' => 'Title Arabic','type' => 'text','placeholder'=>'Title Arabic','name' => 'title'],
                 ]
-            ];
+        ];
         $buttonsSettings = [
-                'add' => ['lable'=>'Add New Course','link'=>route('admin.course.create')]
-            ];
+        'add' => ['lable'=>'Add New Lesson','link'=>route('admin.course.create')]
+        ];
     @endphp
     <div class="container-fluid">
         <div class="breadcrumb-header justify-content-between">
             <div class="my-auto">
                 <div class="d-flex">
-                    <h4 class="content-title mb-0 my-auto">Courses Page</h4>
+                    <h4 class="content-title mb-0 my-auto">Lessons Page</h4>
                 </div>
             </div>
             <x-button-setting :buttonsSettings="$buttonsSettings"/>
         </div>
+        @if(Session::has('message'))
+            <p class="alert {{ Session::get('message_class', 'alert-success') }}">
+                {{ Session::get('message') }}
+            </p>
+        @endif
         <div class="row row-sm">
             <div class="col-xl-12">
                 <div class="card mg-b-20">
                     <div class="card-body">
                         <div class="main-content-label mg-b-5">
-                          <p class="label">
-                              Courses DataTable
-                          </p>
+                            <p class="label">
+                                Lessons DataTable
+                            </p>
                         </div>
                         <div class="text-wrap">
                             <div class="example">

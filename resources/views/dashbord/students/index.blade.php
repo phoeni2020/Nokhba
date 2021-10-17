@@ -100,7 +100,7 @@
             let _this = $(this);
             var id = _this.attr('href');
             let request = $.ajax({
-                "url": "{{route('admin.dashbord.getdata')}}",
+                "url": "{{route('admin.students.ajax.getuser')}}",
                 "type": "POST",
                 "dataType": "JSON",
                 "data":

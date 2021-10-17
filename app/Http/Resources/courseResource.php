@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class courseResource extends JsonResource
@@ -16,9 +17,12 @@ class courseResource extends JsonResource
     {
         return[
             'id'=>$this->id,
-            'name'=>$this->name,
-            'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at,
+            'title'=>$this->title,
+            'description'=>$this->description,
+            'img'=>$this->img,
+            'vedios'=>'',
+            'created_at'=>$this->created_at->format('Y-m-d'),
+            'updated_at'=>$this->updated_at > '1999-12-30'?$this->updated_at->format('Y-m-d'):$this->created_at->format('Y-m-d'),
         ];
     }
 }

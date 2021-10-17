@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
     use Teacher;
+    private $filterData =[];
+
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -23,6 +25,12 @@ class CourseController extends Controller
         /*======================================================================= */
         $CoursesObject = Course::query();
         /*======================================================================= */
+        if (!empty(request('filter'))) {
+            $filterData = [];
+            parse_str(html_entity_decode(request('filter')), $filterData);
+            $this->filterData($filterData);
+            $CoursesObject->where($this->filterData);
+        }
         // filtered data
         $filteredDataCount = $CoursesObject->count();
         /*======================================================================= */
@@ -51,6 +59,16 @@ class CourseController extends Controller
         (!empty($searchword)) ? $catgoryObject->where([['title', 'LIKE', "%{$searchword}%"]]) : '';
         $categries =  $catgoryObject->get()->toArray();
         return json_encode($categries);
+    }
+
+    /**
+     * @param $filterData
+     */
+    private function filterData($filterData)
+    {
+        foreach ($filterData as $key => $value) {
+            (!empty($value)) ? array_push($this->filterData, ["$key", 'LIKE', "%$value%"]) : '';
+        }
     }
     /**
      * Store a newly created resource in storage.

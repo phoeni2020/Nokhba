@@ -3,7 +3,6 @@
 <!-- JQuery min js -->
 <script src="{{URL::asset('assets/plugins/jquery/jquery.min.js')}}"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- Bootstrap Bundle js -->
 <script src="{{URL::asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 

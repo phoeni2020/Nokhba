@@ -67,7 +67,7 @@ class AttchController extends Controller
      */
     public function fillAttchDropdown(){
         $authId = $this->getTeacherId();
-        $catgoryObject = Attch::select("id as id", "title as text")->where('user_id','=',$authId);
+        $catgoryObject = Attch::select("id as id", "title as text")->where('user_id','=',$authId['user_id']);
         $searchword = request()->search;
         (!empty($searchword)) ? $catgoryObject->where([['title', 'LIKE', "%{$searchword}%"]]) : '';
         $categries =  $catgoryObject->get()->toArray();

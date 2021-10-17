@@ -11,7 +11,7 @@ use \App\Http\Controllers\Admin;
 | rou;;tes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+
 Route::group(['middleware'=>'auth'],function (){
     Route::group(['prefix'=>'index'],function (){
         Route::view('/','dashbord.index')->name('admin.dashbord');
@@ -61,9 +61,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/store',[\App\Http\Controllers\NotificationController::class,'store'])->name('admin.notification.store');
     });
 
-    Route::group(['prefix'=>'users'],function (){
-        Route::view('/','dashbord.users.index')->name('admin.users.index');
-        Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.users.ajax.getuser');
+    Route::group(['prefix'=>'students'],function (){
+        Route::view('/','dashbord.students.index')->name('admin.students.index');
+        Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.students.ajax.getuser');
     });
 
     Route::group(['prefix'=>'lessons'],function (){
@@ -78,5 +78,4 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
     });
 });
-Route::get('/{page}',[\App\Http\Controllers\Admin\DashbordController::class,'index']);
-
+Route::get('/{page}',[\App\Http\Controllers\Admin\*/

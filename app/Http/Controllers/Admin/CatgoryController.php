@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\catgoryResource;
 use App\Models\Catgory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 class CatgoryController extends Controller
