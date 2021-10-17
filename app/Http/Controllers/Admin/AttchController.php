@@ -93,9 +93,9 @@ class AttchController extends Controller
                 'title.required' => 'Name Is Required Field',
                 'title.min' => 'Minimum Characters Is 3',
                 'description.required' => 'Description is required',
-                'img.required' => 'Photo Is Required Field',
-                'img.mimes' => 'The File Must Be Image',
-                'img.max' => 'The Image Must Be Maximam 10 Megabytes ',
+                'img.required' => 'File Is Required Field',
+                'img.mimes' => 'The File Must Be Image Or PDF',
+                'img.max' => 'The File Must Be Maximam 10 Megabytes ',
             ]
         );
 
@@ -123,9 +123,9 @@ class AttchController extends Controller
 
             $attachedItem['fileurl'] = $imageUrl;
 
-            $attachedItem['user_id'] = $authId;
+            $attachedItem['user_id'] = $authId['user_id'];
 
-           $data = $attach::create($attachedItem);
+           $data = $attach::create(['title' =>$attachedItem['title'],'description'=>$attachedItem['description'],'fileurl' =>$attachedItem['fileurl'],'user_id' =>$attachedItem['user_id']]);
 
            if(!$data){
                App::abort(500);
