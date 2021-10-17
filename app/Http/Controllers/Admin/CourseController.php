@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\courseResource;
+use App\Models\Attch;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class CourseController extends Controller
 {
@@ -49,6 +52,7 @@ class CourseController extends Controller
             ]);
         return $storeEventsData;
     }
+
     /**
      * @return false|string
      */
@@ -78,7 +82,50 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $validatedData = Validator::make($request->all(),
+            [
+                'title'=>'required|string|min:5',
+                'desc'=>'required|string|min:5',
+                'img'=>'required|mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+                'attch.*'=>'required|string',
+                'vedios.*.url'=>'required|string|url',
+                'vedios.*.desc'=>'required|string|min:10',
+            ],
+        );
+
+        $data = $validatedData->validated();
+
+        $image = $request->file('img');
+
+        $imageExt = time().$image->extension();
+
+        $img = Image::make($image->path());
+
+        $destinationPath = public_path('/assets/img/thaumbnail/');
+
+        $img->resize(150, 150, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($destinationPath.$imageExt);
+
+        $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt;
+
+        $id =$this->getTeacherId();
+
+        $lessonObject = Course::create(
+            [
+                'title'=>$data['title'],
+                'desc'=>$data['desc'],
+                'img'=>$thumbnailsUrl,
+                'vedio'=>json_encode($data['vedios']),
+                'user_id'=>$id['user_id'],
+            ]
+        );
+
+        foreach ($data['attch'] as $attch ){
+            $attchObject = Attch::find($attch);
+            $attchObject->lesson_id = $lessonObject->id;
+            $attchObject->save();
+        }
     }
 
     /**
