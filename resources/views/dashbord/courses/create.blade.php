@@ -88,7 +88,7 @@
                                                     </div>
                                                     <div class="col-md-6 mg-t-2 mg-md-t-0 attchInput">
                                                         <div class="inputHolder">
-                                                            <select class="js-example-basic-single form-control attch" name="attch[1]">
+                                                            <select class="js-example-basic-single form-control attch" name="attch[]">
 
                                                             </select>
                                                         </div>
@@ -123,7 +123,7 @@
                                                         <label class="form-label mg-b-0">Vedio Link</label>
                                                     </div>
                                                     <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                        <input class="form-control" type="text" name="vedios[1][url]" >
+                                                        <input class="form-control attchUrl" type="text" name="vedios[0][url]" >
                                                     </div>
                                                     <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                         <p>
@@ -139,7 +139,7 @@
                                                         <label class="form-label mg-b-0">Description</label>
                                                     </div>
                                                     <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                        <input class="form-control" type="text" name="vedios[1][desc]" >
+                                                        <input class="form-control attachDesc" type="text" name="vedios[0][desc]" >
                                                     </div>
                                                     <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                         <p>
@@ -238,8 +238,8 @@
 
                     var lastRow = $('#'+event.data.element+' .'+event.data.parent+':last');
 
-                    lastRow.find('.attchName').attr('name', `vedios[${rows+1}][title]`).val('');
-                    lastRow.find('.attachDesc').attr('name', `vedios[${rows+1}][description]`).val('');
+                    lastRow.find('.attchUrl').attr('name', `vedios[${rows+1}][url]`).val('');
+                    lastRow.find('.attachDesc').attr('name', `vedios[${rows+1}][desc]`).val('');
                 }
                 $('.vedioButton').on('click',{
                     element:'holder',
