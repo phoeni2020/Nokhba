@@ -149,7 +149,7 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-
+      return view('dashbord.courses.edit',['course' => $course,'vedios'=>json_decode($course->vedio)]);
     }
 
     /**
@@ -161,7 +161,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+
     }
 
     /**

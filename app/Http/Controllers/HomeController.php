@@ -32,4 +32,13 @@ class HomeController extends Controller
         $countQr = $usedQrBelongsTeacher->select('count(`id`)');
         //$timesEnrollesToLessons = $timesEnrollesToLessons->select('DISTINCT student_id');
     }
+
+    public function page($id){
+        if(view()->exists("dashbord.$id")){
+            return view("dashbord.$id");
+        }
+        else{
+            return view('dashbord.404');
+        }
+    }
 }

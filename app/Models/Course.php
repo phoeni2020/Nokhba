@@ -21,6 +21,14 @@ class Course extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function attch(){
+
+        return $this->hasMany(Attch::class,'lesson_id','id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');
     }
