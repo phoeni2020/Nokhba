@@ -18,4 +18,11 @@ class Catgory extends Model
     {
         return $this->hasMany(Course::class,'category_id');
     }
+
+    public function mainCategories(){
+       return $this->belongsTo(Catgory::class,'main');
+    }
+    public function parentCategories(){
+        return $this->belongsTo(Catgory::class,'parent');
+    }
 }

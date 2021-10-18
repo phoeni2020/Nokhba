@@ -119,8 +119,12 @@ class CatgoryController extends Controller
         $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt;
         $user = auth()->user()->id;
         if($request->has('main')){
-            $mainCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>0,
-                                                'is_parent'=>1,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+            $mainCategory  = Catgory::create([
+                'name'=>$request->name,'desc'=>$request->desc,
+                'main'=>0,'is_parent'=>1,'img_url'=>$imageUrl,
+                'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user
+            ]
+            );
             return redirect()->route('admin.catgory.index')->with(['message'=>'Category Created']);
        }
         elseif($request->has('is_parent')){
@@ -140,55 +144,51 @@ class CatgoryController extends Controller
 
                 return redirect()->back()->withInput($request->all())->withErrors($validatedData->errors()->messages());
             }
-            $parentCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>$request->main_cat,
-                'is_parent'=>1,'parent'=>$request->parent,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+            $parentCategory  = Catgory::create(
+                [
+                    'name'=>$request->name,'desc'=>$request->desc,
+                    'main'=>$request->main_cat, 'is_parent'=>1,'parent'=>$request->parent,
+                    'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user
+                ]
+            );
             return redirect()->route('admin.catgory.index')->with(['massage'=>'Category Created']);
         }
-        elseif ($request->has('parentHasChild')){
+        elseif ($request->has('child')){
             $validatedData = Validator::make(
                 $request->all(),
                 [
-                    'parentHasChild' => 'required|exists:catgories,id',
+                    'child' => 'required|exists:catgories,id',
                 ],
                 [
-                    'parentHasChild.required' => 'Parent Category Is Required Field',
+                    'child.required' => 'Parent Category Is Required Field',
                 ]
             );
             if($validatedData->fails()){
 
                 return redirect()->back()->withInput($request->all())->withErrors($validatedData->errors()->messages());
             }
-            $main = Catgory::find($request->parentHasChild)->main;
-            $mainId = $main == 0 ? $request->parentHasChild:$main;
-            $parentCategory  = Catgory::create(['name'=>$request->name,'desc'=>$request->desc,'main'=>$mainId,
-                'is_parent'=>1,'parent'=>$request->parentHasChild,'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user]);
+            $main = Catgory::find($request->child)->main;
+            $mainId = $main == 0 ? $request->child:$main;
+            $parentCategory  = Catgory::create([
+                'name'=>$request->name,'desc'=>$request->desc,'main'=>$mainId,
+                'is_parent'=>0,'parent'=>$request->child,
+                'img_url'=>$imageUrl,'thmubnil_img_url'=>$thumbnailsUrl,'user_id'=>$user
+            ]);
             return redirect()->route('admin.catgory.index')->with(['massage'=>'Category Created']);
         }
         else{
             return redirect()->back()->withInput($request->all())->withErrors('Please Check Your Data');
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Catgory  $catgory
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Catgory $catgory)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Catgory  $catgory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Catgory $catgory)
+    public function edit(Catgory $category)
     {
-        //
+        return view('dashbord.catgory.edit',['catgory' => $category]);
     }
 
     /**
