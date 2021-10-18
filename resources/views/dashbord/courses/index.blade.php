@@ -41,6 +41,10 @@
             <p class="alert {{ Session::get('message_class', 'alert-success') }}">
                 {{ Session::get('message') }}
             </p>
+        @elseif(Session::has('errorMessage'))
+            <p class="alert {{ Session::get('message_class', 'alert-danger')}}">
+                {{ Session::get('errorMessage') }}
+            </p>
         @endif
         <div class="row row-sm">
             <div class="col-xl-12">

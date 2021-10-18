@@ -28,8 +28,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::view('/','dashbord.courses.index')->name('admin.course.index');
         Route::view('/create','dashbord.courses.create')->name('admin.course.create');
         Route::get('/edit/{course}',[Admin\CourseController::class,'edit'])->name('admin.course.edit');
-        Route::get('/update/{course}',[Admin\CourseController::class,'update'])->name('admin.course.update');
-        Route::delete('/delete/{id}',[Admin\CourseController::class,'destroy'])->name('admin.course.delete');
+        Route::put('/update/{course}',[Admin\CourseController::class,'update'])->name('admin.course.update');
+        Route::delete('/delete/{course}',[Admin\CourseController::class,'destroy'])->name('admin.course.delete');
         Route::post('/store',[Admin\CourseController::class,'store'])->name('admin.course.store');
         Route::post('/fillTableCourse',[Admin\CourseController::class,'fillTableCourses'])->name('admin.course.dataTables');
 

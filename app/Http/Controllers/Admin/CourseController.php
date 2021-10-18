@@ -115,7 +115,7 @@ class CourseController extends Controller
         $lessonObject = Course::create(
             [
                 'title'=>$data['title'],
-                'desc'=>$data['desc'],
+                'desc'=>$data['description'],
                 'img'=>$thumbnailsUrl,
                 'vedio'=>json_encode($data['vedios']),
                 'category_id'=>$data['category_id'],
@@ -128,17 +128,8 @@ class CourseController extends Controller
             $attchObject->lesson_id = $lessonObject->id;
             $attchObject->save();
         }
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Course $course)
-    {
-        //
+        return redirect()->route('admin.course.index')->with(['message'=>'Course Created']);
     }
 
     /**
@@ -149,7 +140,12 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-      return view('dashbord.courses.edit',['course' => $course,'vedios'=>json_decode($course->vedio)]);
+        try {
+            return view('dashbord.courses.edit',['course' => $course,'vedios'=>json_decode($course->vedio)]);
+        }
+        catch (\Exception $e){
+            return redirect()->back()->with(['errorMessage'=>'Error Happend']);
+        }
     }
 
     /**
@@ -161,7 +157,52 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
+        $validatedData = Validator::make($request->all(),
+            [
+                'title'=>'required|string|min:5',
+                'description'=>'required|string|min:5',
+                'category_id'=>'required',
+                'attch.*'=>'required|string',
+                'vedios.*.url'=>'required|string|url',
+                'vedios.*.desc'=>'required|string|min:10',
+            ],
+        );
 
+        $data = $validatedData->validated();
+
+        if($request->has('img')){
+            $image = $request->file('img');
+
+            $imageExt = time().$image->extension();
+
+            $img = Image::make($image->path());
+
+            $destinationPath = public_path('/assets/img/thaumbnail/');
+
+            $img->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath.$imageExt);
+
+            $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt;
+
+            $course->img = $thumbnailsUrl;
+        }
+
+        $id =$this->getTeacherId();
+
+        $course->title = $data['title'];
+        $course->description = $data['description'];
+        $course->vedio = json_encode($data['vedios']);
+        $course->category_id = $data['category_id'];
+        $course->save();
+
+        foreach ($data['attch'] as $attch ){
+            $attchObject = Attch::find($attch);
+            $attchObject->lesson_id = $course->id;
+            $attchObject->save();
+        }
+
+        return redirect()->route('admin.course.index')->with(['message'=>'Course Updated']);
     }
 
     /**
@@ -172,6 +213,7 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        $course->delete();
+        return redirect()->back()->with(['message'=>'Course Deleted Successfully']);
     }
 }

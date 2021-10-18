@@ -42,7 +42,7 @@
                         </div>
                     @endif
                     <div class="card">
-                        <form action="{{route('admin.course.store')}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('admin.course.update',$course['id'])}}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
@@ -142,7 +142,7 @@
                                             </div>
                                             <div class="row row-sm mb-5">
                                                 <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                    <button class="btn btn-primary attchButton" type="button" data-acount="{{$index}}" >Add More</button>
+                                                    <button class="btn btn-primary attchButton" type="button" data-acount="{{$index ?? 0}}" >Add More</button>
                                                 </div>
                                                 <div class="col-md-6 mg-t-2 mg-md-t-0">
                                                     <p>

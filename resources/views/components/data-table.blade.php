@@ -77,13 +77,14 @@
 
                         if(typeof full.deleteLink !== "undefined" && full.deleteLink !== ""){
                             deleteElement = `
-                                            <a onclick="(confirm('@lang('Common.Are_You_Sure')')) ? document.getElementById('remove-${full.id}').submit() : false;" class="btn btn-sm btn-clean btn-icon" title="Delete">
+                                            <a onclick="(confirm('Are You Sure To Delete This ?')) ? document.getElementById('remove-${full.id}').submit() : false;" class="btn btn-sm btn-clean btn-icon" title="Delete">
                                                         <i class="la la-trash"></i>
                                             </a>
                                             <form id="remove-${full.id}" action="${full.deleteLink}" method="POST" style="display: none;">
                                                 @csrf
-                            @method('delete')
-                            </form>
+                                                @method('delete')
+                                            </form>
+
 `;
                         }
 
@@ -297,3 +298,13 @@
     @endif
 
 @endpush
+
+{{--
+ <!--Internal  Sweet-Alert js-->
+<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js')}}"></script>
+<!-- Sweet-alert js  -->
+<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
+<script src="{{URL::asset('assets/js/sweet-alert.js')}}"></script>
+
+ --}}
