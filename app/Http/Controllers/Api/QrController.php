@@ -4,12 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\dataFilter;
-use App\Models\Catgory;
 use App\Models\QrCode;
-use App\Models\view\view_teacher_lesson_qr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class QrController extends Controller

@@ -28,6 +28,7 @@ Route::prefix('v1')->group(function (){
     Route::prefix('category')->group(function (){
         Route::get('/{id}',[Api\CategoryController::class,'getCategories']);
     });
+
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::prefix('user')->group(function (){
             Route::get('/',[User\userController::class,'show']);
@@ -45,7 +46,11 @@ Route::prefix('v1')->group(function (){
             Route::get('/',[Api\QrController::class,'index']);
             Route::post('/show',[Api\QrController::class,'showUpdate']);
         });
+        Route::prefix('follow')->group(function (){
+            Route::post('/',[Api\FollowingController::class,'followUnfollow']);
+        });
     });
+
     Route::get('notifications/{start}/{limit}',[Api\NotificationController::class,'index']);
 });
 

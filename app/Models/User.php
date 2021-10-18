@@ -43,6 +43,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return string
+     */
     public function fullName(){
         if(is_null($this->fName)){
             return 'No Name';
@@ -50,7 +53,14 @@ class User extends Authenticatable
         return "$this->fName $this->mName $this->lName";
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function assistant(){
         return $this->belongsTo(Teachers::class,'belongs_to_teacher');
+    }
+
+    public function following(){
+        return $this->hasOne(Follow::class,'user_id','id');
     }
 }
