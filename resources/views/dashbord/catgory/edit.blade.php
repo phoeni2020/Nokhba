@@ -35,7 +35,7 @@
                         </div>
                     @endif
                     <div class="card">
-                        <form action="{{route('admin.catgory.edit',$catgory->id)}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('admin.category.update',$catgory->id)}}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="card-body">

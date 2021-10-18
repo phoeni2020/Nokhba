@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\ImageUrl;
 use App\Http\Resources\catgoryResource;
 use App\Models\Catgory;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Intervention\Image\Facades\Image;
 class CatgoryController extends Controller
 {
     private $filterData =[];
+    use ImageUrl;
     /**
     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     */
@@ -56,7 +58,6 @@ class CatgoryController extends Controller
             (!empty($value)) ? array_push($this->filterData, ["$key", 'LIKE', "%$value%"]) : '';
         }
     }
-
     /**
      * @return false|string
      */
@@ -67,7 +68,6 @@ class CatgoryController extends Controller
         $categries =  $catgoryObject->get()->toArray();
         return json_encode($categries);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -117,6 +117,7 @@ class CatgoryController extends Controller
         $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt;
 
         $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt;
+
         $user = auth()->user()->id;
         if($request->has('main')){
             $mainCategory  = Catgory::create([
@@ -190,7 +191,6 @@ class CatgoryController extends Controller
     {
         return view('dashbord.catgory.edit',['catgory' => $category]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -200,7 +200,116 @@ class CatgoryController extends Controller
      */
     public function update(Request $request, Catgory $catgory)
     {
-        //
+        $validatedData = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|string|min:3',
+                'desc' => 'required|string|min:8',
+                'img' => 'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+            ],
+            [
+                'name.required' => 'Name Is Required Field',
+                'name.min' => 'Minimum Characters Is 3',
+                'desc.required' => 'Description is required',
+                'img.required' => 'Photo Is Required Field',
+                'img.mimes' => 'The File Must Be Image',
+                'img.max' => 'The Image Must Be Maximam 10 Megabytes ',
+            ]
+        );
+
+        if($validatedData->fails()){
+
+            return redirect()->back()->withErrors($validatedData->errors()->messages());
+        }
+
+        if($request->has('img')){
+
+            $catgory->img_url ? '' : $this->unlinkImage($catgory->img_url);
+            $catgory->thmubnil_img_url == null ? '' : $this->unlinkImage($catgory->thmubnil_img_url);
+
+            $image = $request->file('img');
+
+            $imageExt = time().$image->extension();
+
+            $img = Image::make($image->path());
+
+            $destinationPath = public_path('/assets/img/thaumbnail/');
+
+            $img->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath.$imageExt);
+
+            $destinationPath = public_path('assets/img/uploaded');
+
+            $image->move($destinationPath, $imageExt);
+
+            $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt;
+
+            $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt;
+
+            $catgory->img_url = $imageUrl;
+
+            $catgory->thmubnil_img_url = $thumbnailsUrl;
+        }
+
+        if($request->has('main')){
+            $catgory->name = $request->name;
+            $catgory->desc = $request->desc;
+            $catgory->main = $request->main;
+            $catgory->is_parent = $request->is_parent;
+            $catgory->is_parent = $request->is_parent;
+            $catgory->save();
+            return redirect()->route('admin.catgory.index')->with(['message'=>'Category Updated']);
+        }
+        elseif($request->has('is_parent')){
+            $validatedData = Validator::make(
+                $request->all(),
+                [
+                    'main_cat' => 'required|exists:catgories,id',
+                    'parent' => 'required|exists:catgories,id',
+                ],
+                [
+                    'main_cat.required' => 'Main Category Is Required Field',
+                    'parent.required' => 'parent Category Is Required Field',
+                ]
+            );
+            $validatedData->validated();
+
+            $catgory->name = $request->name;
+            $catgory->desc = $request->desc;
+            $catgory->main = $request->main_cat;
+            $catgory->is_parent = 1;
+            $catgory->parent = $request->parent;
+            $catgory->save();
+
+            return redirect()->route('admin.catgory.index')->with(['massage'=>'Category Updated']);
+        }
+        elseif ($request->has('child')){
+            $validatedData = Validator::make(
+                $request->all(),
+                [
+                    'child' => 'required|exists:catgories,id',
+                ],
+                [
+                    'child.required' => 'Parent Category Is Required Field',
+                ]
+            );
+            $validatedData->validated();
+            $main = Catgory::find($request->child)->main;
+
+            $mainId = $main == 0 ? $request->child:$main;
+
+            $catgory->name = $request->name;
+            $catgory->desc = $request->desc;
+            $catgory->main = $mainId;
+            $catgory->is_parent = 0;
+            $catgory->parent = $request->child;
+
+            return redirect()->route('admin.catgory.index')->with(['massage'=>'Category Updated']);
+        }
+        else{
+            return redirect()->back()->withInput($request->all())->withErrors('Please Check Your Data');
+        }
     }
 
     /**
