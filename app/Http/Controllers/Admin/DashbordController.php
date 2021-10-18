@@ -13,7 +13,7 @@ class DashbordController extends Controller
     {
         $viewObjectToUse = DB::table('view_teacher_lesson_qrs');
         $id = $this->getTeacherId();
-        $belongsTeacher = $viewObjectToUse->where('teacherid', '=', $id);
+        $belongsTeacher = $viewObjectToUse->where('teacherid', '=', $id['teacher']);
         $usedQrCount = $belongsTeacher->where('used', '=', 1)->count('user_id');
         $countStudentsBelongsTeacher = $belongsTeacher->distinct()->count('user_id');
         $countLessonsBelongsTeacher = $belongsTeacher->distinct()->count('lesson_id');

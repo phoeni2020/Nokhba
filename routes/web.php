@@ -53,9 +53,15 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group(['prefix'=>'category'],function (){
         Route::view('/','dashbord.catgory.index')->name('admin.catgory.index');
         Route::view('/create','dashbord.catgory.create')->name('admin.catgory.create');
+
         Route::post('/fillTableCatgory',[Admin\CatgoryController::class,'fillTableCatgory'])->name('admin.catgory.dataTables');
         Route::post('/fillCategoryDropdown',[Admin\CatgoryController::class,'fillCategoryDropdown'])->name('admin.catgory.dropdown');
         Route::post('/store',[Admin\CatgoryController::class,'store'])->name('admin.catgory.store');
+
+        Route::get('/edit/{category}',[Admin\CatgoryController::class,'edit'])->name('admin.category.edit');
+        Route::put('/update/{category}',[Admin\CatgoryController::class,'update'])->name('admin.category.update');
+        Route::delete('/delete/{category}',[Admin\CatgoryController::class,'destroy'])->name('admin.category.delete');
+
     });
 
     Route::group(['prefix'=>'about'],function (){

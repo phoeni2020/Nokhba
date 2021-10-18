@@ -6,21 +6,24 @@
     @php
         $tableConfig = [
             'filter'=>true,
+            'hasActions' => true,
             'actionUrl'=>route('admin.catgory.dataTables'),
-            'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date'],
-            'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at']),
+            'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date','Actions'],
+            'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at','actions']),
             'tableColumnsData'=> json_encode([
                                                 ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
                                                 ['data'=>'is_parent'],
                                                 ['data'=>'created_at'],['data'=>'updated_at'],
-                                             ]),
+                                                ['data'=>'actions','responsivePriority' => -1]
+            ]),
         ];
-        $filterConfig = ['inputs' => [
+        $filterConfig = [
+            'inputs' => [
                     ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],
                 ]
         ];
         $buttonsSettings = [
-        'add' => ['lable'=>'Add New Catgory','link'=>route('admin.catgory.create')]
+            'add' => ['lable'=>'Add New Catgory','link'=>route('admin.catgory.create')]
         ];
     @endphp
     <div class="container-fluid">
