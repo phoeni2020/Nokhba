@@ -18,6 +18,7 @@
            ];
            $filterConfig = ['inputs' => [
                        ['lable' => 'Title Arabic','type' => 'text','placeholder'=>'Title Arabic','name' => 'title'],
+                       ['lable' => 'QrCode Text','type' => 'text','placeholder'=>'Title Arabic','name' => 'code_text'],
                    ]];
            $buttonsSettings = [
            'add' => ['lable'=>'Create New QrCodes','link'=>route('admin.qrcode.create')],

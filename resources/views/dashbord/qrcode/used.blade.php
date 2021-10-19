@@ -21,6 +21,7 @@
         ];
         $filterConfig = ['inputs' => [
                     ['lable' => 'Title Arabic','type' => 'text','placeholder'=>'Title Arabic','name' => 'title'],
+                    ['lable' => 'QrCode Text','type' => 'text','placeholder'=>'Title Arabic','name' => 'code_text'],
                 ]];
         $buttonsSettings = [
                 'view' => ['lable'=>'None Used QrCodes','link'=>route('admin.qrcode.index')],

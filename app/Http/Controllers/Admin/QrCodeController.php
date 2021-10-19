@@ -71,7 +71,10 @@ class QrCodeController extends Controller
         $orderType = request('order')[0]['dir'];
         $orderColumn = request('columns')[$columnsOrder]['data'];
         /*======================================================================= */
-        $CoursesObject = qrModel::query()->where('used','=',1)
+        $CoursesObject = qrModel::query()
+            ->join('courses','qr_codes.lesson','=','courses.id')
+            ->select('courses.title','qr_codes.*')
+            ->where('used','=',1)
             ->where('teacher_id','=',$authId['user_id']);
         if (!empty(request('filter'))) {
             $filterData = [];
