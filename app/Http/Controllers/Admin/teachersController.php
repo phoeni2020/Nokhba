@@ -71,12 +71,18 @@ class teachersController extends Controller
                     'image' => 'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
                 ]
         );
-
         $validatedData->validated();
+        if($request->has('image')) {
+            $image = $request->file('image');
+            $response = $this->uploadImage($image,0);
+            $teacher->image = $response[0];
+        }
 
-        $image = $request->file('image');
-
-        $response = $this->uploadImage($image,0);
-
+        $teacher->short_description = $request->short_description;
+        $teacher->long_description = $request->long_description;
+        $teacher->vedio = $request->video;
+        $teacher->subject = $request->subject;
+        $teacher->save();
+        return redirect()->back()->with(['teacher'=>$teacher,'id'=>$teacher->id]);
     }
 }
