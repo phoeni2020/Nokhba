@@ -33,10 +33,7 @@ class teachersController extends Controller
             ->select(['users.fName','users.mName','users.lName','teachers.*'])
             ->with('mainCategories')
             ->with('links');
-        if(!is_null(Auth::user())){
-            $id = auth()->user()->id;
-            $CoursesObject->where('user_id','=',$id);
-        }
+
         if (!empty(request('filter'))) {
             $filterData = [];
             parse_str(html_entity_decode(request('filter')), $filterData);

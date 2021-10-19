@@ -22,8 +22,7 @@ Route::prefix('v1')->group(function (){
     Route::post('forgotPassword', [User\userController::class,'getResetToken']);
     Route::get('about', [Api\AboutusController::class,'index']);
     Route::prefix('teacher')->group(function (){
-        Route::post('/index',[Api\teachersController::class,'index']);
-        //Route::put('/completeData',[User\userController::class,'completeData']);
+        Route::post('/index',[Api\teachersController::class,'index'])->middleware('auth:sanctum');
     });
     Route::prefix('category')->group(function (){
         Route::get('/{id}',[Api\CategoryController::class,'getCategories']);
