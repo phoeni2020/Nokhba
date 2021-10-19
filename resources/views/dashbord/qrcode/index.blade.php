@@ -1,6 +1,4 @@
 @extends('dashbord.layouts.master')
-@section('css')
-@endsection
 
 @section('page-header')
     @php
@@ -12,7 +10,7 @@
                'tableColumnsData'=> json_encode([
                                                    ['data'=>'id'],['data'=>'qrUrl'],
                                                    ['data'=>'lesson'],['data'=>'created_at'],
-                                                   ]),
+                                                 ]),
               'tableColumnDefs' => [
                       'image'=>  [
                                        ['targets' => 1, 'orderable' => "true", 'column'=>'qrUrl', 'link'=>'#']

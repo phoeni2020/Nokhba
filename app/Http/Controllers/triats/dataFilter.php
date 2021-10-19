@@ -8,7 +8,7 @@ trait dataFilter
 {
     private function filterData($filterData)
     {
-
+        $this->filterData = [];
         foreach ($filterData as $key => $value) {
             $op='LIKE';
             if($key=='valid'){
@@ -16,9 +16,7 @@ trait dataFilter
                 $value =Carbon::now();
                 $key='valid_till';
             }
-            (!empty($value)) ? array_push($this->filterData, ["$key","$op", "$value"]) : '';
-
-
+            (!empty($value)) ? array_push($this->filterData, ["$key","$op", "%$value%"]) : '';
         }
     }
 }

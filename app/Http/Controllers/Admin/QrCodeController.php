@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\dataFilter;
 use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\qrCodeResource;
 use App\Models\QrCode as qrModel;
@@ -14,23 +15,29 @@ class QrCodeController extends Controller
 {
     use Teacher;
 
+    private $filterData;
+    use dataFilter;
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function fillTableQrCode(){
-
         $authId = $this->getTeacherId();
         //order column
         $columnsOrder = request('order')[0]['column'];
         $orderType = request('order')[0]['dir'];
         $orderColumn = request('columns')[$columnsOrder]['data'];
         /*======================================================================= */
-        $CoursesObject = qrModel::query()->where('used','=',0)
+        $CoursesObject = qrModel::query()
+            ->join('courses','qr_codes.lesson','=','courses.id')
+            ->select('courses.title','qr_codes.*')
+            ->where('used','=',0)
             ->where('teacher_id','=',$authId['user_id']);
         if (!empty(request('filter'))) {
             $filterData = [];
             parse_str(html_entity_decode(request('filter')), $filterData);
+
             $this->filterData($filterData);
+
             $CoursesObject->where($this->filterData);
         }
         /*======================================================================= */
@@ -127,5 +134,4 @@ class QrCodeController extends Controller
                 ]);
         }
     }
-
 }
