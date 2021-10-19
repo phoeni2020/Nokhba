@@ -51,16 +51,24 @@
                             <span class="side-menu__label">اﻻشعارات</span>
                         </a>
                     </li>
+{{--
                     <li class="slide">
                         <a class="side-menu__item" href="{{ route('admin.teachers.index') }}">
                             <i class="fas fa-chalkboard-teacher side-menu__icon "></i>
                             <span class="side-menu__label">الاساتذه</span>
                         </a>
                     </li>
+--}}
                     <li class="slide">
                         <a class="side-menu__item" href="{{ route('admin.students.index') }}">
                             <i class="fas fa-user-graduate side-menu__icon"></i>
                             <span class="side-menu__label">الطلبه</span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{ route('admin.teachers.settings') }}">
+                            <i class="fas fa-cogs side-menu__icon"></i>
+                            <span class="side-menu__label">اعدادت اﻻستاذ</span>
                         </a>
                     </li>
                     <li class="slide">
@@ -69,6 +77,7 @@
                             <span class="side-menu__label">الفيديوهات</span>
                         </a>
                     </li>
+
                     <li class="slide">
                         <a class="side-menu__item" href="{{ url('/admin/' . $page='icons') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon"  viewBox="0 0 24 24">

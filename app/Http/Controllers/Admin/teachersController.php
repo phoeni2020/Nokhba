@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\ImageUrl;
+use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\teacherResourse;
 use App\Models\Teachers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class teachersController extends Controller
 {
+    use Teacher,ImageUrl;
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -41,68 +45,38 @@ class teachersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create()
-    {
-        //
+    public function settingPage(){
+        $authId = $this->getTeacherId();
+        $teacher = $authId['object'][0];
+        if(is_null($teacher->short_description) && is_null($teacher->subject)){
+            return view('dashbord.teachers.create',['id'=>$teacher->id]);
+        }
+        return view('dashbord.teachers.create',['teacher'=>$teacher,'id'=>$teacher->id]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Teachers $teacher
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function teacherSettings(Request $request,Teachers $teacher){
+        $validatedData = Validator::make($request->all(),
+                [
+                    'subject'=>'required',
+                    'short_description'=>'required',
+                    'long_description'=>'required',
+                    'video'=>'required|url',
+                    'image' => 'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+                ]
+        );
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Teachers  $teachers
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Teachers $teachers)
-    {
-        //
-    }
+        $validatedData->validated();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Teachers  $teachers
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Teachers $teachers)
-    {
-        //
-    }
+        $image = $request->file('image');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Teachers  $teachers
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Teachers $teachers)
-    {
-        //
-    }
+        $response = $this->uploadImage($image,0);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Teachers  $teachers
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Teachers $teachers)
-    {
-        //
     }
 }

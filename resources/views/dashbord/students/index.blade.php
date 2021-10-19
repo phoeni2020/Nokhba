@@ -3,14 +3,14 @@
     @php
         $tableConfig = [
                 'filter'=>true,
-                'actionUrl'=>route('admin.catgory.dataTables'),
+                'actionUrl'=>route('admin.students.fillTableUser'),
                 'hasActions' => true,
-                'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date','Actions'],
-                'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at','actions']),
+                'tableHeaed'=>['Id','Full Name','Email','Phone','Parent Phone','Created At','Actions'],
+                'tableColumnsNames'=>json_encode(['id','fullName','email','phone','parentPhone','created_at','actions']),
                 'tableColumnsData'=> json_encode([
-                                                    ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
-                                                    ['data'=>'is_parent'],
-                                                    ['data'=>'created_at'],['data'=>'updated_at'],
+                                                    ['data'=>'id'],['data'=>'fullName'],['data'=>'email'],['data'=>'phone'],
+                                                    ['data'=>'parentPhone'],
+                                                    ['data'=>'created_at'],
                                                     ['data'=>'actions','responsivePriority' => -1]
                                                  ]),
                 'tableColumnDefs' => [

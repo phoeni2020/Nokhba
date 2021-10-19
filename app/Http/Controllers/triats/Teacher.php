@@ -16,6 +16,6 @@ trait Teacher
             $teacher =  auth()->user()->assistant()->get();
             $authId = $teacher[0]->user->id;
         }
-        return ['user_id'=>$authId,'teacher'=>$response['object'][0]['id']];
+        return ['user_id'=>$authId,'teacher'=>$response['object'][0]['id'],'object'=>$response['object']];
     }
 }

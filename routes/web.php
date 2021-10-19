@@ -45,8 +45,8 @@ Route::group(['middleware'=>'auth'],function (){
     });
 
     Route::group(['prefix'=>'teachers'],function (){
-        Route::view('/','dashbord.teachers.index')->name('admin.teachers.index');
-        Route::view('/create','dashbord.teachers.create')->name('admin.teachers.create');
+        Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
+        Route::put('/update/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
         Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
     });
 
@@ -59,7 +59,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/store',[Admin\CatgoryController::class,'store'])->name('admin.catgory.store');
 
         Route::get('/edit/{category}',[Admin\CatgoryController::class,'edit'])->name('admin.category.edit');
-        Route::put('/update/{catgory}',[Admin\CatgoryController::class,'update'])->name('admin.category.updateadmin.category.update');
+        Route::put('/update/{catgory}',[Admin\CatgoryController::class,'update'])->name('admin.category.update');
         Route::delete('/delete/{category}',[Admin\CatgoryController::class,'destroy'])->name('admin.category.delete');
 
     });
@@ -77,7 +77,10 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group(['prefix'=>'students'],function (){
         Route::view('/','dashbord.students.index')->name('admin.students.index');
+        Route::delete('/destroy/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.delete');
+        Route::post('/view/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.view');
         Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.students.ajax.getuser');
+        Route::post('/fillTableUsers',[Admin\usersController::class,'fillTableUser'])->name('admin.students.fillTableUser');
     });
 
     Route::group(['prefix'=>'lessons'],function (){
