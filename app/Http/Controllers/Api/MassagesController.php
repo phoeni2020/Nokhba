@@ -52,6 +52,7 @@ class MassagesController extends Controller
                     'name'=>$student->fullname(),
                     'image'=>''
                 ],
+                'id'=>$massage->id,
                 'message'=>$request->massage??'',
                 'attachment_image'=>$request->image ?? '',
                 'date'=>$massage->created_at->format('Y-m-d H:i:s'),
