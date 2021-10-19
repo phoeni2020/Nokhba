@@ -28,6 +28,7 @@ class MassagesController extends Controller
      */
     public function store(Request $request,$teacher)
     {
+
         $validatedData = Validator::make($request->all(),[
             'image'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000'
         ]);
@@ -40,6 +41,18 @@ class MassagesController extends Controller
                 'massge'=>$request->massage??null,'attchment'=>$request->attchment??null,'user_id'=>$student->id,
                 'convsertion'=>$converstionId
             ]);
+        $response = [
+            'user'=>[
+                'id'=>$student->id,
+                'name'=>$student->fullname(),
+                'image'=>''
+            ],
+            'message'=>$request->massage??'',
+            'attachment_image'=>$request->image ?? '',
+            'date'=>$massage->created_at,
+        ];
+        return response()->json($response,200);
+
     }
 
     /**
