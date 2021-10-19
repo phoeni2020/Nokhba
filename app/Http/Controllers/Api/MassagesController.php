@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Converstion;
 use App\Models\Massge;
+use App\Models\Teachers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,6 +30,10 @@ class MassagesController extends Controller
     public function store(Request $request,$teacher)
     {
         try {
+            $teacher = Teachers::where('user_id',$teacher)->get();
+            if(empty($teacher->all())){
+                return response()->json(['error'=>'That Teacher No Longer Exists'],404);
+            }
             $validatedData = Validator::make($request->all(),[
                 'image'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000'
             ]);
