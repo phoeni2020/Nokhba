@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class qrCodeResource extends JsonResource
@@ -21,7 +22,7 @@ class qrCodeResource extends JsonResource
                 'lesson'=>$this->lessons->title,
                 'student'=>$this->student->fullName(),
                 'created_at'=>$this->created_at->format('Y-m-d'),
-                'valid_till'=>$this->valid_till,
+                'valid_till'=>$this->valid_till < Carbon::now() ? 'Expired Was Valid Till :- '.$this->valid_till : $this->valid_till,
             ];
         }
         return [
