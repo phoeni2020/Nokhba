@@ -14,8 +14,21 @@ class qrCodeResource extends JsonResource
      */
     public function toArray($request)
     {
+        if($this->used != 0){
+            return [
+                'id'=>$this->id,
+                'qrUrl'=>$this->code_url,
+                'lesson'=>$this->lessons->title,
+                'student'=>$this->student->fullName(),
+                'created_at'=>$this->created_at->format('Y-m-d'),
+                'valid_till'=>$this->valid_till,
+            ];
+        }
         return [
           'id'=>$this->id,
+          'qrUrl'=>$this->code_url,
+          'lesson'=>$this->lessons->title,
+          'created_at'=>$this->created_at->format('Y-m-d'),
         ];
     }
 }

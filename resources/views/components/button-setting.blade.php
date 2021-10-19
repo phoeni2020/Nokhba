@@ -1,13 +1,22 @@
 <div class="card-toolbar">
 
-@if(isset($buttonsSettings['delete']))
+    @if(isset($buttonsSettings['delete']))
     <!--begin::Button-->
-        <a href="{!! $buttonsSettings['delete']['link'] !!}"  id="deleteSelected" class="btn btn-outline-danger font-weight-bolder mb-2 mb-sm-0 mr-2">
+        <a href="{!! $buttonsSettings['delete']['link'] !!}"  id="deleteSelected" class="btn btn-outline-danger font-weight-bolder color-primary mb-2 mb-sm-0 mr-2">
             <i class="icon-nm flaticon-delete"></i>
             {!! $buttonsSettings['delete']['lable'] !!}
         </a>
         <!--end::Button-->
     @endif
+
+    @if(isset($buttonsSettings['view']))
+        <!--begin::Button-->
+            <a href="{!! $buttonsSettings['view']['link'] !!}"  id="deleteSelected" class="btn btn-outline-primary font-weight-bolder color-primary mb-2 mb-sm-0 mr-2">
+                <i class="icon-nm flaticon-delete"></i>
+                {!! $buttonsSettings['view']['lable'] !!}
+            </a>
+            <!--end::Button-->
+        @endif
 
     @if(isset($buttonsSettings['actions']))
         <div class="dropdown dropdown-inline mr-2">

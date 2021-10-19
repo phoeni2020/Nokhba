@@ -91,7 +91,9 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group(['prefix'=>'qrcode'],function (){
         Route::view('/','dashbord.qrcode.index')->name('admin.qrcode.index');
         Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
-        Route::post('/fillTaleCourse',[Admin\QrCodeController::class,'fillTableQrCode'])->name('admin.lessons.dataTables');
+        Route::view('/used','dashbord.qrcode.used')->name('admin.used.qrCode');
+        Route::post('/fillTableQrCode',[Admin\QrCodeController::class,'fillTableQrCode'])->name('admin.qrCode.dataTables');
+        Route::post('/fillTableUsedQrCode',[Admin\QrCodeController::class,'fillTableUsedQrCode'])->name('admin.qrUsedCode.dataTables');
         Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
     });
 });

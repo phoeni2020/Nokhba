@@ -9,7 +9,7 @@ class QrCode extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code_text','code_url','lesson','used','student_id'];
+    protected $fillable = ['code_text','code_url','lesson','used','student_id','created_at','updated_at','valid_till'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -36,4 +36,7 @@ class QrCode extends Model
         return $this->hasOne(Teachers::class,'user_id','teacher_id');
     }
 
+    public function student(){
+        return $this->hasOne(User::class,'id','student_id');
+    }
 }

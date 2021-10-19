@@ -13,6 +13,10 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class QrCodeController extends Controller
 {
     use Teacher;
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function fillTableQrCode(){
 
         $authId = $this->getTeacherId();
@@ -48,6 +52,46 @@ class QrCodeController extends Controller
             ]);
         return $storeEventsData;
     }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function fillTableUsedQrCode(){
+
+        $authId = $this->getTeacherId();
+        //order column
+        $columnsOrder = request('order')[0]['column'];
+        $orderType = request('order')[0]['dir'];
+        $orderColumn = request('columns')[$columnsOrder]['data'];
+        /*======================================================================= */
+        $CoursesObject = qrModel::query()->where('used','=',1)
+            ->where('teacher_id','=',$authId['user_id']);
+        if (!empty(request('filter'))) {
+            $filterData = [];
+            parse_str(html_entity_decode(request('filter')), $filterData);
+            $this->filterData($filterData);
+            $CoursesObject->where($this->filterData);
+        }
+        /*======================================================================= */
+        // filtered data
+        $filteredDataCount = $CoursesObject->count();
+        /*======================================================================= */
+        $recordsTotal = qrModel::where('teacher_id','=',$authId['user_id'])->where('used','=',1)->count();
+        /*======================================================================= */
+        $CoursesObject->skip(request('start'))
+            ->take(request('length'))
+            ->orderBy($orderColumn, $orderType);
+        $storeEvents = $CoursesObject->get();
+        /*======================================================================= */
+        $storeEventsData = qrCodeResource::collection($storeEvents)
+            ->additional([
+                'draw' => intval(request('draw')),
+                'recordsTotal' => $recordsTotal,
+                'recordsFiltered' => $filteredDataCount,
+            ]);
+        return $storeEventsData;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -61,7 +105,7 @@ class QrCodeController extends Controller
         $lessonId = $request->lesson;
         foreach($qrCodes as $qrCode){
             $validatedData = Validator::make(
-                [$qrCode],
+                ['qrCode'=>$qrCode],
                 ['qrCode'=>'required|string|unique:qr_codes,code_text'],
                 [
                     'qrCode.unique'=>'There Is Duplicated QrCode Please Try Again',
@@ -79,53 +123,9 @@ class QrCodeController extends Controller
             $qrCodeObject = qrModel::create(
                 [
                     'code_text'=>$qrCode,'code_url'=>$pathUrl,
-                    'teacher_id'=>$authId,'lesson'=>$lessonId
+                    'teacher_id'=>$authId['user_id'],'lesson'=>$lessonId
                 ]);
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\QrCode  $qrCode
-     * @return \Illuminate\Http\Response
-     */
-    public function show(QrCode $qrCode)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\QrCode  $qrCode
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(QrCode $qrCode)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\QrCode  $qrCode
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, QrCode $qrCode)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\QrCode  $qrCode
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(QrCode $qrCode)
-    {
-        //
-    }
 }
