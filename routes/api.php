@@ -24,11 +24,13 @@ Route::prefix('v1')->group(function (){
     Route::prefix('teacher')->group(function (){
         Route::post('/index',[Api\teachersController::class,'index'])->middleware('auth:sanctum');
     });
+
     Route::prefix('category')->group(function (){
         Route::get('/{id}',[Api\CategoryController::class,'getCategories']);
     });
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
+
         Route::prefix('user')->group(function (){
             Route::get('/',[User\userController::class,'show']);
             Route::put('/completeData',[User\userController::class,'completeData']);
@@ -37,16 +39,23 @@ Route::prefix('v1')->group(function (){
             Route::delete('/destroy/{id}',[User\userController::class,'destroy']);
             Route::get('/logout',[User\userController::class,'logOut']);
         });
+
         Route::prefix('qrcode')->group(function (){
             Route::post('/',[Api\QrController::class,'index']);
             Route::post('/show',[Api\QrController::class,'showUpdate']);
         });
+
         Route::prefix('links')->group(function (){
             Route::get('/',[Api\QrController::class,'index']);
             Route::post('/show',[Api\QrController::class,'showUpdate']);
         });
+
         Route::prefix('follow')->group(function (){
             Route::post('/',[Api\FollowingController::class,'followUnfollow']);
+        });
+
+        Route::prefix('chat')->group(function (){
+            Route::post('/store/{teacher}',[Api\MassagesController::class,'store']);
         });
     });
 
