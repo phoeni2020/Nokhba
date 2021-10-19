@@ -38,9 +38,9 @@ class MassagesController extends Controller
                 'image'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000'
             ]);
             $student = $request->user();
-            $converstionId = Converstion::where('user_id','=',$student->id)->where('teahcer','=',$teacher->user_id)->get();
+            $converstionId = Converstion::where('user_id','=',$student->id)->where('teahcer','=',$teacher[0]->user_id)->get();
             $converstionId = empty($converstionId->all()) ?
-                Converstion::create(['user_id'=>$student->id,'teahcer'=>$teacher->user_id])->id : $converstionId[0]->id;
+                Converstion::create(['user_id'=>$student->id,'teahcer'=>$teacher[0]->user_id])->id : $converstionId[0]->id;
             $massage = Massge::create(
                 [
                     'massge'=>$request->massage??null,'attchment'=>$request->attchment??null,'user_id'=>$student->id,
