@@ -77,6 +77,7 @@
                             <span class="side-menu__label">الفيديوهات</span>
                         </a>
                     </li>
+{{--
 
                     <li class="slide">
                         <a class="side-menu__item" href="{{ url('/admin/' . $page='icons') }}">
@@ -270,6 +271,7 @@
 						</ul>
 					</li>
 				</ul>
+--}}
 			</div>
 		</aside>
 <!-- main-sidebar -->
