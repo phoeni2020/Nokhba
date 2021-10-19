@@ -1,35 +1,68 @@
-<!DOCTYPE html>
-<html>
+@extends('dashbord.layouts.master')
+@section('css')
+@endsection
 
-<head>
-    <meta charset="utf-8">
-    <title>Laravel Generate QR Code Examples</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-</head>
-
-<body>
-
-<div class="container mt-4">
-
-    <div class="card">
-        <div class="card-header">
-            <h2>Simple QR Code</h2>
+@section('page-header')
+    @php
+        $tableConfig = [
+            'filter'=>true,
+            'hasActions' => true,
+            'actionUrl'=>route('admin.catgory.dataTables'),
+            'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date','Actions'],
+            'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at','actions']),
+            'tableColumnsData'=> json_encode([
+                                                ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
+                                                ['data'=>'is_parent'],
+                                                ['data'=>'created_at'],['data'=>'updated_at'],
+                                                ['data'=>'actions','responsivePriority' => -1]
+            ]),
+        ];
+        $filterConfig = [
+            'inputs' => [
+                    ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],
+                ]
+        ];
+        $buttonsSettings = [
+            'add' => ['lable'=>'Add New Catgory','link'=>route('admin.catgory.create')]
+        ];
+    @endphp
+    <div class="container-fluid">
+        <div class="breadcrumb-header justify-content-between">
+            <div class="my-auto">
+                <div class="d-flex">
+                    <h4 class="content-title mb-0 my-auto">Catgories Page</h4>
+                </div>
+            </div>
+            <x-button-setting :buttonsSettings="$buttonsSettings"/>
         </div>
-        <div class="card-body">
-            {!! QrCode::size(300)->generate('1111') !!}
+        @if(Session::has('message'))
+            <p class="alert {{ Session::get('message_class', 'alert-success') }}">
+                {{ Session::get('message') }}
+            </p>
+        @endif
+        <div class="row row-sm">
+            <div class="col-xl-12">
+                <div class="card mg-b-20">
+                    <div class="card-body">
+                        <div class="main-content-label mg-b-5">
+                            <p class="label">
+                                Catgories DataTable
+                            </p>
+                        </div>
+                        <div class="text-wrap">
+                            <div class="example">
+                                <div class="panel panel-primary tabs-style-2">
+                                    <div class="table-responsive">
+                                        <x-table-filter :filterConfig="$filterConfig" />
+                                        <x-data-table :tableConfig="$tableConfig" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+@endsection
 
-    <div class="card">
-        <div class="card-header">
-            <h2>Color QR Code</h2>
-        </div>
-        <div class="card-body">
-            {!! QrCode::size(300)->backgroundColor(255,90,0)->generate('1111') !!}
-        </div>
-    </div>
-
-</div>
-</body>
-</html>

@@ -59,7 +59,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/store',[Admin\CatgoryController::class,'store'])->name('admin.catgory.store');
 
         Route::get('/edit/{category}',[Admin\CatgoryController::class,'edit'])->name('admin.category.edit');
-        Route::put('/update/{catgory}',[Admin\CatgoryController::class,'update'])->name('admin.category.update');
+        Route::put('/update/{catgory}',[Admin\CatgoryController::class,'update'])->name('admin.category.updateadmin.category.update');
         Route::delete('/delete/{category}',[Admin\CatgoryController::class,'destroy'])->name('admin.category.delete');
 
     });
@@ -91,6 +91,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group(['prefix'=>'qrcode'],function (){
         Route::view('/','dashbord.qrcode.index')->name('admin.qrcode.index');
         Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
+        Route::post('/fillTaleCourse',[Admin\QrCodeController::class,'fillTableQrCode'])->name('admin.lessons.dataTables');
         Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
     });
 });

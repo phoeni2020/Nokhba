@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\Teacher;
+use App\Http\Resources\qrCodeResource;
 use App\Models\QrCode as qrModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,41 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class QrCodeController extends Controller
 {
     use Teacher;
+    public function fillTableQrCode(){
+
+        $authId = $this->getTeacherId();
+        //order column
+        $columnsOrder = request('order')[0]['column'];
+        $orderType = request('order')[0]['dir'];
+        $orderColumn = request('columns')[$columnsOrder]['data'];
+        /*======================================================================= */
+        $CoursesObject = qrModel::query()->where('used','=',0)
+            ->where('teacher_id','=',$authId['user_id']);
+        if (!empty(request('filter'))) {
+            $filterData = [];
+            parse_str(html_entity_decode(request('filter')), $filterData);
+            $this->filterData($filterData);
+            $CoursesObject->where($this->filterData);
+        }
+        /*======================================================================= */
+        // filtered data
+        $filteredDataCount = $CoursesObject->count();
+        /*======================================================================= */
+        $recordsTotal = qrModel::where('teacher_id','=',$authId['user_id'])->where('used','=',0)->count();
+        /*======================================================================= */
+        $CoursesObject->skip(request('start'))
+            ->take(request('length'))
+            ->orderBy($orderColumn, $orderType);
+        $storeEvents = $CoursesObject->get();
+        /*======================================================================= */
+        $storeEventsData = qrCodeResource::collection($storeEvents)
+            ->additional([
+                'draw' => intval(request('draw')),
+                'recordsTotal' => $recordsTotal,
+                'recordsFiltered' => $filteredDataCount,
+            ]);
+        return $storeEventsData;
+    }
     /**
      * Store a newly created resource in storage.
      *
