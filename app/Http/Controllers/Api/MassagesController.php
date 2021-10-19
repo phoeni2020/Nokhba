@@ -28,7 +28,6 @@ class MassagesController extends Controller
      */
     public function store(Request $request,$teacher)
     {
-        try {
             $validatedData = Validator::make($request->all(),[
                 'image'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000'
             ]);
@@ -52,10 +51,8 @@ class MassagesController extends Controller
                 'date'=>$massage->created_at->format('Y-m-d H:i:s'),
             ];
             return response()->json($response,200);
-        }
-        catch (\Exception $e){
-            return response()->json(['error'=>'an error happened please try again'],500);
-        }
+
+
 
     }
 
