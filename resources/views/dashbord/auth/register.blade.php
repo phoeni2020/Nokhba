@@ -30,6 +30,7 @@
                                         <h2 class="text-primary">التسجيل</h2>
                                         <h5 class="font-weight-normal mb-4">
                                            تسجيل عضويه مدرس
+                                            <input class="form-control" type="radio" name="teacher">
                                         </h5>
                                         <form action="#">
                                             <div class="form-group">
