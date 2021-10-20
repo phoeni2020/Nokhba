@@ -8,7 +8,6 @@ use App\Models\Converstion;
 use App\Models\Massge;
 use App\Models\Teachers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class MassagesController extends Controller
@@ -21,47 +20,51 @@ class MassagesController extends Controller
      */
     public function index(Request $request, $teacher)
     {
-        $teacher = Teachers::where('user_id', $teacher)->get();
-        $user = $request->user();
-        if (empty($teacher->all())) {
-            return response()->json(['error' => 'That Teacher No Longer Exists'], 404);
-        }
-        $validatedData = $request->validate([
-            'requestOrder.order' => 'required|string',
-            'requestOrder.column' => 'required|string',
-            'requestOrder.length' => 'required|string',
-        ]);
-        //order column
-        $orderType = $validatedData['requestOrder']['order'];
-        $orderColumn = $validatedData['requestOrder']['column'];
-        $length = $validatedData['requestOrder']['length'];
-        /*======================================================================= */
-        $converstionObject = Converstion::query()
-            ->select(['converstion.id'])->where('user_id','=',$user->id)->get('id');
-        $CoursesObject = Massge::where('convsertion','=',$converstionObject[0]->id)
-            ->with('user');
+        try {
+            $teacher = Teachers::where('user_id', $teacher)->get();
+            $user = $request->user();
+            if (empty($teacher->all())) {
+                return response()->json(['error' => 'That Teacher No Longer Exists'], 404);
+            }
+            $validatedData = $request->validate([
+                'requestOrder.order' => 'required|string',
+                'requestOrder.column' => 'required|string',
+                'requestOrder.length' => 'required|string',
+            ]);
+            //order column
+            $orderType = $validatedData['requestOrder']['order'];
+            $orderColumn = $validatedData['requestOrder']['column'];
+            $length = $validatedData['requestOrder']['length'];
+            /*======================================================================= */
+            $converstionObject = Converstion::query()
+                ->select(['converstion.id'])->where('user_id','=',$user->id)->get('id');
+            $CoursesObject = Massge::where('convsertion','=',$converstionObject[0]->id)
+                ->with('user');
 
-        if (!empty(request('filter'))) {
-            $filterData = [];
-            parse_str(html_entity_decode(request('filter')), $filterData);
-            $this->filterData($filterData);
-            $CoursesObject->where($this->filterData);
+            if (!empty(request('filter'))) {
+                $filterData = [];
+                parse_str(html_entity_decode(request('filter')), $filterData);
+                $this->filterData($filterData);
+                $CoursesObject->where($this->filterData);
+            }
+            /*======================================================================= */
+            $recordsTotal = Massge::where('convsertion','=',$converstionObject[0]->id)->count();
+            /*======================================================================= */
+            if($recordsTotal == 0){
+                return response()->json(['count'=>0,'teachers'=>[]]);
+            }
+            $startFrom = request('requestOrder')['start'] * $length;
+            $CoursesObject->skip($startFrom)
+                ->take($length)
+                ->orderBy($orderColumn, $orderType);
+            $teachers = $CoursesObject->get()->all();
+            $teachersObject['count'] = $recordsTotal;
+            $teachersObject['massages'] = $teachers;
+            return response()->json($teachersObject);
         }
-        /*======================================================================= */
-        $recordsTotal = Massge::where('convsertion','=',$converstionObject[0]->id)->count();
-        /*======================================================================= */
-        if($recordsTotal == 0){
-            return response()->json(['count'=>0,'teachers'=>[]]);
+        catch (\Exception $e) {
+            return response()->json($e->getMessage());
         }
-        $startFrom = request('requestOrder')['start'] * $length;
-        $CoursesObject->skip($startFrom)
-            ->take($length)
-            ->orderBy($orderColumn, $orderType);
-        $teachers = $CoursesObject->get()->all();
-        $teachersObject['count'] = $recordsTotal;
-        $teachersObject['massages'] = $teachers;
-        return response()->json($teachersObject);
-
     }
 
     /**
@@ -80,8 +83,11 @@ class MassagesController extends Controller
             $validatedData = Validator::make($request->all(), [
                 'image' => 'mimes:jpg,jpeg,png,bmp,tiff|max:10000'
             ]);
-            $name = $this->imageBase64($request->image);
-            $imageUrl = asset('storage') . '/' . $name;
+            if(isset($request->image)&&!is_null($request->image)){
+                $name = $this->imageBase64($request->image);
+                $imageUrl = asset('storage') . '/' . $name;
+
+            }
             $student = $request->user();
             $converstionId = Converstion::where('user_id', '=', $student->id)->where('teahcer', '=', $teacher[0]->user_id)->get();
             $converstionId = empty($converstionId->all()) ?
@@ -104,7 +110,7 @@ class MassagesController extends Controller
             ];
             return response()->json($response, 200);
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
     }
