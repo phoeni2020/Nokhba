@@ -64,6 +64,23 @@ Route::group(['middleware'=>'auth'],function (){
 
     });
 
+    Route::group(['prefix'=>'exams'],function (){
+        Route::view('/','dashbord.exams.index')->name('admin.exam.index');
+        Route::post('/',[Admin\ExamController::class,'fillTableExams'])->name('admin.exam.index');
+        Route::group(['prefix'=>'question'],function (){
+               Route::view('/create','dashbord.exams.question.create')->name('admin.exam.question.create');
+        });
+    });
+
+    Route::group(['prefix'=>'qrcode'],function (){
+        Route::view('/','dashbord.qrcode.index')->name('admin.qrcode.index');
+        Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
+        Route::view('/used','dashbord.qrcode.used')->name('admin.used.qrCode');
+        Route::post('/fillTableQrCode',[Admin\QrCodeController::class,'fillTableQrCode'])->name('admin.qrCode.dataTables');
+        Route::post('/fillTableUsedQrCode',[Admin\QrCodeController::class,'fillTableUsedQrCode'])->name('admin.qrUsedCode.dataTables');
+        Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
+    });
+
     Route::group(['prefix'=>'attach'],function (){
         Route::view('/','dashbord.attach.index')->name('admin.attach.index');
         Route::view('/create','dashbord.attach.create')->name('admin.attach.create');
@@ -71,17 +88,6 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/fillTableAttachs',[Admin\AttchController::class,'fillTableAttachs'])->name('admin.attach.dataTables');
         Route::post('/fillAttchDropdown',[Admin\AttchController::class,'fillAttchDropdown'])->name('admin.attach.dropdown');
 
-    });
-
-    Route::group(['prefix'=>'teachers'],function (){
-        Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
-        Route::put('/update/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
-        Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
-    });
-
-    Route::group(['prefix'=>'about'],function (){
-        Route::view('/create','dashbord.about.create');
-        Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
     });
 
     Route::group(['prefix'=>'notifications'],function (){
@@ -98,13 +104,15 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/fillTableUsers',[Admin\usersController::class,'fillTableUser'])->name('admin.students.fillTableUser');
     });
 
-    Route::group(['prefix'=>'qrcode'],function (){
-        Route::view('/','dashbord.qrcode.index')->name('admin.qrcode.index');
-        Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
-        Route::view('/used','dashbord.qrcode.used')->name('admin.used.qrCode');
-        Route::post('/fillTableQrCode',[Admin\QrCodeController::class,'fillTableQrCode'])->name('admin.qrCode.dataTables');
-        Route::post('/fillTableUsedQrCode',[Admin\QrCodeController::class,'fillTableUsedQrCode'])->name('admin.qrUsedCode.dataTables');
-        Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
+    Route::group(['prefix'=>'teachers'],function (){
+        Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
+        Route::put('/update/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
+        Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
+    });
+
+    Route::group(['prefix'=>'about'],function (){
+        Route::view('/create','dashbord.about.create');
+        Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
     });
 });
 Route::get('/{page}',[\App\Http\Controllers\HomeController::class,'page']);
