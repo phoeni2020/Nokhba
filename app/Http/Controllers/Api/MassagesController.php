@@ -43,7 +43,7 @@ class MassagesController extends Controller
                 Converstion::create(['user_id'=>$student->id,'teahcer'=>$teacher[0]->user_id])->id : $converstionId[0]->id;
             $massage = Massge::create(
                 [
-                    'massge'=>$request->massage??null,'attchment'=>$request->attchment??null,'user_id'=>$student->id,
+                    'massge'=>$request->massage??null,'attchment'=>$request->image??null,'user_id'=>$student->id,
                     'convsertion'=>$converstionId
                 ]);
             $response = [
