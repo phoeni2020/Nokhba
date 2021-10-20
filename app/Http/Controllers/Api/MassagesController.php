@@ -83,7 +83,7 @@ class MassagesController extends Controller
             $validatedData = Validator::make($request->all(), [
                 'image' => 'mimes:jpg,jpeg,png,bmp,tiff|max:10000'
             ]);
-            if(isset($request->image)&&!is_null($request->image)){
+            if(isset($request->image)&&$request->image!='null'&&!empty($request->image)){
                 $name = $this->imageBase64($request->image);
                 $imageUrl = asset('storage') . '/' . $name;
 
