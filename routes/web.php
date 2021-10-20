@@ -66,7 +66,7 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group(['prefix'=>'exams'],function (){
         Route::view('/','dashbord.exams.index')->name('admin.exam.index');
-        Route::post('/',[Admin\ExamController::class,'fillTableExams'])->name('admin.exam.index');
+        Route::post('/fillTableExams',[Admin\ExamController::class,'fillTableExams'])->name('admin.exam.datatable');
         Route::group(['prefix'=>'question'],function (){
                Route::view('/create','dashbord.exams.question.create')->name('admin.exam.question.create');
         });

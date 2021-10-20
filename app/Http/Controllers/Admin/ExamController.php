@@ -8,6 +8,7 @@ use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\examResource;
 use App\Models\Exam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ExamController extends Controller
 {
@@ -17,8 +18,9 @@ class ExamController extends Controller
         $columnsOrder = request('order')[0]['column'];
         $orderType = request('order')[0]['dir'];
         $orderColumn = request('columns')[$columnsOrder]['data'];
+        $teahcer_id = $this->getTeacherId();
         /*======================================================================= */
-        $CoursesObject = Exam::query();
+        $CoursesObject = Exam::query()->where('teacher','=',$teahcer_id['user_id'])->with('student');
         if (!empty(request('filter'))) {
             $filterData = [];
             parse_str(html_entity_decode(request('filter')), $filterData);
@@ -29,7 +31,7 @@ class ExamController extends Controller
         // filtered data
         $filteredDataCount = $CoursesObject->count();
         /*======================================================================= */
-        $recordsTotal = Exam::count();
+        $recordsTotal = Exam::where('teacher','=',$teahcer_id['user_id'])->count();
         /*======================================================================= */
         $CoursesObject->skip(request('start'))
             ->take(request('length'))
@@ -44,14 +46,17 @@ class ExamController extends Controller
             ]);
         return $storeEventsData;
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function storeQuestion(Request $request)
     {
-        //
+        $validatedData = Validator::make($request->all(),[
+            'question'=>'',
+        ]);
     }
 
     /**

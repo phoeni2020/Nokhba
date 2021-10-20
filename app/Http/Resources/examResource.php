@@ -15,8 +15,10 @@ class examResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>'',
-            ''=>'',
+            'id'=>$this->id,
+            'grade'=>$this->grade,
+            'done'=>$this->is_done,
+            'student'=>$this->student->full_name
         ];
     }
 }

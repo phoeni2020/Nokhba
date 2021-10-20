@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li class="slide">
-                        <a class="side-menu__item" href="{{ route('admin.course.index') }}">
+                        <a class="side-menu__item" href="{{ route('admin.exam.index') }}">
                             <i class="fas fa-question side-menu__icon"></i>
                             <span class="side-menu__label">اﻻمتحانات</span>
                         </a>

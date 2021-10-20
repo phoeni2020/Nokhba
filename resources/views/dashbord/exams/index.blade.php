@@ -3,14 +3,16 @@
     @php
         $tableConfig = [
                 'filter'=>true,
-                'actionUrl'=>route('admin.students.fillTableUser'),
+                'actionUrl'=>route('admin.exam.datatable'),
                 'hasActions' => true,
-                'tableHeaed'=>['Id','Created At','Actions'],
-                'tableColumnsNames'=>json_encode(['id','created_at','actions']),
+                'tableHeaed'=>['Id','grade','done','student',],
+                'tableColumnsNames'=>json_encode(['id','grade','done','student']),
                 'tableColumnsData'=> json_encode([
                                                     ['data'=>'id'],
-                                                    ['data'=>'created_at'],
-                                                    ['data'=>'actions','responsivePriority' => -1]
+                                                    ['data'=>'grade'],
+                                                    ['data'=>'done'],
+                                                    ['data'=>'student'],
+                                                   // ['data'=>'actions','responsivePriority' => -1]
                                                  ]),
                 'tableColumnDefs' => [
                        'link'=>  [
