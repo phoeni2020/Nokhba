@@ -57,10 +57,21 @@ class MassagesController extends Controller
             $CoursesObject->skip($startFrom)
                 ->take($length)
                 ->orderBy($orderColumn, $orderType);
-            $teachers = $CoursesObject->get()->all();
-            $teachersObject['count'] = $recordsTotal;
-            $teachersObject['massages'] = $teachers;
-            return response()->json($teachersObject);
+            $massages = $CoursesObject->get()->all();
+            $index = 0;
+            $massagesObject =[];
+            foreach ($massages as $massage) {
+                $massagesObject['massages'][$index]['user']['id'] = $massage['user']['id'];
+                $massagesObject['massages'][$index]['user']['name'] = $massage['user']['fName'];
+                $massagesObject['massages'][$index]['user']['image'] = $massage['user']['image']??'';
+                $massagesObject['massages'][$index]['id'] = $massage['id'];
+                $massagesObject['massages'][$index]['message'] = $massage['massge'];
+                $massagesObject['massages'][$index]['attachment_image'] = $massage['attchment'];
+                $massagesObject['massages'][$index]['date'] = $massage['created_at'];
+                $index++;
+            }
+            $massagesObject['count'] = $recordsTotal;
+            return response()->json($massagesObject);
         }
         catch (\Exception $e) {
             return response()->json($e->getMessage());
