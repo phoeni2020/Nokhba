@@ -53,7 +53,8 @@ class MassagesController extends Controller
         if($recordsTotal == 0){
             return response()->json(['count'=>0,'teachers'=>[]]);
         }
-        $CoursesObject->skip(request('requestOrder')['start'])
+        $startFrom = request('requestOrder')['start'] * $length;
+        $CoursesObject->skip($startFrom)
             ->take($length)
             ->orderBy($orderColumn, $orderType);
         $teachers = $CoursesObject->get()->all();
