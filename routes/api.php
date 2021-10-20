@@ -56,6 +56,7 @@ Route::prefix('v1')->group(function (){
 
         Route::prefix('chat')->group(function (){
             Route::post('/store/{teacher}',[Api\MassagesController::class,'store']);
+            Route::post('/get/{teacher}',[Api\MassagesController::class,'index']);
         });
     });
 

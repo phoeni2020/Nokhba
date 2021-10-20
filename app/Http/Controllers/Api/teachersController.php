@@ -53,7 +53,6 @@ class teachersController extends Controller
         $teachersObject['count'] = $recordsTotal;
         $teachersObject['teachers'] = $teachers;
         return response()->json($teachersObject);
-
     }
 
     /**
