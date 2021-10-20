@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\triats;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 trait ImageUrl
@@ -16,6 +19,7 @@ trait ImageUrl
     }
 
     function uploadImage($image ,$thumbnail){
+
         $imageExt = time().$image->extension();
 
         $img = Image::make($image->path());
@@ -24,21 +28,27 @@ trait ImageUrl
 
             $img->resize(150, 150, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($destinationPath.$imageExt);
+            })->save($destinationPath.$imageExt.'.webp');
 
-            $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt;
+            $thumbnailsUrl = asset('/assets/img/thaumbnail').'/'.$imageExt.'.webp';
         }
 
         $destinationPath = public_path('assets/img/uploaded');
 
-        $image->move($destinationPath, $imageExt);
+        $image->move($destinationPath, $imageExt.'.webp');
 
-        $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt;
+        $imageUrl = asset('/assets/img/uploaded').'/'.$imageExt.'.webp';
 
         $response = [$imageUrl];
 
         isset($thumbnailsUrl) ? $response[] = $thumbnailsUrl : '';
 
         return $response;
+    }
+
+    function imageBase64($image){
+        $name =time();
+        Storage::disk('public')->put($name.'.webp', base64_decode($image));
+        return $name.'.webp';
     }
 }

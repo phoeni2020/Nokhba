@@ -7,7 +7,7 @@
         $tableConfig = [
             'filter'=>true,
             'hasActions' => true,
-            'actionUrl'=>route('admin.lessons.dataTables'),
+            'actionUrl'=>route('admin.course.dataTables'),
             'tableHeaed'=>['Id','Lesson Title','Description','Thumbnails','Created At','Updated Date','Actions'],
             'tableColumnsNames'=>json_encode(['id','title','description','img','created_at','updated_at','actions']),
             'tableColumnsData'=> json_encode([

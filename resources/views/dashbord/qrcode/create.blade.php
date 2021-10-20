@@ -91,7 +91,7 @@
             $('.lesson').select2({
                 placeholder: 'choose attachment',
                 ajax: {
-                    url: "{{route('admin.lessons.dropdown')}}",
+                    url: "{{route('admin.course.dropdown')}}",
                     type: "post",
                     dataType: 'json',
                     delay: 250,

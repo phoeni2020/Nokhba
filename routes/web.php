@@ -19,19 +19,48 @@ Auth::routes();
 
 Route::group(['middleware'=>'auth'],function (){
 
+    /**
+     * DashBoard Index
+     * Routes Ajax Request's
+     */
     Route::group(['prefix'=>'index'],function (){
         Route::view('/','dashbord.index')->name('admin.dashbord');
         Route::get('/getdata',[Admin\DashbordController::class,'index'])->name('admin.dashbord.getdata');
     });
 
+    /**
+     * Category Routes
+     * Add , Update ,Delete , View , DataTable
+     */
+    Route::group(['prefix'=>'category'],function (){
+        Route::view('/','dashbord.catgory.index')->name('admin.catgory.index');
+        Route::view('/create','dashbord.catgory.create')->name('admin.catgory.create');
+
+        Route::post('/fillTableCatgory',[Admin\CatgoryController::class,'fillTableCatgory'])->name('admin.catgory.dataTables');
+        Route::post('/fillCategoryDropdown',[Admin\CatgoryController::class,'fillCategoryDropdown'])->name('admin.catgory.dropdown');
+        Route::post('/store',[Admin\CatgoryController::class,'store'])->name('admin.catgory.store');
+
+        Route::get('/edit/{category}',[Admin\CatgoryController::class,'edit'])->name('admin.category.edit');
+        Route::put('/update/{catgory}',[Admin\CatgoryController::class,'update'])->name('admin.category.update');
+        Route::delete('/delete/{category}',[Admin\CatgoryController::class,'destroy'])->name('admin.category.delete');
+
+    });
+
+    /**
+     * Course Routes
+     * Add , Update ,Delete , View , DataTable
+     */
     Route::group(['prefix'=>'course'],function (){
         Route::view('/','dashbord.courses.index')->name('admin.course.index');
-        Route::view('/create','dashbord.courses.create')->name('admin.course.create');
-        Route::get('/edit/{course}',[Admin\CourseController::class,'edit'])->name('admin.course.edit');
-        Route::put('/update/{course}',[Admin\CourseController::class,'update'])->name('admin.course.update');
-        Route::delete('/delete/{course}',[Admin\CourseController::class,'destroy'])->name('admin.course.delete');
-        Route::post('/store',[Admin\CourseController::class,'store'])->name('admin.course.store');
-        Route::post('/fillTableCourse',[Admin\CourseController::class,'fillTableCourses'])->name('admin.course.dataTables');
+        Route::view('create','dashbord.courses.create')->name('admin.course.create');
+
+        Route::post('store',[Admin\CourseController::class,'store'])->name('admin.course.store');
+        Route::post('fillTableCourse',[Admin\CourseController::class,'fillTableCourses'])->name('admin.course.dataTables');
+        Route::post('/fillQrCodeDropdown',[Admin\CourseController::class,'fillCourseDropdown'])->name('admin.course.dropdown');
+
+        Route::get('edit/{course}',[Admin\CourseController::class,'edit'])->name('admin.course.edit');
+        Route::put('update/{course}',[Admin\CourseController::class,'update'])->name('admin.course.update');
+        Route::delete('delete/{course}',[Admin\CourseController::class,'destroy'])->name('admin.course.delete');
 
     });
 
@@ -48,20 +77,6 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
         Route::put('/update/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
         Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
-    });
-
-    Route::group(['prefix'=>'category'],function (){
-        Route::view('/','dashbord.catgory.index')->name('admin.catgory.index');
-        Route::view('/create','dashbord.catgory.create')->name('admin.catgory.create');
-
-        Route::post('/fillTableCatgory',[Admin\CatgoryController::class,'fillTableCatgory'])->name('admin.catgory.dataTables');
-        Route::post('/fillCategoryDropdown',[Admin\CatgoryController::class,'fillCategoryDropdown'])->name('admin.catgory.dropdown');
-        Route::post('/store',[Admin\CatgoryController::class,'store'])->name('admin.catgory.store');
-
-        Route::get('/edit/{category}',[Admin\CatgoryController::class,'edit'])->name('admin.category.edit');
-        Route::put('/update/{catgory}',[Admin\CatgoryController::class,'update'])->name('admin.category.update');
-        Route::delete('/delete/{category}',[Admin\CatgoryController::class,'destroy'])->name('admin.category.delete');
-
     });
 
     Route::group(['prefix'=>'about'],function (){
@@ -81,14 +96,6 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/view/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.view');
         Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.students.ajax.getuser');
         Route::post('/fillTableUsers',[Admin\usersController::class,'fillTableUser'])->name('admin.students.fillTableUser');
-    });
-
-    Route::group(['prefix'=>'lessons'],function (){
-        Route::view('/','dashbord.lessons.index')->name('admin.lessons.index');
-        Route::view('/create','dashbord.lessons.create')->name('admin.lessons.create');
-        Route::post('/fillTaleCourse',[Admin\CourseController::class,'fillTableCourses'])->name('admin.lessons.dataTables');
-        Route::post('/fillQrCodeDropdown',[Admin\CourseController::class,'fillCourseDropdown'])->name('admin.lessons.dropdown');
-
     });
 
     Route::group(['prefix'=>'qrcode'],function (){

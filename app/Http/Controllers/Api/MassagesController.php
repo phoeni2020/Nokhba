@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\ImageUrl;
 use App\Models\Converstion;
 use App\Models\Massge;
 use App\Models\Teachers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class MassagesController extends Controller
 {
+    use ImageUrl;
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +32,7 @@ class MassagesController extends Controller
      */
     public function store(Request $request,$teacher)
     {
-        try {
+
             $teacher = Teachers::where('user_id',$teacher)->get();
             if(empty($teacher->all())){
                 return response()->json(['error'=>'That Teacher No Longer Exists'],404);
@@ -37,31 +40,29 @@ class MassagesController extends Controller
             $validatedData = Validator::make($request->all(),[
                 'image'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000'
             ]);
+            $name = $this->imageBase64($request->image);
+            $imageUrl =  asset('storage').'/'.$name;
             $student = $request->user();
             $converstionId = Converstion::where('user_id','=',$student->id)->where('teahcer','=',$teacher[0]->user_id)->get();
             $converstionId = empty($converstionId->all()) ?
                 Converstion::create(['user_id'=>$student->id,'teahcer'=>$teacher[0]->user_id])->id : $converstionId[0]->id;
             $massage = Massge::create(
                 [
-                    'massge'=>$request->massage??null,'attchment'=>$request->image??null,'user_id'=>$student->id,
+                    'massge'=>$request->massage??null,'attchment'=>$imageUrl??null,'user_id'=>$student->id,
                     'convsertion'=>$converstionId
                 ]);
             $response = [
                 'user'=>[
                     'id'=>$student->id,
                     'name'=>$student->fullname(),
-                    'image'=>''
+                    'image'=>$imageUrl??''
                 ],
                 'id'=>$massage->id,
                 'message'=>$request->massage??'',
-                'attachment_image'=>$request->image ?? '',
+                'attachment_image'=>$imageUrl ?? '',
                 'date'=>$massage->created_at->format('Y-m-d H:i:s'),
             ];
             return response()->json($response,200);
-        }
-        catch (\Exception $e){
-            return response()->json(['error'=>'an error happened please try again'],500);
-        }
 
     }
 
