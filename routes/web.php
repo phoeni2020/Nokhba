@@ -68,7 +68,12 @@ Route::group(['middleware'=>'auth'],function (){
         Route::view('/','dashbord.exams.index')->name('admin.exam.index');
         Route::post('/fillTableExams',[Admin\ExamController::class,'fillTableExams'])->name('admin.exam.datatable');
         Route::group(['prefix'=>'question'],function (){
+               Route::view('/','dashbord.exams.question.index')->name('admin.exam.question.index');
                Route::view('/create','dashbord.exams.question.create')->name('admin.exam.question.create');
+               Route::post('/post',[Admin\ExamController::class,'store'])->name('admin.exam.question.store');
+               Route::post('/fillTableExams',[Admin\ExamController::class,'fillTableQuestion'])->name('admin.exam.question.fillTableQuestion');
+               Route::get('/edit/{question}',[Admin\ExamController::class,'edit'])->name('admin.exam.question.edit');
+               Route::put('/update/{question}',[Admin\ExamController::class,'update'])->name('admin.exam.question.update');
         });
     });
 

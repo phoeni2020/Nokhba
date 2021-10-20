@@ -4,34 +4,21 @@
         $tableConfig = [
                 'filter'=>true,
                 'actionUrl'=>route('admin.exam.datatable'),
-                'hasActions' => true,
-                'tableHeaed'=>['Id','grade','done','student',],
+                //'hasActions' => true,
+                'tableHeaed'=>['Id','grade','done','student'],
                 'tableColumnsNames'=>json_encode(['id','grade','done','student']),
                 'tableColumnsData'=> json_encode([
-                                                    ['data'=>'id'],
-                                                    ['data'=>'grade'],
-                                                    ['data'=>'done'],
-                                                    ['data'=>'student'],
+                                                    ['data'=>'id'],['data'=>'grade'],
+                                                    ['data'=>'done'],['data'=>'student'],
                                                    // ['data'=>'actions','responsivePriority' => -1]
                                                  ]),
-                'tableColumnDefs' => [
-                       'link'=>  [
-                                        ['targets' => 1, 'orderable' => "true", 'column'=>'name', 'link'=>'#']
-                                  ]],
-                'customActions' => json_encode([[
-                    'linkColumn' => 'showStudent','attributes'=> "class='showData modal-effect btn btn-sm btn-clean btn-icon'
-                                                               title='add product details'
-                                                               data-toggle='modal'
-                                                               data-target='#modaldemo8'
-                                                               data-effect='effect-super-scaled'
-                                                               ",'icon'=>"fas fa-cog"],])
             ];
         $filterConfig = ['inputs' => [
                     ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],
                 ]
         ];
         $buttonsSettings = [
-        'add' => ['lable'=>'Add New Catgory','link'=>route('admin.catgory.create')]
+            'add' => ['lable'=>'Add New Catgory','link'=>route('admin.exam.question.index')]
         ];
     @endphp
     <div class="container-fluid">
