@@ -124,7 +124,7 @@
                                                 </div>
                                                 <div class="col-lg-3 mg-t-2 mg-md-t-0">
                                                     <select class="js-example-basic-single form-control category" name="parent" >
-                                                        @if($catgory['is_parent'] != 0 )
+                                                        @if($catgory['is_parent'] != 0 &&$catgory['parent'] !=0 )
                                                             <option value="{{$catgory['parent']}}">{{$catgory->parentCategories->name}}</option>
                                                         @endif
                                                     </select>
@@ -143,7 +143,7 @@
                                                     <label class="form-label mg-b-0">Is Parent</label>
                                                 </div>
                                                 <div class="col-md-3 mg-t-2 mg-md-t-0">
-                                                    <input type="checkbox" name="is_parent" {{$catgory['is_parent']==1?'checked':''}} >
+                                                    <input type="checkbox" name="is_parent" {{$catgory['is_parent']==1 && $catgory['main'] !=0 ?'checked':''}} >
                                                 </div>
                                                 <div class="col-md-6 mg-t-2 mg-md-t-0">
                                                     <p>
