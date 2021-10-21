@@ -13,4 +13,7 @@ class Exam extends Model
     public function student(){
         return $this->hasOne(UserView::class,'id','user_id');
     }
+    public function lesson(){
+        return $this->belongsTo(Course::class,'course','id');
+    }
 }
