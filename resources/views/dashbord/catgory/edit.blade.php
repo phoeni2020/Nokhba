@@ -103,7 +103,7 @@
                                                 <div class="col-lg-3 mg-t-2 mg-md-t-0"
                                                 >
                                                     <select class="js-example-basic-single form-control category" name="main_cat" id="main">
-                                                            @if($catgory['is_parent'] == 1  && $catgory['main'] == 0 && $catgory['parent'] == 0)
+                                                            @if($catgory['is_parent'] == 1  && $catgory['main'] != 0)
                                                                 <option value="{{$catgory['main']}}">{{$catgory->mainCategories->name}}</option>
                                                             @endif
                                                     </select>
