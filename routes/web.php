@@ -18,6 +18,7 @@ use \App\Http\Controllers\Admin;
 Auth::routes();
 
 Route::group(['middleware'=>'auth'],function (){
+    Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout');
 
     /**
      * DashBoard Index
