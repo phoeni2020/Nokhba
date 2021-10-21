@@ -268,16 +268,24 @@
 --}}
                     @if($user->role == 'admin')
                         <li class="slide">
-                            <a class="side-menu__item" href="{{ route('admin.add.assitant') }}">
-                                <i class="fas fa-user-plus side-menu__icon"></i>
-                                <span class="side-menu__label">اضافه مساعدين</span>
-                            </a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" href="{{ route('admin.teachers.settings') }}">
+                            <a class="side-menu__item" data-toggle="slide" href="#">
                                 <i class="fas fa-cogs side-menu__icon"></i>
-                                <span class="side-menu__label">اعدادت اﻻستاذ</span>
+                                <span class="side-menu__label">اعدادت اﻻستاذ</span><i class="angle fe fe-chevron-down"></i>
                             </a>
+                            <ul class="slide-menu">
+                                <li>
+                                    <a class="slide-item" href="{{ route('admin.add.assitant') }}">
+                                        <i class="fas fa-user-plus"></i>
+                                        اضافه المساعدين
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="slide-item" href="{{ route('admin.teachers.settings') }}">
+                                        <i class="fas fa-cogs side-menu__icon"></i>
+                                        اعدادت اﻻستاذ
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     @elseif($user->role == 'moderator')
                         <li class="slide">

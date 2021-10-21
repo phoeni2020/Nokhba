@@ -81,8 +81,8 @@ class CatgoryController extends Controller
         $validatedData = Validator::make(
             $request->all(),
             [
-                'name' => 'required|string|min:3',
-                'desc' => 'required|string|min:8',
+                'name' => 'required|string|min:3|max:15',
+                'desc' => 'required|string|min:8|max:250',
                 'img' => 'required|mimes:jpg,jpeg,png,bmp,tiff|max:10000',
             ],
             [
