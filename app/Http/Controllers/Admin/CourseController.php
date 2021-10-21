@@ -74,6 +74,7 @@ class CourseController extends Controller
             (!empty($value)) ? array_push($this->filterData, ["$key", 'LIKE', "%$value%"]) : '';
         }
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -140,8 +141,10 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
+        $vedio = empty(json_decode($course->vedio,true))?array() : json_decode($course->vedio,true) ;
+
         try {
-            return view('dashbord.courses.edit',['course' => $course,'vedios'=>json_decode($course->vedio)]);
+            return view('dashbord.courses.edit',['course' => $course,'vedios'=>json_decode($vedio,true)]);
         }
         catch (\Exception $e){
             return redirect()->back()->with(['errorMessage'=>'Error Happend']);
