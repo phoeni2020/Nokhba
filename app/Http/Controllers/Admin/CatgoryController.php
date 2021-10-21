@@ -318,8 +318,9 @@ class CatgoryController extends Controller
      * @param  \App\Models\Catgory  $catgory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Catgory $catgory)
+    public function destroy(Catgory $category)
     {
-        //
+        $category->delete();
+        return redirect()->back()->with(['errorMessage'=>'Catgory Deleted']);
     }
 }

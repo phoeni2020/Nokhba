@@ -9,6 +9,7 @@ class Teachers extends Model
 {
     use HasFactory;
     protected $casts =['id'=>'integer','user_id'=>'integer'];
+    protected $fillable =['user_id'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

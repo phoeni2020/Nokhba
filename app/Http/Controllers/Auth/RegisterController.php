@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Teachers;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -50,7 +51,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'fName' => ['required', 'string', 'max:255'],
+            'mName' => ['required', 'string', 'max:255'],
+            'lName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -64,10 +67,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user = User::create([
+            'fName' => $data['fName'],
+            'mName' => $data['mName'],
+            'lName' => $data['lName'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'is_admin' => 1,
         ]);
+        Teachers::create(['user_id'=>$user->id]);
+        return $user;
     }
 }

@@ -27,33 +27,63 @@
                                          <img src="{{URL::asset('assets/img/brand/BeFunky-design.png')}}"class="sign-favicon ht-70" alt="logo">
                                     </div>
                                     <div class="main-signup-header">
-                                        <h2 class="text-primary">التسجيل</h2>
                                         <h5 class="font-weight-normal mb-4">
                                            تسجيل عضويه مدرس
-                                            <input class="form-control" type="radio" name="teacher">
                                         </h5>
-                                        <form action="#">
+                                        @if($errors->any())
+                                            <div class="alert alert-custom alert-notice alert-danger fade show mb-5" role="alert">
+                                                <div class="alert-icon">
+                                                    <i class="flaticon-warning"></i>
+                                                </div>
+
+                                                {!! implode('', $errors->all('<div class="alert-text">:message</div>')) !!}
+
+                                                <div class="alert-close">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">
+                                    <i class="ki ki-close"></i>
+                                </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <form method="post" action="{{route('register')}}">
+                                            @csrf
                                             <div class="form-group">
                                                 <label>Firstname</label>
-                                                <input class="form-control" placeholder="Enter your firstname " type="text">
+                                                <span style="color:red;">*</span>
+                                                <input class="form-control" placeholder="Enter your firstname " name="fName" required type="text">
                                             </div>
                                             <div class="form-group">
                                                 <label>Middle Name</label>
-                                                <input class="form-control" placeholder="Enter your firstname " type="text">
+                                                <span style="color:red;">*</span>
+                                                <input class="form-control" placeholder="Enter your Middle Name" name="mName" required type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Last Name</label>
+                                                <span style="color:red;">*</span>
+                                                <input class="form-control" placeholder="Enter your Last Name" name="lName" required type="text">
                                             </div>
                                             <div class="form-group">
                                                 <label>Email</label>
-                                                <input class="form-control" placeholder="Enter your email" type="text">
+                                                <span style="color:red;">*</span>
+                                                <input class="form-control" placeholder="Enter your email" name="email" required type="email">
                                             </div>
                                             <div class="form-group">
                                                 <label>Password</label>
-                                                <input class="form-control"placeholder="Enter your password" type="password">
+                                                <span style="color:red;">*</span>
+                                                <input class="form-control" name="password" placeholder="Enter your password" required type="password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Confirm Password</label>
+                                                <span style="color:red;">*</span>
+                                                <input class="form-control" name="password_confirmation" type="password" required placeholder="Confirm Your Password">
                                             </div>
                                             <button class="btn btn-main-primary btn-block">Create Account</button>
                                         </form>
                                         <div class="main-signup-footer mt-5">
                                             <p>Already have an account?
-                                                <a href="{{ url('/' . $page='signin') }}">SignIn</a>
+                                                <a href="{{ url('/signin') }}">SignIn</a>
                                             </p>
                                         </div>
                                     </div>
@@ -68,4 +98,5 @@
     </div>
 @endsection
 @section('js')
+
 @endsection

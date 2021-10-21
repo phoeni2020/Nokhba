@@ -120,4 +120,5 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
     });
 });
+
 Route::get('/{page}',[\App\Http\Controllers\HomeController::class,'page']);

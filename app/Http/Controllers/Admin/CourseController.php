@@ -165,13 +165,10 @@ class CourseController extends Controller
                 'title'=>'required|string|min:5',
                 'description'=>'required|string|min:5',
                 'category_id'=>'required',
-                'attch.*'=>'required|string',
-                'vedios.*.url'=>'required|string|url',
-                'vedios.*.desc'=>'required|string|min:10',
             ],
         );
 
-        $data = $validatedData->validated();
+         $validatedData->validated();
 
         if($request->has('img')){
             $image = $request->file('img');
@@ -192,17 +189,19 @@ class CourseController extends Controller
         }
 
         $id =$this->getTeacherId();
-
+        $data = $request->all();
+        $vedio = isset($data['vedios'])&&!empty($data['vedios']) ? json_encode($data['vedios']):array();
         $course->title = $data['title'];
         $course->description = $data['description'];
-        $course->vedio = json_encode($data['vedios']);
+        $course->vedio = $vedio;
         $course->category_id = $data['category_id'];
         $course->save();
-
-        foreach ($data['attch'] as $attch ){
-            $attchObject = Attch::find($attch);
-            $attchObject->lesson_id = $course->id;
-            $attchObject->save();
+        if(isset($data['attch'])){
+            foreach ($data['attch'] as $attch ){
+                $attchObject = Attch::find($attch);
+                $attchObject->lesson_id = $course->id;
+                $attchObject->save();
+            }
         }
 
         return redirect()->route('admin.course.index')->with(['message'=>'Course Updated']);

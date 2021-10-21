@@ -132,9 +132,7 @@
                                                         </div>
                                                         <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                             <p>
-                                                                لازم يكون لينك لفيديو او لينك لـpdf
-                                                                مثلا زي كدا :-
-                                                                https://www.youtube.com/watch?v=0GwYU6xaTcU
+                                                             هنا بتختار الملفات المرفقه مع الدرس زي الـpdf او الصور
                                                             </p>
                                                         </div>
                                                     </div>
@@ -143,11 +141,6 @@
                                             <div class="row row-sm mb-5">
                                                 <div class="col-md-6 mg-t-2 mg-md-t-0">
                                                     <button class="btn btn-primary attchButton" type="button" data-acount="{{$index ?? 0}}" >Add More</button>
-                                                </div>
-                                                <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                    <p>
-                                                        هذا يعني ان هذا التصنيف تصنيف رئيسي يظهر في شاشه المدرس في التطبيق
-                                                    </p>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -162,11 +155,11 @@
                                                         <label class="form-label mg-b-0">Vedio Link</label>
                                                     </div>
                                                     <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                        <input class="form-control attchUrl" type="text" name="vedios[{{$loop->index}}][url]" value="{{$vedio->url}}" >
+                                                        <input class="form-control attchUrl" type="text" name="vedios[{{$loop->index}}][url]" value="{{$vedio['url']}}" >
                                                     </div>
                                                     <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                         <p>
-                                                            لازم يكون لينك لفيديو او لينك لـpdf
+                                                            لازم يكون لينك لفيديو
                                                             مثلا زي كدا :-
                                                             https://www.youtube.com/watch?v=0GwYU6xaTcU
                                                         </p>
@@ -178,13 +171,11 @@
                                                         <label class="form-label mg-b-0">Description</label>
                                                     </div>
                                                     <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                        <input class="form-control attachDesc" type="text" name="vedios[{{$loop->index}}][desc]" value="{{$vedio->desc}}" >
+                                                        <input class="form-control attachDesc" type="text" name="vedios[{{$loop->index}}][desc]" value="{{$vedio['desc']}}" >
                                                     </div>
                                                     <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                         <p>
-                                                            لازم يكون لينك لفيديو او لينك لـpdf
-                                                            مثلا زي كدا :-
-                                                            https://www.youtube.com/watch?v=0GwYU6xaTcU
+                                                          هنا بتكتب الوصف الخاص بكل فيديو من الفيديوهات
                                                         </p>
                                                     </div>
                                                 </div>
@@ -201,7 +192,7 @@
                                                         </div>
                                                         <div class="col-md-3 mg-t-2 mg-md-t-0">
                                                             <p>
-                                                                لازم يكون لينك لفيديو او لينك لـpdf
+                                                                لازم يكون لينك لفيديو
                                                                 مثلا زي كدا :-
                                                                 https://www.youtube.com/watch?v=0GwYU6xaTcU
                                                             </p>
@@ -230,14 +221,9 @@
                                             <div class="col-md-6 mg-t-2 mg-md-t-0">
                                                 <button class="btn btn-primary vedioButton" type="button" data-acount="0" >Add More</button>
                                             </div>
-                                            <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                <p>
-                                                    هذا يعني ان هذا التصنيف تصنيف رئيسي يظهر في شاشه المدرس في التطبيق
-                                                </p>
-                                            </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">Register</button>
+                                    <button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">submit</button>
                                     <button class="btn btn-dark pd-x-30 mg-t-5">Cancel</button>
                                 </div>
                             </div>
