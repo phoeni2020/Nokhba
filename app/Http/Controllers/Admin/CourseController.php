@@ -147,7 +147,7 @@ class CourseController extends Controller
             return view('dashbord.courses.edit',['course' => $course,'vedios'=>json_decode($vedio,true)]);
         }
         catch (\Exception $e){
-            return redirect()->back()->with(['errorMessage'=>'Error Happend']);
+            return redirect()->back()->with(['errorMessage'=>$e->getMessage()]);
         }
     }
 
