@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class Notifaction extends Model
 {
     use HasFactory,HasTimestamps;
-    protected $fillable =['body'];
+    protected $fillable =['body','user_id'];
 }

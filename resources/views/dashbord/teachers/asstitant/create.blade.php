@@ -13,7 +13,7 @@
         <div class="breadcrumb-header justify-content-between">
             <div class="my-auto">
                 <div class="d-flex">
-                    <h4 class="content-title mb-0 my-auto">Create Catgory</h4>
+                    <h4 class="content-title mb-0 my-auto">Add New Asstitant</h4>
                 </div>
             </div>
         </div>
@@ -38,48 +38,84 @@
                         </div>
                     @endif
                     <div class="card">
-                        <form action="{{route('admin.teachers.update',$id)}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('admin.store.assitant')}}" method="post" >
                             @csrf
-                            @method('PUT')
                             <div class="card-body">
-                                <h3 class="mg-b-20">Information About Teacher</h3>
+                                <h3 class="mg-b-20">Information About Asstitant</h3>
                                 <div class="pd-30 pd-sm-40 bg-gray-200">
+                                    {{-- fName Input --}}
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
-                                            <label class="form-label mg-b-0">Subject Title</label>
+                                            <label class="form-label mg-b-0">First Name</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input class="form-control" placeholder="Enter Subject Name" value="{{$teacher->subject??''}}" name="subject" type="text">
+                                            <input class="form-control" required placeholder="Enter First Name"  name="fName" type="text">
                                         </div>
                                     </div>
+                                    {{-- mName Input --}}
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
-                                            <label class="form-label mg-b-0">Short Description</label>
+                                            <label class="form-label mg-b-0">Middle Name</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input class="form-control" placeholder="Enter Short Description" value="{{$teacher->short_description??''}}" name="short_description" type="text">                                        </div>
-                                    </div>
-                                    <div class="row row-xs align-items-center mg-b-20">
-                                        <div class="col-md-4">
-                                            <label class="form-label mg-b-0">Long Description</label>
-                                        </div>
-                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <textarea class="form-control" name="long_description" id="" cols="30" rows="10">{{$teacher->long_description??''}}</textarea>
+                                            <input class="form-control" required placeholder="Enter Middle Name"  name="mName" type="text">
                                         </div>
                                     </div>
+                                    {{-- lName Input --}}
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
-                                            <label class="form-label mg-b-0">Video Url</label>
+                                            <label class="form-label mg-b-0">Last Name</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input class="form-control" placeholder="Enter Video Url" value="{{$teacher->vedio??''}}" name="video" type="url">                                        </div>
+                                            <input class="form-control" required placeholder="Enter Last Name"  name="lName" type="text">
+                                        </div>
                                     </div>
+                                    {{-- Email Input --}}
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
-                                            <label class="form-label mg-b-0">Image For Banner</label>
+                                            <label class="form-label mg-b-0">E-mail</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input type="file" name="image" class="dropify" data-height="200" />
+                                            <input class="form-control" required placeholder="Enter E-mail"  name="email" type="email">
+                                        </div>
+                                    </div>
+                                    {{-- Confirm Email Input --}}
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-4">
+                                            <label class="form-label mg-b-0">Confirm E-mail</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <input class="form-control" required placeholder="Confirm E-mail"  name="email_confirmation" type="email">
+                                        </div>
+                                    </div>
+                                    {{-- Password Input --}}
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-4">
+                                            <label class="form-label mg-b-0">Password</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <input class="form-control" required placeholder="Enter Password"  name="password" type="password">
+                                        </div>
+                                    </div>
+                                    {{-- Confirm Password Input --}}
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-4">
+                                            <label class="form-label mg-b-0">Confirm Password</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <input class="form-control" required placeholder="Confirm Password"  name="password_confirmation" type="password">
+                                        </div>
+                                    </div>
+                                    {{-- Role Input --}}
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-4">
+                                            <label class="form-label mg-b-0">Role</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <select class="js-example-basic-single form-control category" name="role">
+                                                <option value="moderator">Moderator</option>
+                                                <option value="assitant">Asstitant</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +128,8 @@
                                         <button class="btn btn-dark pd-x-30 mg-t-5" type="button">
                                             Cancel
                                         </button>
-                                    </a>                                </div>
+                                    </a>
+                                </div>
                             </div>
                         </form>
                     </div>

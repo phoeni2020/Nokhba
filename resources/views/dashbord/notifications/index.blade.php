@@ -6,21 +6,29 @@
     @php
         $tableConfig = [
             'filter'=>true,
-            'actionUrl'=>route('admin.catgory.dataTables'),
-            'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date'],
-            'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at']),
+            'actionUrl'=>route('admin.notifications.fillTableNotifications'),
+            'tableHeaed'=>['Id','Title','Image','Thaumbnail','actionName','actionUrl'],
+            'tableColumnsNames'=>json_encode(['id','title','img','thaumbnail','actionName','actionUrl']),
             'tableColumnsData'=> json_encode([
-                                                ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
-                                                ['data'=>'is_parent'],
-                                                ['data'=>'created_at'],['data'=>'updated_at'],
+                                                ['data'=>'id'],['data'=>'title'],['data'=>'img'],['data'=>'thaumbnail'],
+                                                ['data'=>'actionName'],
+                                                ['data'=>'actionUrl'],
                                              ]),
-        ];
+            'tableColumnDefs' => [
+                  'image'=>  [
+                                    ['targets' => 2, 'orderable' => "true", 'column'=>'img', 'link'=>'#'],
+                                    ['targets' => 3, 'orderable' => "true", 'column'=>'thaumbnail', 'link'=>'#'],
+                              ],
+                  'link'=>  [
+                            ['targets' => 5, 'orderable' => "true", 'column'=>'actionUrl', 'link'=>'actionUrl']
+                      ]
+                              ],];
         $filterConfig = ['inputs' => [
                     ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],
                 ]
         ];
         $buttonsSettings = [
-        'add' => ['lable'=>'Add New Catgory','link'=>route('admin.notifications.create')]
+            'add' => ['lable'=>'Add New Catgory','link'=>route('admin.notifications.create')]
         ];
     @endphp
     <div class="container-fluid">
@@ -35,6 +43,10 @@
         @if(Session::has('message'))
             <p class="alert {{ Session::get('message_class', 'alert-success') }}">
                 {{ Session::get('message') }}
+            </p>
+        @elseif(Session::has('errorMessage'))
+            <p class="alert {{ Session::get('message_class', 'alert-danger')}}">
+                {{ Session::get('errorMessage') }}
             </p>
         @endif
         <div class="row row-sm">

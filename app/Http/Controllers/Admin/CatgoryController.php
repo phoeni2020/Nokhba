@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\ImageUrl;
+use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\catgoryResource;
 use App\Models\Catgory;
 use Illuminate\Http\Request;
@@ -12,18 +13,19 @@ use Intervention\Image\Facades\Image;
 class CatgoryController extends Controller
 {
     private $filterData =[];
-    use ImageUrl;
+    use ImageUrl,Teacher;
     /**
     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     */
     public function fillTableCatgory()
     {
+        $teacher = $this->getTeacherId();
         //order column
         $columnsOrder = request('order')[0]['column'];
         $orderType = request('order')[0]['dir'];
         $orderColumn = request('columns')[$columnsOrder]['data'];
         /*======================================================================= */
-        $CoursesObject = Catgory::query();
+        $CoursesObject = Catgory::where('user_id','=',$teacher['user_id']);
         if (!empty(request('filter'))) {
             $filterData = [];
             parse_str(html_entity_decode(request('filter')), $filterData);
@@ -34,7 +36,7 @@ class CatgoryController extends Controller
         // filtered data
         $filteredDataCount = $CoursesObject->count();
         /*======================================================================= */
-        $recordsTotal = Catgory::count();
+        $recordsTotal = Catgory::where('user_id','=',$teacher['user_id'])->count();
         /*======================================================================= */
         $CoursesObject->skip(request('start'))
             ->take(request('length'))

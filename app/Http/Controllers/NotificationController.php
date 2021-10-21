@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\triats\ImageUrl;
+use App\Http\Controllers\triats\Teacher;
+use App\Http\Resources\notificationResource;
 use App\Models\Notifaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -9,24 +12,44 @@ use Intervention\Image\Facades\Image;
 
 class NotificationController extends Controller
 {
+    private $filterData =[];
+    use ImageUrl,Teacher;
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function fillTableNotifications()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $teacher = $this->getTeacherId();
+        //order column
+        $columnsOrder = request('order')[0]['column'];
+        $orderType = request('order')[0]['dir'];
+        $orderColumn = request('columns')[$columnsOrder]['data'];
+        /*======================================================================= */
+        $CoursesObject = Notifaction::where('user_id','=',$teacher['user_id']);
+        if (!empty(request('filter'))) {
+            $filterData = [];
+            parse_str(html_entity_decode(request('filter')), $filterData);
+            $this->filterData($filterData);
+            $CoursesObject->where($this->filterData);
+        }
+        /*======================================================================= */
+        // filtered data
+        $filteredDataCount = $CoursesObject->count();
+        /*======================================================================= */
+        $recordsTotal = Notifaction::where('user_id','=',$teacher['user_id'])->count();
+        /*======================================================================= */
+        $CoursesObject->skip(request('start'))
+            ->take(request('length'))
+            ->orderBy($orderColumn, $orderType);
+        $storeEvents = $CoursesObject->get();
+        /*======================================================================= */
+        $storeEventsData = notificationResource::collection($storeEvents)
+            ->additional([
+                'draw' => intval(request('draw')),
+                'recordsTotal' => $recordsTotal,
+                'recordsFiltered' => $filteredDataCount,
+            ]);
+        return $storeEventsData;
     }
 
     /**
@@ -37,7 +60,8 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        ddd($request);
+        $teacher = $this->getTeacherId();
+
         $validatedData = Validator::make(
             $request->all(),
             [
@@ -83,45 +107,10 @@ class NotificationController extends Controller
             $arrayData = array('title' => $request->title, 'body' => $request->body, 'img' => $imageUrl, 'thaumbnail' => $thumbnailsUrl,
                 'action' => ['name' => $request->btnTitle, 'url' => $request->btnUrl]);
             $jsonObject = json_encode($arrayData);
-            ddd($jsonObject);
-            Notifaction::create(['body'=>$jsonObject]);
+            Notifaction::create(['body'=>$jsonObject,'user_id'=>$teacher['user_id']]);
+            return redirect()->route('admin.notifications.index')->with(['message'=>'Notifications Send Successfully']);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Notifications  $notifications
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Notification $notifications)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Notifications  $notifications
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Notification $notifications)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Notifications  $notifications
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Notification $notifications)
-    {
-        //
-    }
-
     /**
      * Remove the specified resource from storage.
      *

@@ -20,12 +20,13 @@ class AttchController extends Controller
      */
     public function fillTableAttachs()
     {
+        $teacher = $this->getTeacherId();
         //order column
         $columnsOrder = request('order')[0]['column'];
         $orderType = request('order')[0]['dir'];
         $orderColumn = request('columns')[$columnsOrder]['data'];
         /*======================================================================= */
-        $CoursesObject = Attch::query();
+        $CoursesObject = Attch::where('user_id','=',$teacher['user_id']);
         if (!empty(request('filter'))) {
             $filterData = [];
             parse_str(html_entity_decode(request('filter')), $filterData);
@@ -36,7 +37,7 @@ class AttchController extends Controller
         // filtered data
         $filteredDataCount = $CoursesObject->count();
         /*======================================================================= */
-        $recordsTotal = Attch::count();
+        $recordsTotal = Attch::where('user_id','=',$teacher['user_id'])->count();
         /*======================================================================= */
         $CoursesObject->skip(request('start'))
             ->take(request('length'))

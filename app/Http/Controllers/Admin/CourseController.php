@@ -21,12 +21,13 @@ class CourseController extends Controller
      */
     public function fillTableCourses()
     {
+        $teacher = $this->getTeacherId();
         //order column
         $columnsOrder = request('order')[0]['column'];
         $orderType = request('order')[0]['dir'];
         $orderColumn = request('columns')[$columnsOrder]['data'];
         /*======================================================================= */
-        $CoursesObject = Course::query();
+        $CoursesObject = Course::where('user_id','=',$teacher['user_id']);
         /*======================================================================= */
         if (!empty(request('filter'))) {
             $filterData = [];
@@ -37,7 +38,7 @@ class CourseController extends Controller
         // filtered data
         $filteredDataCount = $CoursesObject->count();
         /*======================================================================= */
-        $recordsTotal = Course::count();
+        $recordsTotal = Course::where('user_id','=',$teacher['user_id'])->count();
         /*======================================================================= */
         $CoursesObject->skip(request('start'))
             ->take(request('length'))

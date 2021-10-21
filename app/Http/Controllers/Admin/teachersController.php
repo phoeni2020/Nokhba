@@ -7,7 +7,9 @@ use App\Http\Controllers\triats\ImageUrl;
 use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\teacherResourse;
 use App\Models\Teachers;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class teachersController extends Controller
@@ -84,5 +86,27 @@ class teachersController extends Controller
         $teacher->subject = $request->subject;
         $teacher->save();
         return redirect()->back()->with(['teacher'=>$teacher,'id'=>$teacher->id]);
+    }
+
+    public function addAssitant(Request $request){
+        $validatedData = Validator::make($request->all(),[
+            'fName'=>'required|string|min:3|max:15',
+            'mName'=>'required|string|min:3|max:15',
+            'lName'=>'required|string|min:3|max:15',
+            'email'=>'required|email|unique:users|confirmed',
+            'password'=>'required|confirmed|min:8',
+            'role'=>'required',
+        ]);
+        $data = $validatedData->validated();
+        $user = User::create([
+            'fName' => $data['fName'],
+            'mName' => $data['mName'],
+            'lName' => $data['lName'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role' => $data['role'],
+        ]);
+        return redirect()->back()->with(['message'=>'Assitant Added']);
+
     }
 }

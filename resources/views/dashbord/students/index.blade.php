@@ -16,7 +16,8 @@
                 'tableColumnDefs' => [
                        'link'=>  [
                                         ['targets' => 1, 'orderable' => "true", 'column'=>'name', 'link'=>'#']
-                                  ]],
+                                  ]
+                                  ],
                 'customActions' => json_encode([[
                     'linkColumn' => 'showStudent','attributes'=> "class='showData modal-effect btn btn-sm btn-clean btn-icon'
                                                                title='add product details'

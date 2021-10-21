@@ -98,6 +98,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group(['prefix'=>'notifications'],function (){
         Route::view('/','dashbord.notifications.index')->name('admin.notifications.index');
         Route::view('/create','dashbord.notifications.create')->name('admin.notifications.create');
+        Route::post('/fillTableNotifications',[\App\Http\Controllers\NotificationController::class,'fillTableNotifications'])->name('admin.notifications.fillTableNotifications');
         Route::post('/store',[\App\Http\Controllers\NotificationController::class,'store'])->name('admin.notification.store');
     });
 
@@ -110,6 +111,8 @@ Route::group(['middleware'=>'auth'],function (){
     });
 
     Route::group(['prefix'=>'teachers'],function (){
+        Route::view('/add/assitant','dashbord.teachers.asstitant.create')->name('admin.add.assitant');
+        Route::post('/store/assitant',[Admin\teachersController::class,'addAssitant'])->name('admin.store.assitant');
         Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
         Route::put('/update/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
         Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
