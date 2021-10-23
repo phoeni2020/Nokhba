@@ -13,7 +13,7 @@
         <div class="breadcrumb-header justify-content-between">
             <div class="my-auto">
                 <div class="d-flex">
-                    <h4 class="content-title mb-0 my-auto">Create Catgory</h4>
+                    <h4 class="content-title mb-0 my-auto">Teacher Settings</h4>
                 </div>
             </div>
         </div>
@@ -46,25 +46,37 @@
                                 <div class="pd-30 pd-sm-40 bg-gray-200">
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
+                                            <span style="color:red;">*</span>
                                             <label class="form-label mg-b-0">Subject Title</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input class="form-control" placeholder="Enter Subject Name" value="{{$teacher->subject??''}}" name="subject" type="text">
+                                            <input class="form-control" required  placeholder="Enter Subject Name" value="{{$teacher->subject??''}}" name="subject" type="text">
                                         </div>
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
+                                            <span style="color:red;">*</span>
+                                            <label class="form-label mg-b-0">Nick Name</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <input class="form-control" required  placeholder="Enter The Nick Name" value="{{$teacher->nickName??''}}" name="nickName" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-4">
+                                            <span style="color:red;">*</span>
                                             <label class="form-label mg-b-0">Short Description</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input class="form-control" placeholder="Enter Short Description" value="{{$teacher->short_description??''}}" name="short_description" type="text">                                        </div>
+                                            <input class="form-control" required placeholder="Enter Short Description" value="{{$teacher->short_description??''}}" name="short_description" type="text">                                        </div>
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
+                                            <span style="color:red;">*</span>
                                             <label class="form-label mg-b-0">Long Description</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <textarea class="form-control" name="long_description" id="" cols="30" rows="10">{{$teacher->long_description??''}}</textarea>
+                                            <textarea class="form-control" required name="long_description" id="" cols="30" rows="10">{{$teacher->long_description??''}}</textarea>
                                         </div>
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">
@@ -92,7 +104,8 @@
                                         <button class="btn btn-dark pd-x-30 mg-t-5" type="button">
                                             Cancel
                                         </button>
-                                    </a>                                </div>
+                                    </a>
+                                </div>
                             </div>
                         </form>
                     </div>

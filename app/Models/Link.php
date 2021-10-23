@@ -10,4 +10,5 @@ class Link extends Model
     use HasFactory;
     protected $table='urls';
     protected $hidden=['teacher','created_at','updated_at'];
+    protected $fillable=['url','hint','img','title','teacher'];
 }

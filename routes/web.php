@@ -117,10 +117,22 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
         Route::put('/update/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
         Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
+        Route::prefix('urls')->group(function (){
+            Route::view('/','dashbord.teachers.links.index')->name('admin.teachers.links.index');
+            Route::view('/create','dashbord.teachers.links.create')->name('admin.teachers.links.add');
+            Route::post('/fillTableLinks',[Admin\teachersController::class,'linksPage'])->name('admin.teachers.links.dataTables');
+            Route::post('/stroe',[Admin\teachersController::class,'storeLink'])->name('admin.teahcer.link.store');
+            Route::put('/urls/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
+        });
     });
 
     Route::group(['prefix'=>'about'],function (){
         Route::view('/create','dashbord.about.create');
+        Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
+    });
+
+    Route::group(['prefix'=>'app'],function (){
+        Route::get('/',[Admin\AboutusController::class,'store'])->name('admin.app.settings');
         Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
     });
 });
