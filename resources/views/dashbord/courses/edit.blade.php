@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
                                             <select class="js-example-basic-single form-control category" name="category_id">
-                                                <option value="{{$course['category_id']}}" selected>{{$course->category->name}}</option>
+                                                <option value="{{$course['category_id']}}" selected>{{$course->category->name ?? 'تم حذف هذا التصنيف'}}</option>
                                             </select>
                                         </div>
                                     </div>
