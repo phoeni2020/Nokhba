@@ -29,6 +29,8 @@ class teachersController extends Controller
         $length = $validatedData['requestOrder']['length'];
         /*======================================================================= */
         $CoursesObject = Teachers::query()
+            ->join('users','teachers.user_id','=','users.id')
+            ->select(['users.fName','users.mName','users.lName','teachers.*'])
             ->with('mainCategories')
             ->with('links');
 
