@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\dataFilter;
+use App\Http\Controllers\triats\ImageUrl;
 use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\examResource;
 use App\Http\Resources\questionResource;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ExamController extends Controller
 {
-    use Teacher , dataFilter;
+    use Teacher , dataFilter ,ImageUrl;
 
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -97,9 +98,15 @@ class ExamController extends Controller
      */
     public function storeQuestion(Request $request)
     {
+        dd($request);
         $validatedData = Validator::make($request->all(),[
-            'question'=>'',
+            'questionText'=>'required|min:5|max:100',
+            'questionImage'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+            'answer.img.*'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+            'answer.text.*'=>'min:1|max:100',
+            'answer.correct.*'=>'required',
         ]);
+        $validatedData->validated();
     }
 
     /**
@@ -121,11 +128,49 @@ class ExamController extends Controller
     public function store(Request $request)
     {
         $validatedData = Validator::make($request->all(),[
-            'question'=>'required',
-            'answer.img.*'=>'mimes:jpg,jpeg,png,bmp,tiff,pdf|max:10000',
+            'questionText'=>'required|min:5|max:100',
+            'questionImage'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+            'answer.img.*'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+            'answer.text.*'=>'min:1|max:100|nullable',
+            'answer.correct.*'=>'required|nullable',
         ]);
         $validatedData->validated();
+        unset($validatedData);
         $data = $request->except('_token');
+        /**
+         * {
+            "ansewrs":{
+                "answer1":{
+                "answer":"test",
+                "is_correct":1
+                },
+                "answer2":{
+                "answer":"test",
+                "is_correct":0
+                }
+            }
+        }
+         */
+        if(isset($data['answer']['img'])){
+            $answersArray = [];
+            foreach ($data['answer']['img'] as $key => $answer) {
+                $imgAnswer = $this->uploadImage($answer,0);
+                $isCorrect = isset($data['answer']['correct'][$key]) ? true : false;
+                $answersArray['answers'][$key] = [
+                                        'image_ansewr'=>$imgAnswer[0],
+                                        'is_correct'=>$isCorrect,];
+            }
+            $imgQuestion = isset($data['questionImage'])?$this->uploadImage($request->file('questionImage'),0):'';
+            $object = ['question_text'=>$data['questionText']??'','question_img'=>$imgQuestion[0],
+                'answers'=>json_encode($answersArray),
+                'course'=>'6'
+            ];
+            Question::create($object);
+            return redirect()->url('/exams/question')->with(['massage'=>'Question Created Successfully']);
+        }
+        else{
+
+        }
     }
 
     /**

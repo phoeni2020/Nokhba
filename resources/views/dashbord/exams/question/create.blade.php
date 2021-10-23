@@ -45,31 +45,45 @@
                                     <div class="pd-30 pd-sm-40 bg-gray-200">
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
-                                                <label class="form-label mg-b-0">Question</label>
+                                                <label class="form-label mg-b-0">Question Text</label>
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                <input class="form-control attchName" placeholder="Enter Question" name="question" type="text">
+                                                <input class="form-control attchName" placeholder="Enter Question" name="questionText" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-4">
+                                                <label class="form-label mg-b-0">Question Image</label>
+                                            </div>
+                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                <input type="file" name="questionImage" class="dropify uploadimg "  data-height="200" />
                                             </div>
                                         </div>
                                         <div id="holder">
-                                            <div class="row row-xs align-items-center mg-b-20 A">
-                                                <div class="col-md-4">
-                                                    <label class="form-label mg-b-0">Answers</label>
+                                            <div class="A">
+                                                <div class="row row-xs align-items-center mg-b-20 ">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label mg-b-0">Answers</label>
+                                                    </div>
+                                                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control Answer" placeholder="Enter Answer Text" name="answer[text][]" type="text">
+                                                        <hr>
+                                                        <div class="imgHolder">
+                                                            <input type="file" name="answer[img][]" class="dropify uploadimg "  data-height="200" />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                    <input class="form-control Answer" placeholder="Enter Answer Text" name="answer[text][]" type="text">
-                                                    <div class="imgHolder">
-                                                    <input type="file" name="answer[img][]" class="dropify uploadimg "  data-height="200" />
+                                                <div class="row row-xs align-items-center mg-b-20 ">
+                                                    <div class="col-md-4">
+                                                        <label for="">Correct Answer</label>
+                                                    </div>
+                                                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                        <input class="answerCorrect" name="answer[correct][]" type="checkbox" value="0">
+                                                    </div>
                                                 </div>
-                                                 </div>
                                                 <hr>
-                                                <div class="col-md-4">
-                                                    <label class="form-labe">Is It The Correct Answer ?</label>
-                                                    <input class="answerCorrect" placeholder="Enter Answer Text" name="answer[correct][]" type="radio" value="yes">
-                                                </div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-danger delBtn" type="button" data-count="1"> Delete </button>
                                     </div>
                                 </div>
                             <hr class="mb-10 mt-10">
@@ -114,7 +128,7 @@
                     lastRow.removeClass('.A').addClass('A'+$(_this).data('acount'))
                     lastRow.find('.dropify-wrapper').remove();
                     lastRow.find('.Answer').attr('name', `answer[text][${rows+1}]`).val('');
-                    lastRow.find('.answerCorrect').attr('name', `answer[correct][${rows+1}]`).val('');
+                    lastRow.find('.answerCorrect').attr('name', `answer[correct][${rows+1}]`).val(rows+1);
                     lastRow.find('.imgHolder').append('<input type="file" name="answer[img][]" class="dropify uploadimg"  data-height="200" />');
                     lastRow.find('.delBtn').data('count',rows+1);
                     lastRow.find('.uploadimg').attr('name', `answer[img][${rows+1}]`).val('');
