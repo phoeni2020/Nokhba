@@ -31,6 +31,7 @@ Route::prefix('v1')->group(function (){
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('enroll/{course}',[Api\ExamController::class,'enroll']);
+        Route::get('views/{course}',[Api\teachersController::class,'courseViews']);
         Route::prefix('user')->group(function (){
             Route::get('/',[User\userController::class,'show']);
             Route::put('/completeData',[User\userController::class,'completeData']);

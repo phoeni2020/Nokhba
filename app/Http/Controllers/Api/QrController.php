@@ -107,7 +107,7 @@ class QrController extends Controller
                return response()->json(['error'=>'QrCode Not Exists'],404);
                break;
            case false:
-               if( $QrCode[0]->used == 0){
+               if($QrCode[0]->used == 0){
                    $QrCode[0]->used = 1;
                    $QrCode[0]->student_id = $request->user()->id;
                    $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');

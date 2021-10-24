@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class teachersController extends Controller
 {
-    private $filterData;
+    private $filterData = [];
+
     /**
      * Display a listing of the resource.
      *
@@ -18,39 +19,52 @@ class teachersController extends Controller
      */
     public function index(Request $request)
     {
-        $validatedData = $request->validate([
-            'requestOrder.order' => 'required|string',
-            'requestOrder.column' => 'required|string',
-            'requestOrder.length' => 'required|string',
-        ]);
-        //order column
-        $orderType = $validatedData['requestOrder']['order'];
-        $orderColumn = $validatedData['requestOrder']['column'];
-        $length = $validatedData['requestOrder']['length'];
-        /*======================================================================= */
-        $CoursesObject = Teachers::query()
-            ->with('mainCategories')
-            ->with('links');
+        try{
+                $validatedData = $request->validate([
+                    'requestOrder.order' => 'required|string',
+                    'requestOrder.column' => 'required|string',
+                    'requestOrder.length' => 'required|string',
+                ]);
+                //order column
+                $orderType = $validatedData['requestOrder']['order'];
+                $orderColumn = $validatedData['requestOrder']['column'];
+                $length = $validatedData['requestOrder']['length'];
+                /*======================================================================= */
+                $CoursesObject = Teachers::query()
+                    ->with('mainCategories')
+                    ->with('links');
 
-        if (!empty(request('filter'))) {
-            $filterData = [];
-            parse_str(html_entity_decode(request('filter')), $filterData);
-            $this->filterData($filterData);
-            $CoursesObject->where($this->filterData);
+                /*======================================================================= */
+                $recordsTotal = Teachers::count();
+                if (!empty(request('filter'))) {
+                    $dataFilter ='';
+                    foreach (request('filter') as $field => $value) {
+                        if(count(request('filter')) > 1){
+                            $dataFilter.="$field=$value&";
+                        }
+                        else{
+                            $dataFilter = "$field=$value";
+                        }
+                    }
+                    parse_str(html_entity_decode($dataFilter), $filterData);
+                    $this->filterData($filterData);
+                    $CoursesObject->where($this->filterData);
+                    $recordsTotal = $CoursesObject->where($this->filterData)->count();
+                }
+                /*======================================================================= */
+                if($recordsTotal == 0){
+                    return response()->json(['count'=>0,'teachers'=>[]]);
+                }
+                $CoursesObject->skip(request('requestOrder')['start'])
+                    ->take($length)
+                    ->orderBy($orderColumn, $orderType);
+                $teachers = $CoursesObject->get()->all();
+                $teachersObject['count'] = $recordsTotal;
+                $teachersObject['teachers'] = $teachers;
+                return response()->json($teachersObject);
         }
-        /*======================================================================= */
-        $recordsTotal = Teachers::count();
-        /*======================================================================= */
-        if($recordsTotal == 0){
-            return response()->json(['count'=>0,'teachers'=>[]]);
+        catch (\Exception $e) {
         }
-        $CoursesObject->skip(request('requestOrder')['start'])
-            ->take($length)
-            ->orderBy($orderColumn, $orderType);
-        $teachers = $CoursesObject->get()->all();
-        $teachersObject['count'] = $recordsTotal;
-        $teachersObject['teachers'] = $teachers;
-        return response()->json($teachersObject);
     }
 
     /**
@@ -58,9 +72,20 @@ class teachersController extends Controller
      */
     private function filterData($filterData)
     {
+        $this->filterData =[];
         foreach ($filterData as $key => $value) {
 
             (!empty($value)) ? array_push($this->filterData, ["$key", 'LIKE', "%$value%"]) : '';
+        }
+    }
+
+    public function courseViews(Course $course){
+        try{
+            $course->views+=1;
+            $course->save();
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 }
