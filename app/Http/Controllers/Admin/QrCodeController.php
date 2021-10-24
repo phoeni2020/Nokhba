@@ -7,7 +7,7 @@ use App\Http\Controllers\triats\dataFilter;
 use App\Http\Controllers\triats\Teacher;
 use App\Http\Resources\qrCodeResource;
 use App\Models\QrCode as qrModel;
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -127,7 +127,7 @@ class QrCodeController extends Controller
             }
             $pathUrl = url('images/QR/'.$qrCode.'.svg');
             $path = public_path('images/QR/'.$qrCode.'.svg');
-           $img =  QrCode::size(300)->
+            QrCode::size(150)->
             backgroundColor(63, 11, 51)->
             color(49, 84, 115)->
             format('svg')->
@@ -138,10 +138,13 @@ class QrCodeController extends Controller
                     'code_text'=>$qrCode,'code_url'=>$pathUrl,
                     'teacher_id'=>$authId['user_id'],'lesson'=>$lessonId
                 ]);
-            $qrArray []= ['text'=>$qrCode,'img'=>$pathUrl,'lessonTitle'=>$qrCodeObject->lessons->title];
-            $pdf = PDF::loadView('my-pdf-file', ['qrArray'=>$qrArray]);
-
+            $qrArray []= ['text'=>$qrCode,'img'=>$path,'lessonTitle'=>$qrCodeObject->lessons->title];
         }
+        $pdf = PDF::loadView('dashbord.qrcode.pdf', ['qrArray'=>$qrArray])->setPaper('a4', 'portrait');
+        $path = public_path();
+        $fileName =  time().'.'. 'pdf' ;
+        $pdf->save($path.'/'.$fileName);
+        return $pdf->download('qrCodes.pdf');
 
     }
 }
