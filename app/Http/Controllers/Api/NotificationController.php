@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\triats\dataFilter;
 use App\Models\Notifaction;
-use App\Models\Notifications;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+    use dataFilter;
+    private $filterData =[];
+    private $data = [];
+    private $index = 0;
     /**
      * Display a listing of the resource.
      *
@@ -18,16 +22,30 @@ class NotificationController extends Controller
     {
         $notificationObject = Notifaction::query();
         /*======================================================================= */
+        if (!empty(request('filter'))) {
+            $dataFilter ='';
+            foreach (request('filter') as $field => $value) {
+                if(count(request('filter')) > 1){
+                    $dataFilter.="$field=$value&";
+                }
+                else{
+                    $dataFilter = "$field=$value";
+                }
+            }
+            parse_str(html_entity_decode($dataFilter), $filterData);
+            $this->filterData($filterData);
+            $notificationObject->where($this->filterData);
+            $recordsTotal = $notificationObject->where($this->filterData)->count();
+        }
+
         $filteredDataCount = $notificationObject->count();
-        /*======================================================================= */
-        $recordsTotal = Notifaction::count();
         /*======================================================================= */
         $startFrom = $start * $limit;
         $notificationObject->skip($startFrom)
             ->take($limit);
         $teachers = $notificationObject->get();
         $response = [];
-        $response['count'] = $recordsTotal;
+        $response['count'] = $filteredDataCount;
 
         foreach ($teachers as $teacher) {
             $array = json_decode($teacher->body,true);
@@ -38,72 +56,5 @@ class NotificationController extends Controller
 
         return response()->json($response);
 
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Notifications  $notifications
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Notifications $notifications)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Notifications  $notifications
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Notifications $notifications)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Notifications  $notifications
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Notifications $notifications)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Notifications  $notifications
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Notifications $notifications)
-    {
-        //
     }
 }
