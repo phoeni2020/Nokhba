@@ -32,6 +32,7 @@ class NotificationController extends Controller
         foreach ($teachers as $teacher) {
             $array = json_decode($teacher->body,true);
             $array['id']=$teacher->id;
+            $array['teacher']=$teacher->teacher;
             $response['notifications'][]=$array;
         }
 
