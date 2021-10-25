@@ -159,17 +159,13 @@
                                                         </p>
                                                     </div>
                                                 </div>
+                                                <button type="button" onclick="removeElement()"  class="btn btn-danger pd-x-30 mg-r-5 mg-t-5 delBtn" data-count="0">Delete</button>
+                                                <hr>
                                             </div>
-
                                         </fieldset>
                                         <div class="row row-sm mb-5">
                                             <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                <button class="btn btn-primary vedioButton" type="button" data-acount="0" >Add More</button>
-                                            </div>
-                                            <div class="col-md-6 mg-t-2 mg-md-t-0">
-                                                <p>
-                                                    هذا يعني ان هذا التصنيف تصنيف رئيسي يظهر في شاشه المدرس في التطبيق
-                                                </p>
+                                                <button class="btn btn-primary vedioButton " type="button" data-acount="0" >Add More</button>
                                             </div>
                                         </div>
                                     </div>
@@ -186,6 +182,13 @@
 @endsection
 @section('js')
     <script>
+        function removeElement() {
+          $('.delBtn').click(function(){
+              console.log('sss')
+              $(this).closest('.continar').remove();
+          });
+
+      }
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         function select2(element) {
             $('.'+element).select2({
@@ -269,8 +272,11 @@
 
                     var lastRow = $('#'+event.data.element+' .'+event.data.parent+':last');
 
+                    lastRow.attr('id', `element-${rows+1}`);
                     lastRow.find('.attchUrl').attr('name', `vedios[${rows+1}][url]`).val('');
                     lastRow.find('.attachDesc').attr('name', `vedios[${rows+1}][desc]`).val('');
+                    lastRow.find('.delBtn').data('count',rows+1);
+                    lastRow.find('.delBtn').attr('id',`delBtn-${rows+1}`);
                 }
                 $('.vedioButton').on('click',{
                     element:'holder',
@@ -279,15 +285,6 @@
                     parent:'continar',
                 },vedioCount);
 
-                function removeElement(){
-                    var _this = $(this);
-
-                    var count = _this.data('count');
-
-                    console.log(count);
-                }
-                $('.delBtn').on('click',removeElement);
-
             });
             $('.B-0').click(function(){
                 var count = $('.B-0').data('acount');
@@ -295,6 +292,7 @@
                 element.addClass("A-"+count).removeClass('A-0');
                 element.appendTo('.holder');
             });
+
         });
     </script>
     <!--Internal Fileuploads js-->
