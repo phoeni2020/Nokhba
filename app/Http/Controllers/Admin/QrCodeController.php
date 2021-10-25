@@ -128,8 +128,6 @@ class QrCodeController extends Controller
             $pathUrl = url('images/QR/'.$qrCode.'.svg');
             $path = public_path('images/QR/'.$qrCode.'.svg');
             QrCode::size(150)->
-            backgroundColor(63, 11, 51)->
-            color(49, 84, 115)->
             format('svg')->
             generate($qrCode, $path);
 
