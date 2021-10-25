@@ -121,17 +121,19 @@ class CourseController extends Controller
                 'title'=>$data['title'],
                 'desc'=>$data['desc'],
                 'img'=>$thumbnailsUrl,
-                'vedio'=>json_encode($data['vedios']),
+                'vedio'=>isset($data['vedios'])?json_encode($data['vedios']):'',
                 'category_id'=>$data['category_id'],
                 'user_id'=>$id['user_id'],
             ]
         );
 
-        foreach ($data['attch'] as $attch ){
-            $attchObject = Attch::find($attch);
-            $attchObject->lesson_id = $lessonObject->id;
-            $attchObject->save();
-        }
+        if (isset($data['attch'])){
+    foreach ($data['attch'] as $attch ){
+        $attchObject = Attch::find($attch);
+        $attchObject->lesson_id = $lessonObject->id;
+        $attchObject->save();
+    }
+}
 
         return redirect()->route('admin.course.index')->with(['message'=>'Course Created']);
     }

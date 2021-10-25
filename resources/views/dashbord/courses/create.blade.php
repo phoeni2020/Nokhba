@@ -52,7 +52,7 @@
                                             <label class="form-label mg-b-0">Lesson Name</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input class="form-control" placeholder="Enter Lesson Title" name="title" type="text">
+                                            <input required class="form-control" placeholder="Enter Lesson Title" name="title" type="text">
                                         </div>
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">
@@ -60,7 +60,7 @@
                                             <label class="form-label mg-b-0">Description</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <textarea class="form-control" name="desc" id="" cols="30" rows="10"></textarea>
+                                            <textarea required class="form-control" name="desc" id="" cols="30" rows="10"></textarea>
                                         </div>
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">
@@ -68,7 +68,7 @@
                                             <label class="form-label mg-b-0">Category</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <select class="js-example-basic-single form-control category" name="category_id">
+                                            <select required class="js-example-basic-single form-control category" name="category_id">
 
                                             </select>
                                         </div>
@@ -78,7 +78,7 @@
                                             <label class="form-label mg-b-0">Image</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                            <input type="file" name="img" class="dropify" data-height="200" />
+                                            <input type="file" name="img" class="dropify" data-height="200" required />
                                         </div>
                                     </div>
                                 </div>
@@ -278,7 +278,7 @@
                     lastRow.find('.attchUrl').attr('name', `vedios[${rows+1}][url]`).val('');
                     lastRow.find('.attachDesc').attr('name', `vedios[${rows+1}][desc]`).val('');
                     lastRow.find('.vedioId').attr('name', `vedios[${rows+1}][id]`).val(rows+1);
-                    lastRow.find('.vedioVewis').attr('name', `vedios[${rows+1}][id]`).val(rows+1);
+                    lastRow.find('.vedioVewis').attr('name', `vedios[${rows+1}][views]`);
                     lastRow.find('.delBtn').data('count',rows+1);
                     lastRow.find('.delBtn').attr('id',`delBtn-${rows+1}`);
                 }
