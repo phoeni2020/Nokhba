@@ -159,6 +159,8 @@
                                                         </p>
                                                     </div>
                                                 </div>
+                                                <input class="vedioId" name="vedios[0][id]" type="hidden" value="0">
+                                                <input class="vedioVewis" name="vedios[0][views]" type="hidden" value="0">
                                                 <button type="button" onclick="removeElement()"  class="btn btn-danger pd-x-30 mg-r-5 mg-t-5 delBtn" data-count="0">Delete</button>
                                                 <hr>
                                             </div>
@@ -275,6 +277,8 @@
                     lastRow.attr('id', `element-${rows+1}`);
                     lastRow.find('.attchUrl').attr('name', `vedios[${rows+1}][url]`).val('');
                     lastRow.find('.attachDesc').attr('name', `vedios[${rows+1}][desc]`).val('');
+                    lastRow.find('.vedioId').attr('name', `vedios[${rows+1}][id]`).val(rows+1);
+                    lastRow.find('.vedioVewis').attr('name', `vedios[${rows+1}][id]`).val(rows+1);
                     lastRow.find('.delBtn').data('count',rows+1);
                     lastRow.find('.delBtn').attr('id',`delBtn-${rows+1}`);
                 }

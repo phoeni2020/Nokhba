@@ -93,6 +93,8 @@ class CourseController extends Controller
                 'attch.*'=>'required|string',
                 'vedios.*.url'=>'required|string|url',
                 'vedios.*.desc'=>'required|string|min:10',
+                'vedios.*.id'=>'required',
+                'vedios.*.views'=>'required',
             ],
         );
 
@@ -117,7 +119,7 @@ class CourseController extends Controller
         $lessonObject = Course::create(
             [
                 'title'=>$data['title'],
-                'desc'=>$data['description'],
+                'desc'=>$data['desc'],
                 'img'=>$thumbnailsUrl,
                 'vedio'=>json_encode($data['vedios']),
                 'category_id'=>$data['category_id'],
