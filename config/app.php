@@ -179,6 +179,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Jackiedo\DotenvEditor\DotenvEditorServiceProvider::class,
 
     ],
 
@@ -235,6 +236,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class,
     ],
 
 ];

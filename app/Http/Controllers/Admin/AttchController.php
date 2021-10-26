@@ -99,12 +99,10 @@ class AttchController extends Controller
                 'img.max' => 'The File Must Be Maximam 10 Megabytes ',
             ]
         );
-
         if($validatedData->fails()){
 
             return redirect()->back()->withErrors($validatedData->errors()->messages());
         }
-
         $attach = new Attch();
         $dataArray = $request->except('_token');
         $authId = $this->getTeacherId();
@@ -132,7 +130,6 @@ class AttchController extends Controller
                App::abort(500);
            }
         }
-
         return redirect()->route('admin.attach.index')->with(['message'=>'Attachments Uploaded Successfully']);
     }
 

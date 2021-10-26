@@ -17,6 +17,8 @@ use \App\Http\Controllers\Admin;
 
 Auth::routes();
 
+Route::get('/restPasswords/student')->name('resetpassword.api');
+
 Route::group(['middleware'=>'auth'],function (){
     Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout');
 
@@ -134,6 +136,8 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group(['prefix'=>'app'],function (){
         Route::get('/',[Admin\AboutusController::class,'store'])->name('admin.app.settings');
+        Route::get('/developer/settings',[Admin\AppSettingsController::class,'index'])->name('admin.app.developer.settings');
+        Route::post('/developer/settings',[Admin\AppSettingsController::class,'store'])->name('admin.app.developer.settings.store');
         Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
     });
 });

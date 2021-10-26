@@ -20,6 +20,8 @@ class attchResource extends JsonResource
             'desc'=>$this->description,
             'created_at'=>$this->created_at->format('m-d-Y'),
             'updated_at'=>$this->updated_at->format('m-d-Y'),
+            'actions'=>'',
+            'updateLink' => route('admin.category.edit',$this->id),
         ];
     }
 }

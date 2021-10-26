@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\RestPasswordNotifcation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +47,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+   /*  public function sendPasswordResetNotification($token)
+    {
+        $this->notifyNow(new RestPasswordNotifcation());
+    }*/
+
     /**
      * @return string
      */
@@ -64,6 +69,9 @@ class User extends Authenticatable
         return $this->belongsTo(Teachers::class,'belongs_to_teacher');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function following(){
         return $this->hasOne(Follow::class,'user_id','id');
     }

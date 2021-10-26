@@ -4,8 +4,6 @@
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
     <!---Internal Fileupload css-->
     <link href="{{URL::asset('assets/plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css"/>
-    <!---Internal Fancy uploader css-->
-    <link href="{{URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
 @endsection
 
 @section('page-header')
@@ -139,10 +137,5 @@
     </div>
 @endsection
 @section('js')
-    <!--Internal Fileuploads js-->
-    <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
-    <!--Internal Fancy uploader js-->
     <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>>
 @endsection
