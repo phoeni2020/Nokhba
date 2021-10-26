@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\StudentViews;
 use App\Models\Teachers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -79,10 +80,20 @@ class teachersController extends Controller
         }
     }
 
-    public function courseViews(Course $course){
+    public function courseViews(Course $course,$vedio){
         try{
             $course->views+=1;
+            $vedioObject = json_decode($course->vedio,true);
+            $vedioObject[0]['views']+=1;
+            $course->vedio=json_encode($vedioObject);
             $course->save();
+            $userId = request()->user();
+            $views = StudentViews::where('student','=',$userId->id)->where('course','=',$course->id)->get()->all();
+            if(empty($views)){
+                StudentViews::create(['student'=>$userId->id,'course'=>$course->id,'views'=>1]);
+            }
+            $views[0]->views+=1;
+            $views[0]->save();
         }
         catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
