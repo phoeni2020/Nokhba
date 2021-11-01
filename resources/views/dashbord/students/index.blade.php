@@ -38,7 +38,7 @@
         <div class="breadcrumb-header justify-content-between">
             <div class="my-auto">
                 <div class="d-flex">
-                    <h4 class="content-title mb-0 my-auto">Catgories Page</h4>
+                    <h4 class="content-title mb-0 my-auto">Students Page</h4>
                 </div>
             </div>
             <x-button-setting :buttonsSettings="$buttonsSettings"/>
@@ -54,7 +54,7 @@
                     <div class="card-body">
                         <div class="main-content-label mg-b-5">
                             <p class="label">
-                                Catgories DataTable
+                                Students DataTable
                             </p>
                         </div>
                         <div class="text-wrap">
@@ -72,54 +72,4 @@
             </div>
         </div>
     </div>
-
-    <div class="modal" id="modaldemo8">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title"></h6>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn ripple btn-primary" type="button">Save changes</button>
-                    <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
-@push('Scripts')
-    <script src="{{URL::asset('assets/js/modal.js')}}"></script>
-    <script>
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        $(document).on('click','.showData',function(event) {
-            event.preventDefault();
-            let _this = $(this);
-            var id = _this.attr('href');
-            let request = $.ajax({
-                "url": "{{route('admin.students.ajax.getuser')}}",
-                "type": "POST",
-                "dataType": "JSON",
-                "data":
-                    {
-                        _token: CSRF_TOKEN,
-                        id:id
-                    },
-            });
-            request.done(function (response) {
-                $('.modal-header').find('.modal-title').text(response.fName+' '+response.mName+ ' ' +response.lName);
-            });
-
-            request.fail(function (response) {
-            });
-
-        });
-    </script>
-@endpush
-
-

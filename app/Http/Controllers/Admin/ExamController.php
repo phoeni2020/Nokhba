@@ -98,7 +98,6 @@ class ExamController extends Controller
      */
     public function storeQuestion(Request $request)
     {
-        dd($request);
         $validatedData = Validator::make($request->all(),[
             'questionText'=>'required|min:5|max:100',
             'questionImage'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
@@ -172,6 +171,7 @@ class ExamController extends Controller
 
         }
     }
+
 
     /**
      * Display the specified resource.

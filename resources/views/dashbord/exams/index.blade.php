@@ -13,13 +13,15 @@
                                                    // ['data'=>'actions','responsivePriority' => -1]
                                                  ]),
             ];
+
         $filterConfig = ['inputs' => [
                     ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],
                 ]
         ];
         $buttonsSettings = [
-            'add' => ['lable'=>'Add New Catgory','link'=>route('admin.exam.question.index')]
-        ];
+            'add' => ['lable'=>'Add New Exam','link'=>route('admin.exam.create')],
+            'view' => ['lable'=>'Add New Question','link'=>route('admin.exam.question.index')],
+            ];
     @endphp
     <div class="container-fluid">
         <div class="breadcrumb-header justify-content-between">
@@ -60,25 +62,6 @@
         </div>
     </div>
 
-    <div class="modal" id="modaldemo8">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title"></h6>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn ripple btn-primary" type="button">Save changes</button>
-                    <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @push('Scripts')
     <script src="{{URL::asset('assets/js/modal.js')}}"></script>

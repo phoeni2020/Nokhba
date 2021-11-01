@@ -69,7 +69,9 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group(['prefix'=>'exams'],function (){
         Route::view('/','dashbord.exams.index')->name('admin.exam.index');
+        Route::view('/create','dashbord.exams.create')->name('admin.exam.create');
         Route::post('/fillTableExams',[Admin\ExamController::class,'fillTableExams'])->name('admin.exam.datatable');
+
         Route::group(['prefix'=>'question'],function (){
                Route::view('/','dashbord.exams.question.index')->name('admin.exam.question.index');
                Route::view('/create','dashbord.exams.question.create')->name('admin.exam.question.create');
@@ -80,6 +82,9 @@ Route::group(['middleware'=>'auth'],function (){
         });
     });
 
+    /**
+     * Qr Code Routes
+     */
     Route::group(['prefix'=>'qrcode'],function (){
         Route::view('/','dashbord.qrcode.index')->name('admin.qrcode.index');
         Route::view('/create','dashbord.qrcode.create')->name('admin.qrcode.create');
@@ -90,6 +95,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/store',[Admin\QrCodeController::class,'store'])->name('admin.qrcode.store');
     });
 
+    /**
+     *
+     */
     Route::group(['prefix'=>'attach'],function (){
         Route::view('/','dashbord.attach.index')->name('admin.attach.index');
         Route::view('/create','dashbord.attach.create')->name('admin.attach.create');
@@ -99,6 +107,9 @@ Route::group(['middleware'=>'auth'],function (){
 
     });
 
+    /**
+     *
+     */
     Route::group(['prefix'=>'notifications'],function (){
         Route::view('/','dashbord.notifications.index')->name('admin.notifications.index');
         Route::view('/create','dashbord.notifications.create')->name('admin.notifications.create');
@@ -106,14 +117,25 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/store',[\App\Http\Controllers\NotificationController::class,'store'])->name('admin.notification.store');
     });
 
+    /**
+     *
+     */
     Route::group(['prefix'=>'students'],function (){
         Route::view('/','dashbord.students.index')->name('admin.students.index');
+
         Route::delete('/destroy/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.delete');
-        Route::post('/view/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.view');
+
+        Route::get('/view/{user}',[Admin\usersController::class,'viewUser'])->name('admin.user.view');
+        //Route::get('/view/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.view');
+
         Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.students.ajax.getuser');
         Route::post('/fillTableUsers',[Admin\usersController::class,'fillTableUser'])->name('admin.students.fillTableUser');
+        Route::post('/fillTableUsers',[Admin\usersController::class,'userQrCodes'])->name('admin.students.fillTableExams');
     });
 
+    /**
+     *
+     */
     Route::group(['prefix'=>'teachers'],function (){
         Route::view('/add/assitant','dashbord.teachers.asstitant.create')->name('admin.add.assitant');
         Route::post('/store/assitant',[Admin\teachersController::class,'addAssitant'])->name('admin.store.assitant');
@@ -129,6 +151,9 @@ Route::group(['middleware'=>'auth'],function (){
         });
     });
 
+    /**
+     *
+     */
     Route::group(['prefix'=>'about'],function (){
         Route::view('/create','dashbord.about.create');
         Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');

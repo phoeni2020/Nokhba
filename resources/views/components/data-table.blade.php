@@ -298,13 +298,3 @@
     @endif
 
 @endpush
-
-{{--
- <!--Internal  Sweet-Alert js-->
-<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js')}}"></script>
-<!-- Sweet-alert js  -->
-<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
-<script src="{{URL::asset('assets/js/sweet-alert.js')}}"></script>
-
- --}}

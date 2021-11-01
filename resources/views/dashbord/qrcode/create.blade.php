@@ -103,12 +103,12 @@
             });
             function makeid() {
                 var result           = '';
-                var characters       = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789!@#$%&*';
+                var characters       = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789@#%*';
                 var charactersLength = characters.length;
                 var arrayResult = [];
                 var number =$('.qrCode').val()
                 for (var i = 0; i < number; i++ ) {
-                    for(var x = 0; x < 7;x++){
+                    for(var x = 0; x < 10;x++){
                         result += characters.charAt(Math.random() * charactersLength);
                     }
                     arrayResult.push(result);
