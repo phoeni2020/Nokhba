@@ -79,7 +79,7 @@ class QrController extends Controller
                 'qrcode_id'=>$qrDataObject->id,'code_text'=>$qrDataObject->code_text,
                 'code_url'=>$qrDataObject->code_url,'used'=>$qrDataObject->used,
                 'student_id'=>$qrDataObject->student_id,'valid_till'=>$qrDataObject->valid_till,
-            ],'lessons'=>$qrDataObject['lessons'] == null ? []:$qrDataObject['lessons']  ,'teacher'=>$qrDataObject['teacher']];
+            ],'lessons'=>$qrDataObject['lessons'],'teacher'=>$qrDataObject['teacher']];
 
             $this->index++;
         });
