@@ -75,6 +75,7 @@ class QrController extends Controller
         return response()->json($response);*/
 
         array_walk($qrDataObject,function ($qrDataObject){
+            $qrDataObject['lessons']['vedio'] = json_decode($qrDataObject['lessons']['vedio']);
            $this->data[$this->index] = ['qr_Code'=>[
                 'qrcode_id'=>$qrDataObject->id,'code_text'=>$qrDataObject->code_text,
                 'code_url'=>$qrDataObject->code_url,'used'=>$qrDataObject->used,
