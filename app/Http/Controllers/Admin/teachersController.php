@@ -120,11 +120,9 @@ class teachersController extends Controller
                 $teacher[0]->image = $image;
                 $teacher[0]->save();
             }
-            dd($teacher);
-            return redirect()->back()->with(['teacher'=>$teacher,'id'=>$teacher[0]->id]);
+            return redirect()->back()->with(['teacher'=>$teacher,'id'=>$teacher->id]);
         }
         catch (\Exception $e){
-            dd($e);
             return redirect()->back()->with(['error'=>$e->getMessage()]);
         }
     }
