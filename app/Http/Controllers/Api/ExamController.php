@@ -22,7 +22,7 @@ class ExamController extends Controller
             if(empty($qrCode->where('used','=',1)->get()->all())) {
                 return response()->json(['error'=>'The QrCode Is Expirad OR You Never Enorlled In That Lesson'],402);
             }
-            $exam = Exam::where('is_done','=',0)->where('user_id','=',$id)->get();
+            $exam = Exam::where('is_done','=',0)->where('course','>',$course)->where('user_id','=',$id)->get();
             if(!empty($exam[0]->all())) {
                 $boolResponse = $exam[0]->course == $course ? true : false;
                 return response()->json(['error'=>'You MUST Complete previous Test','course'=>Course::find($exam[0]->course),'is_same_lesson'=>$boolResponse],403);

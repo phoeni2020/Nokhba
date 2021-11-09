@@ -6,12 +6,14 @@
     @php
         $tableConfig = [
             'filter'=>true,
+            'hasActions'=>true,
             'actionUrl'=>route('admin.teachers.links.dataTables'),
-            'tableHeaed'=>['Id','`Link`','Title','Hint','Image'],
-            'tableColumnsNames'=>json_encode(['id','url','title','hint','img']),
+            'tableHeaed'=>['Id','Link','Title','Hint','Image','Action'],
+            'tableColumnsNames'=>json_encode(['id','url','title','hint','img','actions']),
             'tableColumnsData'=> json_encode([
                                                 ['data'=>'id'],['data'=>'url'],['data'=>'title'],
                                                 ['data'=>'hint'],['data'=>'img'],
+                                                ['data'=>'actions','responsivePriority' => -1]
 
                                              ]),
             'tableColumnDefs' => [

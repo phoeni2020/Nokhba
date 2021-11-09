@@ -45,7 +45,6 @@
         </div>
     @endif
 
-
     @if(isset($buttonsSettings['add']))
     <!--begin::Button-->
         <a href="{!! $buttonsSettings['add']['link'] !!}" class="btn btn-primary mb-2 mb-sm-0 mr-2">
@@ -54,5 +53,14 @@
         </a>
         <!--end::Button-->
     @endif
+
+    @if(isset($buttonsSettings['back']))
+        <!--begin::Button-->
+            <button type="button" onclick="window.history.back()" class="btn btn-outline-secondary mb-2 mb-sm-0 mr-2">
+                <i class="far fa-arrow-alt-circle-left"></i>
+                {!! $buttonsSettings['back']['lable'] !!}
+            </button>
+            <!--end::Button-->
+        @endif
 
 </div>

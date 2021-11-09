@@ -16,7 +16,8 @@ class questionResource extends JsonResource
     {
         return [
           'id'=>$this->id,
-          'question'=>$this->question,
+          'question'=>$this->question_text,
+          'grade'=>$this->grade,
           'created_at'=>$this->created_at->format('m-d-Y'),
           'actions'=>'',
           'updateLink' => route('admin.exam.question.edit',$this->id),

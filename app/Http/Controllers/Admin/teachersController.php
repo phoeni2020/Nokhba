@@ -61,14 +61,17 @@ class teachersController extends Controller
     public function settingPage(){
         try {
             $authId = $this->getTeacherId();
-            $teacher = $authId['object'][0];
+            $teacher = isset($authId['object'][0])?$authId['object'][0]:'';
+            if(empty($teacher)){
+                return view('dashbord.teachers.create');
+            }
             if(is_null($teacher->short_description) && is_null($teacher->subject)){
                 return view('dashbord.teachers.create',['id'=>$teacher->id]);
             }
             return view('dashbord.teachers.create',['teacher'=>$teacher,'id'=>$teacher->id]);
         }
         catch (\Exception $e){
-            return redirect()->back()->with(['error'=>$e->getMessage]);
+            return redirect()->back()->with(['error'=>$e]);
         }
     }
 
@@ -77,7 +80,7 @@ class teachersController extends Controller
      * @param Teachers $teacher
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function teacherSettings(Request $request,Teachers $teacher){
+    public function teacherSettings(Request $request){
         try {
             $validatedData = Validator::make($request->all(),
                 [
@@ -89,22 +92,39 @@ class teachersController extends Controller
                     'image' => 'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
                 ]
             );
+            $teacher = Teachers::where('id','=',$request->teacher)->get();
             $validatedData->validated();
+            $image='';
             if($request->has('image')) {
                 $image = $request->file('image');
                 $response = $this->uploadImage($image,0);
-                $teacher->image = $response[0];
+                $image = $response[0];
             }
-
-            $teacher->short_description = $request->short_description;
-            $teacher->long_description = $request->long_description;
-            $teacher->vedio = $request->video;
-            $teacher->subject = $request->subject;
-            $teacher->save();
-            return redirect()->back()->with(['teacher'=>$teacher,'id'=>$teacher->id]);
+            if(empty($teacher->toArray())){
+                $teacher=Teachers::create([
+                    'nickName'=>$request->nickName,
+                    'short_description'=>$request->short_description,
+                    'long_description'=>$request->long_description,
+                    'vedio'=>$request->vedio,
+                    'subject'=>$request->subject,
+                    'image'=>$image,
+                    'user_id'=>auth()->id(),
+                ]);
+            }
+            else{
+                $teacher[0]->nickName = $request->nickName;
+                $teacher[0]->short_description = $request->short_description;
+                $teacher[0]->long_description = $request->long_description;
+                $teacher[0]->vedio = $request->video;
+                $teacher[0]->subject = $request->subject;
+                $teacher[0]->image = $image;
+                $teacher[0]->save();
+            }
+            return redirect()->back()->with(['teacher'=>$teacher,'id'=>$teacher[0]->id]);
         }
         catch (\Exception $e){
-
+            dd($e->getMessage());
+            return redirect()->back()->with(['error'=>$e->getMessage()]);
         }
     }
 
@@ -202,6 +222,11 @@ class teachersController extends Controller
         catch(\Exception $e){
 
         }
+    }
 
+    public function destroyLink (Link $link)
+    {
+        $link->delete();
+        return redirect()->route('admin.teachers.links.index')->with(['message'=>'Link Deleted']);
     }
 }

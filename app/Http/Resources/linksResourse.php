@@ -22,6 +22,8 @@ class linksResourse extends JsonResource
             'img'=>$this->img??'',
             'created_at'=>$this->created_at->format('m-d-Y'),
             'updated_at'=>$this->updated_at->format('m-d-Y'),
-        ];
+            'actions'=>'',
+            'deleteLink' => route('admin.teachers.delete',$this->id),
+            ];
     }
 }

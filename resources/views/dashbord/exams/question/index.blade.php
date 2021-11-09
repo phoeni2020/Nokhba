@@ -8,10 +8,11 @@
             'filter'=>true,
             'hasActions' => true,
             'actionUrl'=>route('admin.exam.question.fillTableQuestion'),
-            'tableHeaed'=>['Id','question','Created At','Actions'],
-            'tableColumnsNames'=>json_encode(['id','question','created_at','actions']),
+            'tableHeaed'=>['Id','question','Grade','Created At','Actions'],
+            'tableColumnsNames'=>json_encode(['id','question','grade','created_at','actions']),
             'tableColumnsData'=> json_encode([
                                                 ['data'=>'id'],['data'=>'question'],
+                                               ['data'=>'grade'],
                                                 ['data'=>'created_at'],
                                                 ['data'=>'actions','responsivePriority' => -1]
                                              ]),
@@ -25,7 +26,8 @@
                 ]
         ];
         $buttonsSettings = [
-          'add' => ['lable'=>'Add New Question','link'=>route('admin.exam.question.create')]
+          'add' => ['lable'=>'Add New Question','link'=>route('admin.exam.question.create')],
+          'back' => ['lable'=>'Back'],
         ];
     @endphp
     <div class="container-fluid">

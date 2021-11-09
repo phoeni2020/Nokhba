@@ -9,7 +9,7 @@ class Teachers extends Model
 {
     use HasFactory;
     protected $casts =['id'=>'integer','user_id'=>'integer'];
-    protected $fillable =['user_id'];
+    protected $fillable =['user_id','short_description','long_description','nickName','vedio','subject','image'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,6 +41,9 @@ class Teachers extends Model
     public static function isTeacher(){
         $id = auth()->id();
         $result = parent::where('user_id','=',$id)->get();
+        if(empty($result->toArray())){
+            return ['error' =>'No Teacher Found'];
+        }
         if(is_null($result)){
             return ['userId'=>$id,'object'=>$result,'isTeacher'=>false];
         }

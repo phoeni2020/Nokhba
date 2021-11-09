@@ -20,6 +20,9 @@ class CatgoryController extends Controller
     public function fillTableCatgory()
     {
         $teacher = $this->getTeacherId();
+        if(isset($teacher['error'])){
+            return redirect(url('/logout'));
+        }
         //order column
         $columnsOrder = request('order')[0]['column'];
         $orderType = request('order')[0]['dir'];

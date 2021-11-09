@@ -19,7 +19,7 @@
         ];
         $filterConfig = [
             'inputs' => [
-                    ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],
+                    ['lable' => 'Name In Arabic','type' => 'text','placeholder'=>'Name In Arabic','name' => 'name'],
                 ]
         ];
         $buttonsSettings = [

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Exam extends Model
 {
     use HasFactory;
-
+    protected $fillable=['questions','user_id','course','teacher'];
     public function student(){
         return $this->hasOne(UserView::class,'id','user_id');
     }

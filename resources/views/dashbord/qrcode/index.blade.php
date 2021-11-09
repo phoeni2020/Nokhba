@@ -5,10 +5,11 @@
            $tableConfig = [
                'filter'=>true,
                'actionUrl'=>route('admin.qrCode.dataTables'),
-               'tableHeaed'=>['Id','QrCode Image','Lesson Title','Created At'],
-               'tableColumnsNames'=>json_encode(['id','qrUrl','lesson','created_at']),
+               'tableHeaed'=>['Id','QrCode Image','Text','Lesson Title','Created At'],
+               'tableColumnsNames'=>json_encode(['id','qrUrl','qrText','lesson','created_at']),
                'tableColumnsData'=> json_encode([
                                                    ['data'=>'id'],['data'=>'qrUrl'],
+                                                   ['data'=>'qrText'],
                                                    ['data'=>'lesson'],['data'=>'created_at'],
                                                  ]),
               'tableColumnDefs' => [

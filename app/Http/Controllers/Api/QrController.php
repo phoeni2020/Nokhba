@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\dataFilter;
+use App\Models\Exam;
 use App\Models\QrCode;
+use App\Models\Question;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -100,7 +102,6 @@ class QrController extends Controller
         if(empty($request->qrCode)||is_null($request->qrCode)){
             return response()->json(['error'=>'QrCode Is Required Field'],400);
         }
-
        $QrCode = QrCode::where('code_text','=',$request->qrCode)->with('lessons','teacher','teacher.mainCategories')->get();
        $result = empty($QrCode->toArray());
        switch ($result){
@@ -109,8 +110,17 @@ class QrController extends Controller
                break;
            case false:
                if($QrCode[0]->used == 0){
+                   $id=$request->user()->id;
+                   $questions = Question::where('course','=',$QrCode[0]->lesson)->get()->random(4)->pluck('id');
+                   Exam::create([
+                        'questions'=>json_encode($questions->toArray()),
+                        'user_id'=>$id,
+                        'course'=>$QrCode[0]->lesson,
+                        'teacher'=>$QrCode[0]->teacher_id,
+                    ]);
+                   $questions->toArray();
                    $QrCode[0]->used = 1;
-                   $QrCode[0]->student_id = $request->user()->id;
+                   $QrCode[0]->student_id =$id;
                    $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');
                    $QrCode[0]->save();
                    $object = ['qr_Code'=>[
@@ -120,45 +130,12 @@ class QrController extends Controller
                    ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
                    return response()->json($object);
                }
+
                if($QrCode[0]->used == 1){
                    return response()->json(['error'=>'This QrCode Has Been Used Before'],402);
                }
                break;
        }
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

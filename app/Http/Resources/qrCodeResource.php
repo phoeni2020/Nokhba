@@ -19,6 +19,7 @@ class qrCodeResource extends JsonResource
             return [
                 'id'=>$this->id,
                 'qrUrl'=>$this->code_url,
+                'qrText'=>$this->code_text,
                 'lesson'=>$this->lessons->title,
                 'student'=>$this->student->fullName(),
                 'created_at'=>$this->created_at->format('Y-m-d'),
@@ -28,6 +29,7 @@ class qrCodeResource extends JsonResource
         return [
           'id'=>$this->id,
           'qrUrl'=>$this->code_url,
+          'qrText'=>$this->code_text,
           'lesson'=>$this->lessons->title,
           'created_at'=>$this->created_at->format('Y-m-d'),
         ];

@@ -98,14 +98,67 @@ class ExamController extends Controller
      */
     public function storeQuestion(Request $request)
     {
+        $id=$this->getTeacherId();
         $validatedData = Validator::make($request->all(),[
-            'questionText'=>'required|min:5|max:100',
+            'questionText'=>'min:5|max:100|nullable',
             'questionImage'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
+            //'grade'=>'required',
             'answer.img.*'=>'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
-            'answer.text.*'=>'min:1|max:100',
-            'answer.correct.*'=>'required',
+            'answer.text.*'=>'min:1|max:100|nullable',
+            'answer.correct.*'=>'required|nullable',
         ]);
         $validatedData->validated();
+        unset($validatedData);
+        $data = $request->except('_token');
+        /**
+         * {
+        "ansewrs":{
+        "answer1":{
+        "answer":"test",
+        "is_correct":1
+        },
+        "answer2":{
+        "answer":"test",
+        "is_correct":0
+        }
+        }
+        }
+         */
+        if(isset($data['answer']['img'])){
+            $answersArray = [];
+            foreach ($data['answer']['img'] as $key => $answer) {
+                $imgAnswer = $this->uploadImage($answer,0);
+                $isCorrect = isset($data['answer']['correct'][$key]) ? true : false;
+                $answersArray['answers'][$key] = [
+                    'image_ansewr'=>$imgAnswer[0],
+                    'text'=>'',
+                    'is_correct'=>$isCorrect,];
+            }
+            $imgQuestion = isset($data['questionImage'])?$this->uploadImage($request->file('questionImage'),0):'';
+            $object = ['question_text'=>$data['questionText']??'','teacher'=>$id['user_id'],'question_img'=>$imgQuestion[0]??'',
+                'answers'=>json_encode($answersArray),
+                'course'=>'6'
+            ];
+            Question::create($object);
+            return redirect(url('/exams/question'))->with(['massage'=>'Question Created Successfully']);
+        }
+        else{
+            $answersArray = [];
+            foreach ($data['answer']['text'] as $key => $answer) {
+                $isCorrect = isset($data['answer']['correct'][$key]) ? true : false;
+                $answersArray['answers'][$key] = [
+                    'image_ansewr'=>'',
+                    'text'=>$answer,
+                    'is_correct'=>$isCorrect,];
+            }
+            $imgQuestion = isset($data['questionImage'])?$this->uploadImage($request->file('questionImage'),0):'';
+            $object = ['question_text'=>$data['questionText']??'','teacher'=>$id['user_id'],'question_img'=>$imgQuestion[0]??'',
+                'answers'=>json_encode($answersArray),
+                'course'=>'6'
+            ];
+            Question::create($object);
+            return redirect(url('/exams/question'))->with(['massage'=>'Question Created Successfully']);
+        }
     }
 
     /**

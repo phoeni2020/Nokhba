@@ -71,11 +71,12 @@ Route::group(['middleware'=>'auth'],function (){
         Route::view('/','dashbord.exams.index')->name('admin.exam.index');
         Route::view('/create','dashbord.exams.create')->name('admin.exam.create');
         Route::post('/fillTableExams',[Admin\ExamController::class,'fillTableExams'])->name('admin.exam.datatable');
+        Route::post('/post',[Admin\ExamController::class,'store'])->name('admin.exam.store');
 
         Route::group(['prefix'=>'question'],function (){
                Route::view('/','dashbord.exams.question.index')->name('admin.exam.question.index');
                Route::view('/create','dashbord.exams.question.create')->name('admin.exam.question.create');
-               Route::post('/post',[Admin\ExamController::class,'store'])->name('admin.exam.question.store');
+               Route::post('/post',[Admin\ExamController::class,'storeQuestion'])->name('admin.exam.question.store');
                Route::post('/fillTableExams',[Admin\ExamController::class,'fillTableQuestion'])->name('admin.exam.question.fillTableQuestion');
                Route::get('/edit/{question}',[Admin\ExamController::class,'edit'])->name('admin.exam.question.edit');
                Route::put('/update/{question}',[Admin\ExamController::class,'update'])->name('admin.exam.question.update');
@@ -130,7 +131,7 @@ Route::group(['middleware'=>'auth'],function (){
 
         Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.students.ajax.getuser');
         Route::post('/fillTableUsers',[Admin\usersController::class,'fillTableUser'])->name('admin.students.fillTableUser');
-        Route::post('/fillTableUsers',[Admin\usersController::class,'userQrCodes'])->name('admin.students.fillTableExams');
+        Route::post('/fillTableUsersQr',[Admin\usersController::class,'userQrCodes'])->name('admin.students.fillTableExams');
     });
 
     /**
@@ -140,7 +141,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::view('/add/assitant','dashbord.teachers.asstitant.create')->name('admin.add.assitant');
         Route::post('/store/assitant',[Admin\teachersController::class,'addAssitant'])->name('admin.store.assitant');
         Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
-        Route::put('/update/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
+        Route::put('/update',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update.settings');
         Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
         Route::prefix('urls')->group(function (){
             Route::view('/','dashbord.teachers.links.index')->name('admin.teachers.links.index');
@@ -148,6 +149,7 @@ Route::group(['middleware'=>'auth'],function (){
             Route::post('/fillTableLinks',[Admin\teachersController::class,'linksPage'])->name('admin.teachers.links.dataTables');
             Route::post('/stroe',[Admin\teachersController::class,'storeLink'])->name('admin.teahcer.link.store');
             Route::put('/urls/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
+            Route::delete('/urls/{link}',[Admin\teachersController::class,'destroyLink'])->name('admin.teachers.delete');
         });
     });
 

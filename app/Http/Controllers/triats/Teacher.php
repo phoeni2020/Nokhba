@@ -8,8 +8,11 @@ trait Teacher
 {
     public function getTeacherId(){
         $response = Teachers::isTeacher();
-        if(is_null($response['userId'])){
-            return redirect(url('/login'));
+        if (isset($response['error'])){
+            return $response;
+        }
+        if(!isset($response['userId']) || is_null($response['userId'])){
+            return ['error'=>'No Teacher Found'];
         }
         $authId = $response['object'][0]['user_id'];
         if($response['isTeacher'] === false){

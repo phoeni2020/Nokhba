@@ -38,7 +38,7 @@
                         </div>
                     @endif
                     <div class="card">
-                        <form action="{{route('admin.teachers.update',$id)}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('admin.teachers.update.settings')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
@@ -60,6 +60,7 @@
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">
                                             <input class="form-control" required  placeholder="Enter The Nick Name" value="{{$teacher->nickName??''}}" name="nickName" type="text">
+                                            <input required  value="{{$teacher->id??''}}" name="teacher" type="hidden">
                                         </div>
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">

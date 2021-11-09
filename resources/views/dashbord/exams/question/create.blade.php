@@ -59,6 +59,14 @@
                                                 <input type="file" name="questionImage" class="dropify uploadimg "  data-height="200" />
                                             </div>
                                         </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-4">
+                                                <label class="form-label mg-b-0">Grade</label>
+                                            </div>
+                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                <input class="form-control" placeholder="Enter Grade" name="grade" type="number" min="0"/>
+                                            </div>
+                                        </div>
                                         <div id="holder">
                                             <div class="A">
                                                 <div class="row row-xs align-items-center mg-b-20 ">
