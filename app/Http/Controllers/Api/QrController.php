@@ -77,8 +77,7 @@ class QrController extends Controller
         $response['QrCode']=[$object];
         return response()->json($response);*/
         $storeEventsData = qrCodeResource::collection($qrDataObject);
-        $responseObject['QrCode']=$this->data;
-        return response()->json($responseObject);
+        return response()->json($storeEventsData);
     }
 
     /**
