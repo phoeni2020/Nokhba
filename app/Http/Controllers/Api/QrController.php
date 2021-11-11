@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\dataFilter;
+use App\Http\Resources\qrCodeResource;
 use App\Models\Exam;
 use App\Models\QrCode;
 use App\Models\Question;
@@ -75,7 +76,7 @@ class QrController extends Controller
         /*$object = ;
         $response['QrCode']=[$object];
         return response()->json($response);*/
-
+        $storeEventsData = qrCodeResource::collection($qrDataObject);
         array_walk($qrDataObject,function ($qrDataObject){
             $qrDataObject['lessons']['vedio'] = json_decode($qrDataObject['lessons']['vedio']);
            $this->data[$this->index] = ['qr_Code'=>[
@@ -105,37 +106,38 @@ class QrController extends Controller
         $QrCode = QrCode::where('code_text','=',$request->qrCode)->with('lessons','teacher','teacher.mainCategories')->get();
         $result = empty($QrCode->toArray());
         switch ($result){
-               case true:
-                   return response()->json(['error'=>'QrCode Not Exists'],404);
-                   break;
-               case false:
-                   if($QrCode[0]->used == 0){
-                       $id=$request->user()->id;
-                       $questions = Question::where('course','=',$QrCode[0]->lesson)->get()->random(4)->pluck('id');
-                       Exam::create([
-                            'questions'=>json_encode($questions->toArray()),
-                            'user_id'=>$id,
-                            'course'=>$QrCode[0]->lesson,
-                            'teacher'=>$QrCode[0]->teacher_id,
-                        ]);
-                       $questions->toArray();
-                       $QrCode[0]->used = 1;
-                       $QrCode[0]->student_id =$id;
-                       $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');
-                       $QrCode[0]->save();
-                       $object = ['qr_Code'=>[
-                           'qrcode_id'=>$QrCode[0]->id,'code_text'=>$QrCode[0]->code_text,
-                           'code_url'=>$QrCode[0]->code_url,'used'=>$QrCode[0]->used,
-                           'student_id'=>$QrCode[0]->student_id,'valid_till'=>$QrCode[0]->valid_till,
-                       ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
-                       return response()->json($object);
-                   }
+            case true:
+                return response()->json(['error'=>'QrCode Not Exists'],404);
+                break;
+            case false:
+                if($QrCode[0]->used == 1){
+                    $id=$request->user()->id;
+                    /*$questions = Question::where('course','=',$QrCode[0]->lesson)->get()->random(4)->pluck('id');
+                    Exam::create([
+                         'questions'=>json_encode($questions->toArray()),
+                         'user_id'=>$id,
+                         'course'=>$QrCode[0]->lesson,
+                         'teacher'=>$QrCode[0]->teacher_id,
+                     ]);
+                    $questions->toArray();*/
+                    $QrCode[0]->used = 1;
+                    $QrCode[0]->student_id =$id;
+                    $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');
+                    $QrCode[0]->save();
+                    $QrCode[0]['lessons']['vedio'] = json_decode($QrCode[0]['lessons']['vedio'],true);
+                    $object = ['qr_Code'=>[
+                        'qrcode_id'=>$QrCode[0]->id,'code_text'=>$QrCode[0]->code_text,
+                        'code_url'=>$QrCode[0]->code_url,'used'=>$QrCode[0]->used,
+                        'student_id'=>$QrCode[0]->student_id,'valid_till'=>$QrCode[0]->valid_till,
+                    ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
+                    return response()->json($object);
+                }
 
-                   if($QrCode[0]->used == 1){
-                       return response()->json(['error'=>'This QrCode Has Been Used Before'],402);
-                   }
-                   break;
-           }
+                if($QrCode[0]->used == 1){
+                    return response()->json(['error'=>'This QrCode Has Been Used Before'],402);
+                }
+                break;
+        }
 
     }
 }
