@@ -30,6 +30,7 @@ Route::prefix('v1')->group(function (){
     });
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
+
         Route::get('enroll/{course}',[Api\ExamController::class,'enroll']);
         Route::get('views/{course}/{vedio}',[Api\teachersController::class,'courseViews']);
         Route::prefix('user')->group(function (){
@@ -58,6 +59,11 @@ Route::prefix('v1')->group(function (){
         Route::prefix('chat')->group(function (){
             Route::post('/store/{teacher}',[Api\MassagesController::class,'store']);
             Route::post('/get/{teacher}',[Api\MassagesController::class,'index']);
+        });
+
+        Route::prefix('exam')->group(function (){
+            Route::get('/{course}',[Api\ExamController::class,'getExam']);
+            Route::post('/answer/{exam}',[Api\ExamController::class,'answerExam']);
         });
     });
 
