@@ -134,6 +134,7 @@ class QrCodeController extends Controller
             $qrCodeObject = qrModel::create(
                 [
                     'code_text'=>$qrCode,'code_url'=>$pathUrl,
+                    'price'=>50,'center'=>$request->center,
                     'teacher_id'=>$authId['user_id'],'lesson'=>$lessonId
                 ]);
             $qrArray []= ['text'=>$qrCode,'img'=>$path,'lessonTitle'=>$qrCodeObject->lessons->title];

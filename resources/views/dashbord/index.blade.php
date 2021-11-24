@@ -18,22 +18,6 @@
 						  <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Hi, {{ $user->fullname() }} Welcome</h2>
 						</div>
 					</div>
-					<div class="main-dashboard-header-right">
-						<div>
-							<label class="tx-13">Customer Ratings</label>
-							<div class="main-star">
-								<i class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i class="typcn typcn-star"></i> <span>(14,873)</span>
-							</div>
-						</div>
-						<div>
-							<label class="tx-13">Online Sales</label>
-							<h5>563,275</h5>
-						</div>
-						<div>
-							<label class="tx-13">Offline Sales</label>
-							<h5>783,675</h5>
-						</div>
-					</div>
 				</div>
 				<!-- /breadcrumb -->
 @endsection
@@ -95,14 +79,82 @@
 									</div>
 								</div>
 							</div>
-							<span id="compositeline3" class="pt-1">5,10,5,20,22,12,15,18,20,15,8,12,22,5,10,12,22,15,16,10</span>
+							<span id="compositeline3" class="pt-1"></span>
 						</div>
 					</div>
-
+                    @if($user->role == 'admin')
+					    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+						<div class="card overflow-hidden sales-card bg-success-gradient">
+							<div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+								<div class="">
+									<h6 class="mb-3 tx-12 text-white">Platform QRCodes Sales</h6>
+								</div>
+								<div class="pb-0 mt-0">
+									<div class="d-flex">
+										<div class="">
+											<h4 class="tx-20 font-weight-bold mb-1 text-white total_qr_codes"></h4>
+											<p class="mb-0 tx-12 text-white op-7"></p>
+										</div>
+										<span class="float-right my-auto mr-auto">
+											<i class="fas fa-arrow-circle-up text-white"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+							<span id="compositeline3" class="pt-1"></span>
+						</div>
+					</div>
+                    @endif
+                    @if($user->role == 'admin')
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+                            <div class="card overflow-hidden sales-card bg-success-gradient">
+                                <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                                    <div class="">
+                                        <h6 class="mb-3 tx-12 text-white">Your Sales  QRCodes </h6>
+                                    </div>
+                                    <div class="pb-0 mt-0">
+                                        <div class="d-flex">
+                                            <div class="">
+                                                <h4 class="tx-20 font-weight-bold mb-1 text-white total_qr_codes"></h4>
+                                                <p class="mb-0 tx-12 text-white op-7"></p>
+                                            </div>
+                                            <span class="float-right my-auto mr-auto">
+											<i class="fas fa-arrow-circle-up text-white"></i>
+										</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="compositeline3" class="pt-1"></span>
+                            </div>
+                        </div>
+                    @endif
+                    @if($user->role == 'admin')
+					    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+						<div class="card overflow-hidden sales-card bg-success-gradient">
+							<div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+								<div class="">
+									<h6 class="mb-3 tx-12 text-white">TOTAL LESSONS</h6>
+								</div>
+								<div class="pb-0 mt-0">
+									<div class="d-flex">
+										<div class="">
+											<h4 class="tx-20 font-weight-bold mb-1 text-white totallessons"></h4>
+											<p class="mb-0 tx-12 text-white op-7"></p>
+										</div>
+										<span class="float-right my-auto mr-auto">
+											<i class="fas fa-arrow-circle-up text-white"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+							<span id="compositeline3" class="pt-1"></span>
+						</div>
+					</div>
+                    @endif
 				</div>
 				<!-- row closed -->
 
-				<!-- row opened -->
+				{{--<!-- row opened -->
 				<div class="row row-sm">
 					<div class="col-md-12 col-lg-12 col-xl-7">
 						<div class="card">
@@ -408,11 +460,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>--}}
 				<!-- /row -->
-			</div>
-		</div>
-		<!-- Container closed -->
 @endsection
 
 @section('js')
