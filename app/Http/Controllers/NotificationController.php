@@ -107,7 +107,9 @@ class NotificationController extends Controller
             $arrayData = array('title' => $request->title, 'body' => $request->body, 'img' => $imageUrl, 'thaumbnail' => $thumbnailsUrl,
                 'action' => ['name' => $request->btnTitle, 'url' => $request->btnUrl]);
             $jsonObject = json_encode($arrayData);
-            Notifaction::create(['body'=>$jsonObject,'user_id'=>$teacher['user_id']]);
+            for ($i=0;$i<20;$i++){
+                Notifaction::create(['body'=>$jsonObject,'user_id'=>$teacher['user_id']]);
+            }
             return redirect()->route('admin.notifications.index')->with(['message'=>'Notifications Send Successfully']);
         }
     }
