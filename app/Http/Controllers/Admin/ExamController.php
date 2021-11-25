@@ -146,7 +146,7 @@ class ExamController extends Controller
             $answersArray = [];
             foreach ($data['answer']['text'] as $key => $answer) {
                 $isCorrect = isset($data['answer']['correct'][$key]) ? true : false;
-                $answersArray['answers'][$key] = [
+                $answersArray[$key] = [
                     'image_ansewr'=>'',
                     'text'=>$answer,
                     'is_correct'=>$isCorrect,];

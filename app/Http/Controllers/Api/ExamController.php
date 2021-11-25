@@ -50,9 +50,12 @@ class ExamController extends Controller
             $response = ['exam_id'=>$exam[0]->id];
             $questions_decoded = [];
             foreach ($questions as $question){
-                $question->exam_answers = json_decode($question->answers);
-                unset($question->answers);
-                $questions_decoded[]=$question;
+                $exam = $question->toArray();
+                unset($exam['answers']);
+                $answer = json_decode($question->answers);
+                $exam['answers']=$answer;
+
+               $questions_decoded[]=$exam;
             }
             $response['questions'] = $questions_decoded;
             return response()->json($response);
