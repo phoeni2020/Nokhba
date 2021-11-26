@@ -151,6 +151,17 @@ Route::group(['middleware'=>'auth'],function (){
             Route::put('/urls/{teacher}',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update');
             Route::delete('/urls/{link}',[Admin\teachersController::class,'destroyLink'])->name('admin.teachers.delete');
         });
+        Route::prefix('center')->group(function (){
+            Route::view('/','dashbord.teachers.center.index')->name('admin.teachers.center.index');
+            Route::view('/create','dashbord.teachers.center.create')->name('admin.center.center.add');
+            Route::post('/fillTableCenter',[Admin\CentersController::class,'fillTableCenter'])->name('admin.teachers.center.dataTables');
+            Route::post('/store',[Admin\CentersController::class,'store'])->name('admin.teahcer.center.store');
+            Route::put('/{center}',[Admin\CentersController::class,'update'])->name('admin.teachers.center.update');
+            Route::delete('/{center}',[Admin\CentersController::class,'destroy'])->name('admin.teachers.center.delete');
+            Route::get('/{center}',[Admin\CentersController::class,'show'])->name('admin.teachers.center.show');
+            Route::post('/fillCenterDropdown',[Admin\CentersController::class,'fillCenterDropdown'])->name('admin.center.dropdown');
+
+        });
     });
 
     /**

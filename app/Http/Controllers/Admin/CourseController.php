@@ -88,6 +88,7 @@ class CourseController extends Controller
             [
                 'title'=>'required|string|min:5',
                 'desc'=>'required|string|min:5',
+                'q_no'=>'required',
                 'img'=>'required|mimes:jpg,jpeg,png,bmp,tiff|max:10000',
                 'category_id'=>'required',
                 'attch.*'=>'required|string',
@@ -120,6 +121,7 @@ class CourseController extends Controller
             [
                 'title'=>$data['title'],
                 'desc'=>$data['desc'],
+                'question_no'=>$data['q_no'],
                 'img'=>$thumbnailsUrl,
                 'vedio'=>isset($data['vedios'])?json_encode($data['vedios']):'',
                 'category_id'=>$data['category_id'],

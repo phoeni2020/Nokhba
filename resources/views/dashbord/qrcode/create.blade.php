@@ -34,7 +34,7 @@
                         </div>
                     @endif
                     <div class="card">
-                        <form action="{{route('admin.attach.store')}}" method="post" enctype="multipart/form-data">
+                        <form>
                             @csrf
                             <div id="holder">
                                 <div class="card-body A">
@@ -54,6 +54,16 @@
                                                 </div>
                                                 <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                     <select class="js-example-basic-single form-control lesson" name="lesson">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-4">
+                                                    <label class="form-label mg-b-0">Center</label>
+                                                </div>
+                                                <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                    <select class="js-example-basic-single form-control center" name="center">
 
                                                     </select>
                                                 </div>
@@ -81,9 +91,30 @@
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(function (){
             $('.lesson').select2({
-                placeholder: 'choose attachment',
+                placeholder: 'choose Lesson',
                 ajax: {
                     url: "{{route('admin.course.dropdown')}}",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('.center').select2({
+                placeholder: 'choose center',
+                ajax: {
+                    url: "{{route('admin.center.dropdown')}}",
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -116,6 +147,7 @@
                 }
                 var jsonObject = JSON.stringify(arrayResult);
                 var lessonId = $('.lesson').val();
+                var centerId = $('.center').val();
                 let request = $.ajax({
                     url: '{{route('admin.qrcode.store')}}',
                     dataType: "JSON",
@@ -123,7 +155,8 @@
                     data: {
                         _token: CSRF_TOKEN,
                         qrObject: jsonObject,
-                        lesson:lessonId
+                        lesson:lessonId,
+                        center:centerId,
                     }
                 });
                 request.done(function (response) {

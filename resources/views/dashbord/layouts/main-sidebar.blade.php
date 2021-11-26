@@ -22,6 +22,12 @@
             </div>
             <ul class="side-menu">
                 <li class="slide">
+                    <a class="side-menu__item" href="{{ route('admin.dashbord') }}">
+                        <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
+                        <span class="side-menu__label"> الصفحة الرئيسيه </span>
+                    </a>
+                </li>
+                <li class="slide">
                     <a class="side-menu__item" href="{{ route('admin.catgory.index') }}">
                         <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
                         <span class="side-menu__label">التصنيفات</span>
@@ -87,6 +93,12 @@
                                 طرق الدفع و الروابط
                             </a>
                         </li>
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.teachers.center.index') }}">
+                                <i class="fas fa-link side-menu__icon"></i>
+                                ادارة المراكز التعليميه
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="slide">
@@ -137,6 +149,12 @@
                 </div>
             </div>
             <ul class="side-menu">
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('admin.dashbord') }}">
+                        <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
+                        <span class="side-menu__label"> الصفحة الرئيسيه </span>
+                    </a>
+                </li>
                 <li class="slide">
                     <a class="side-menu__item" href="{{ route('admin.catgory.index') }}">
                         <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
@@ -199,8 +217,14 @@
                         </li>
                         <li>
                             <a class="slide-item" href="{{ route('admin.teachers.links.index') }}">
-                                <i class="fas fa-cogs side-menu__icon"></i>
+                                <i class="fas fa-link side-menu__icon"></i>
                                 طرق الدفع و الروابط
+                            </a>
+                        </li>
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.teachers.center.index') }}">
+                                <i class="fas fa-link side-menu__icon"></i>
+                                ادارة المراكز التعليميه
                             </a>
                         </li>
                     </ul>
@@ -233,6 +257,12 @@
                 </div>
             </div>
             <ul class="side-menu">
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('admin.dashbord') }}">
+                        <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
+                        <span class="side-menu__label"> الصفحة الرئيسيه </span>
+                    </a>
+                </li>
                 <li class="slide">
                     <a class="side-menu__item" href="{{ route('admin.catgory.index') }}">
                         <ion-icon class="side-menu__icon fa fa-list-alt"></ion-icon>
@@ -374,6 +404,38 @@
                         <i class="fas fa-question side-menu__icon"></i>
                         <span class="side-menu__label">اﻻمتحانات</span>
                     </a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#">
+                        <i class="fas fa-cogs side-menu__icon"></i>
+                        <span class="side-menu__label">اعدادت اﻻستاذ</span><i class="angle fe fe-chevron-down"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.add.assitant') }}">
+                                <i class="fas fa-user-plus"></i>
+                                اضافه المساعدين
+                            </a>
+                        </li>
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.teachers.settings') }}">
+                                <i class="fas fa-cogs side-menu__icon"></i>
+                                اعدادت اﻻستاذ
+                            </a>
+                        </li>
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.teachers.links.index') }}">
+                                <i class="fas fa-link side-menu__icon"></i>
+                                طرق الدفع و الروابط
+                            </a>
+                        </li>
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.teachers.center.index') }}">
+                                <i class="fas fa-link side-menu__icon"></i>
+                                ادارة المراكز التعليميه
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <div class="side-item side-item-category"></div>
             </ul>

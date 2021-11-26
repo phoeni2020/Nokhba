@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Follow;
 use App\Models\StudentViews;
 use App\Models\Teachers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class teachersController extends Controller
 {
@@ -21,48 +23,55 @@ class teachersController extends Controller
     public function index(Request $request)
     {
         try{
-                $validatedData = $request->validate([
-                    'requestOrder.order' => 'required|string',
-                    'requestOrder.column' => 'required|string',
-                    'requestOrder.length' => 'required|string',
-                ]);
-                //order column
-                $orderType = $validatedData['requestOrder']['order'];
-                $orderColumn = $validatedData['requestOrder']['column'];
-                $length = $validatedData['requestOrder']['length'];
-                /*======================================================================= */
-                $CoursesObject = Teachers::query()
-                    ->with('mainCategories')
-                    ->with('links');
+            $token = explode('|', $request->header('authorization'), 2);
+            $user = PersonalAccessToken::where('token', hash('sha256', $token[1]))->with('tokenable')->get();
+            $id = $user[0]->tokenable->id;
+            $validatedData = $request->validate([
+                'requestOrder.order' => 'required|string',
+                'requestOrder.column' => 'required|string',
+                'requestOrder.length' => 'required|string',
+            ]);
+            //order column
+            $orderType = $validatedData['requestOrder']['order'];
+            $orderColumn = $validatedData['requestOrder']['column'];
+            $length = $validatedData['requestOrder']['length'];
+            /*======================================================================= */
+            $CoursesObject = Teachers::query()
+                ->with('mainCategories')
+                ->with('links');
 
-                /*======================================================================= */
-                $recordsTotal = Teachers::count();
-                if (!empty(request('filter'))) {
-                    $dataFilter ='';
-                    foreach (request('filter') as $field => $value) {
-                        if(count(request('filter')) > 1){
-                            $dataFilter.="$field=$value&";
-                        }
-                        else{
-                            $dataFilter = "$field=$value";
-                        }
+            /*======================================================================= */
+            $recordsTotal = Teachers::count();
+            if (!empty(request('filter'))) {
+                $dataFilter = '';
+                foreach (request('filter') as $field => $value) {
+                    if (count(request('filter')) > 1) {
+                        $dataFilter .= "$field=$value&";
+                    } else {
+                        $dataFilter = "$field=$value";
                     }
-                    parse_str(html_entity_decode($dataFilter), $filterData);
-                    $this->filterData($filterData);
-                    $CoursesObject->where($this->filterData);
-                    $recordsTotal = $CoursesObject->where($this->filterData)->count();
                 }
-                /*======================================================================= */
-                if($recordsTotal == 0){
-                    return response()->json(['count'=>0,'teachers'=>[]]);
-                }
-                $CoursesObject->skip(request('requestOrder')['start'])
-                    ->take($length)
-                    ->orderBy($orderColumn, $orderType);
-                $teachers = $CoursesObject->get()->all();
-                $teachersObject['count'] = $recordsTotal;
-                $teachersObject['teachers'] = $teachers;
-                return response()->json($teachersObject);
+                parse_str(html_entity_decode($dataFilter), $filterData);
+                $this->filterData($filterData);
+                $CoursesObject->where($this->filterData);
+                $recordsTotal = $CoursesObject->where($this->filterData)->count();
+            }
+            /*======================================================================= */
+            if ($recordsTotal == 0) {
+                return response()->json(['count' => 0, 'teachers' => []]);
+            }
+            $CoursesObject->skip(request('requestOrder')['start'])
+                ->take($length)
+                ->orderBy($orderColumn, $orderType);
+            $teachers = $CoursesObject->get()->all();
+            foreach ($teachers as $teacher) {
+                $follow = empty(Follow::where('teacher','=',$teacher->id)->where('user_id','=',$id)->get()->all())?
+                false:true;
+                $teacher['is_followed'] = $follow;
+            }
+            $teachersObject['count'] = $recordsTotal;
+            $teachersObject['teachers'] = $teachers;
+            return response()->json($teachersObject);
         }
         catch (\Exception $e) {
         }

@@ -26,7 +26,6 @@
 			<div class="container-fluid">
 				<?php echo $__env->yieldContent('page-header'); ?>
 				<?php echo $__env->yieldContent('content'); ?>
-				<?php echo $__env->make('dashbord.layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 				<?php echo $__env->make('dashbord.layouts.models', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 				<?php echo $__env->make('dashbord.layouts.footer-scripts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <?php echo $__env->yieldPushContent('Scripts'); ?>

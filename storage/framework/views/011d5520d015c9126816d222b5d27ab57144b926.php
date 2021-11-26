@@ -57,6 +57,14 @@
                                     </div>
                                     <div class="row row-xs align-items-center mg-b-20">
                                         <div class="col-md-4">
+                                            <label class="form-label mg-b-0">Number Of Quistions</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <input required class="form-control" placeholder="Enter Quistions Numbers" name="q_no" type="number" min="4" max="100">
+                                        </div>
+                                    </div>
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-4">
                                             <label class="form-label mg-b-0">Description</label>
                                         </div>
                                         <div class="col-md-8 mg-t-5 mg-md-t-0">

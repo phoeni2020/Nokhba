@@ -26,7 +26,6 @@
 			<div class="container-fluid">
 				@yield('page-header')
 				@yield('content')
-				@include('dashbord.layouts.sidebar')
 				@include('dashbord.layouts.models')
 				@include('dashbord.layouts.footer-scripts')
                 @stack('Scripts')
