@@ -81,7 +81,6 @@ class teachersController extends Controller
             return response()->json($teachersObject);
         }
         catch (\Exception $e) {
-            dd($e);
             return response()->json($e);
         }
     }
