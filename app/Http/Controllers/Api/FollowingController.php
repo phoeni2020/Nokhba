@@ -21,7 +21,7 @@ class FollowingController extends Controller
             $request->all(),
             [
                 'follow' =>'required',
-                'teacher' =>'required',
+                'teacher' =>'required|exists:teachers,id',
             ],
         );
         $validatedData->validated();
