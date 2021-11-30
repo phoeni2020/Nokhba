@@ -166,7 +166,7 @@ class userController extends Controller
                     else {
                         User::where('id', $userid)->update(['password' => Hash::make($input['newPassword'])]);
                         $arr = array("status" => 200, "message" => "Password updated successfully.",
-                            "data" => array('user' => $request->user(), 'token' => $request->header('token')));
+                            "data" => array('user' => $request->user(),'dataComplete'=>true, 'token' => $request->header('token')));
                     }
                 }
         }
