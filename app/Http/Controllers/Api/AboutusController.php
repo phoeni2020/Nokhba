@@ -16,6 +16,9 @@ class AboutusController extends Controller
     public function index()
     {
         $about = About::all()->last();
+        if(!isset($about->body)){
+            return response()->json(['about' =>'NO Content Avaliable']);
+        }
         return response()->json(['about' => $about->body]);
     }
 
