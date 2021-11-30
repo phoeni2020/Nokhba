@@ -23,9 +23,11 @@ class teachersController extends Controller
     public function index(Request $request)
     {
         try{
-            $token = explode('|', $request->header('authorization'), 2);
-            $user = PersonalAccessToken::where('token', hash('sha256', $token[1]))->with('tokenable')->get();
-            $id = $user[0]->tokenable->id;
+            if($request->hasHeader('authorization')){
+                $token = explode('|', $request->header('authorization'), 2);
+                $user = PersonalAccessToken::where('token', hash('sha256', $token[1]))->with('tokenable')->get();
+                $id = $user[0]->tokenable->id;
+            }
             $validatedData = $request->validate([
                 'requestOrder.order' => 'required|string',
                 'requestOrder.column' => 'required|string',
