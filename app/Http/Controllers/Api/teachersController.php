@@ -67,9 +67,14 @@ class teachersController extends Controller
                 ->orderBy($orderColumn, $orderType);
             $teachers = $CoursesObject->get()->all();
             foreach ($teachers as $teacher) {
-                $follow = empty(Follow::where('teacher','=',$teacher->id)->where('user_id','=',$id)->get()->all())?
-                false:true;
-                $teacher['is_followed'] = $follow;
+                if(isset($id)){
+                    $follow = empty(Follow::where('teacher','=',$teacher->id)->where('user_id','=',$id)->get()->all())?
+                        false:true;
+                    $teacher['is_followed'] = $follow;
+                }
+                else{
+                    $teacher['is_followed'] =false;
+                }
             }
             $teachersObject['count'] = $recordsTotal;
             $teachersObject['teachers'] = $teachers;
