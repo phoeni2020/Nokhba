@@ -23,6 +23,7 @@
 @endsection
 
 @section('content')
+
 				<!-- row -->
                 @if($user->student == 0)
 				<div class="row row-sm">
@@ -153,6 +154,10 @@
 					</div>
                     @endif
 				</div>
+                @else
+                    <center>
+                        You'r Password Changed Successfully
+                    </center>
                 @endif
 				<!-- row closed -->
 @endsection
