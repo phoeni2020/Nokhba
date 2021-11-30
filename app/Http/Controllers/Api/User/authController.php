@@ -49,14 +49,14 @@ class authController extends Controller
                     'token' => $token,
                     'token_type' => 'Bearer',
                     'user'=>$user,
-                    'completeData' =>false
+                    'dataComplete' =>false
                 ]);
             }
             return response()->json([
                 'token' => $token,
                 'token_type' => 'Bearer',
                 'user'=>$user,
-                'completeData' =>true
+                'dataComplete' =>true
             ]);
         }
     }
@@ -81,14 +81,14 @@ class authController extends Controller
                 'token' => $token,
                 'token_type' => 'Bearer',
                 'user'=>$user,
-                'completeData' =>false
+                'dataComplete' =>false
             ]);
         }
         return response()->json([
             'token' => $token,
             'token_type' => 'Bearer',
             'user'=>$user,
-            'completeData' =>true
+            'dataComplete' =>true
         ]);
     }
 }
