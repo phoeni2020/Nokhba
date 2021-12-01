@@ -9,6 +9,7 @@ use App\Models\StudentViews;
 use App\Models\Teachers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class teachersController extends Controller
@@ -28,7 +29,9 @@ class teachersController extends Controller
                 $user = PersonalAccessToken::where('token', hash('sha256', $token[1]))->with('tokenable')->get();
                 $id = $user[0]->tokenable->id;
             }
-            $validatedData = $request->validate([
+            $validatedData = Validator::make(
+                $request->all(),
+                [
                 'requestOrder.order' => 'required|string',
                 'requestOrder.column' => 'required|string',
                 'requestOrder.length' => 'required|string',
