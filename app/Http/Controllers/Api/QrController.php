@@ -120,7 +120,8 @@ class QrController extends Controller
                            'qrcode_id'=>$QrCode[0]->id,'code_text'=>$QrCode[0]->code_text,
                            'code_url'=>$QrCode[0]->code_url,'used'=>$QrCode[0]->used,
                            'student_id'=>$QrCode[0]->student_id,'valid_till'=>$QrCode[0]->valid_till,
-                       ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher'],'mac'=>$mac];
+                           'mac'=>$mac
+                       ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
                        return response()->json($object);
                    }
                    if($QrCode[0]->used == 1){
