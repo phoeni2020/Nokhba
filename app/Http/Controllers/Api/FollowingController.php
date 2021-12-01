@@ -28,7 +28,7 @@ class FollowingController extends Controller
         $id = $request->user()->id;
         if($request->follow == 1){
             $followData = Follow::where('user_id','=',$id)->where('teacher','=',$request->teacher)->get();
-            if(empty($followData->toArray())){
+            if(!empty($followData->toArray())){
                 $followData[0]->destroy();
             }
             return response()->json(['massage'=>'Unfollowed Successfully'],200);
