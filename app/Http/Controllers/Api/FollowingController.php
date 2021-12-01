@@ -29,7 +29,7 @@ class FollowingController extends Controller
         if($request->follow == 1){
             $followData = Follow::where('user_id','=',$id)->where('teacher','=',$request->teacher)->get();
             if(!empty($followData->toArray())){
-                $followData[0]->destroy();
+                $followData[0]->delete();
             }
             return response()->json(['massage'=>'Unfollowed Successfully'],200);
         }
