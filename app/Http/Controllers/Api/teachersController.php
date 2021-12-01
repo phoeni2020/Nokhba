@@ -39,6 +39,7 @@ class teachersController extends Controller
         if($validatedData->fails()){
             return response()->json($validatedData->errors()->messages(),400);
         }            //order column
+        $validatedData=$validatedData->validate();
             $orderType = $validatedData['requestOrder']['order'];
             $orderColumn = $validatedData['requestOrder']['column'];
             $length = $validatedData['requestOrder']['length'];
