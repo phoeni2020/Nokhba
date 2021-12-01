@@ -22,7 +22,7 @@ class teachersController extends Controller
      */
     public function index(Request $request)
     {
-        try{
+
             if($request->hasHeader('authorization')){
                 $token = explode('|', $request->header('authorization'), 2);
                 $user = PersonalAccessToken::where('token', hash('sha256', $token[1]))->with('tokenable')->get();
@@ -79,10 +79,7 @@ class teachersController extends Controller
             $teachersObject['count'] = $recordsTotal;
             $teachersObject['teachers'] = $teachers;
             return response()->json($teachersObject);
-        }
-        catch (\Exception $e) {
-            return response()->json($e);
-        }
+
     }
 
     /**
