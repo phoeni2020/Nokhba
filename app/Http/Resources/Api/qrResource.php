@@ -28,6 +28,7 @@ class qrResource extends JsonResource
             'used'=>$this->used,
             'student_id'=>$this->student_id,
             'valid_till'=>$this->valid_till,
+            'mac'=>$this->mac
         ]];
         $arr['lessons']=[
             'id'=>$this->lessons->id,

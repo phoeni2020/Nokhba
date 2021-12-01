@@ -113,6 +113,7 @@ class QrController extends Controller
                        $questions->toArray();
                        $QrCode[0]->used = 1;
                        $QrCode[0]->student_id =$id;
+                       $QrCode[0]->mac =$mac;
                        $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');
                        $QrCode[0]->save();
                        $QrCode[0]['lessons']['vedio']= json_decode($QrCode[0]['lessons']['vedio']);
