@@ -143,7 +143,7 @@ class QrCodeController extends Controller
         $path = public_path();
         $fileName =  time().'.'. 'pdf' ;
         $pdf->save($path.'/'.$fileName);
-        return $pdf->download('qrCodes.pdf');
+        return response()->json($fileName);
 
     }
 }

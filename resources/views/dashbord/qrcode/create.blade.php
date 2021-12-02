@@ -1,7 +1,11 @@
 @extends('dashbord.layouts.master')
 @section('css')
     <!--- Internal Select2 css-->
+    <link href="{{URL::asset('assets/plugins/owl-carousel/owl.carousel.css')}}" rel="stylesheet">
+
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/sweet-alert/sweetalert.css')}}" rel="stylesheet">
+
 @endsection
 
 @section('page-header')
@@ -87,6 +91,10 @@
     </div>
 @endsection
 @section('js')
+    <script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js')}}"></script>
+    <!-- Sweet-alert js  -->
+    <script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
     <script>
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(function (){
@@ -160,41 +168,18 @@
                     }
                 });
                 request.done(function (response) {
-
-                    _this.val('');
-
-                    var productId = response.product_id;
-
-                    if (productId !== '' && typeof shipmentProductsQty[productId] !== "undefined" && response.qty > shipmentProductsQty[productId]) {
-                        var curruntQty = shipmentProductsQty[productId];
-                        shipmentProductsQty[productId] = curruntQty + 1;
-                    } else if (typeof productId !== 'undefined' && typeof shipmentProductsQty[productId] == "undefined") {
-                        shipmentProductsQty[productId] = 1;
-                    }
-
-                    if (typeof response.product_id !== "undefined" && typeof shipmentProductsQty[productId] !== "undefined" && response.qty >= rows) {
-                        rows += 1;
-                        var productLineComponent = `
-		<tr id="row-id-${rows}">
-			  <input type="hidden" name="product[${rows}][productId]" value="${productId}" />
-
-			    <td>${response.merchant}</td>
-
-				 <td>
-				  <img src="/${response.image}" class="w-100 h-100px">
-				</td>
-
-		   <td><a href="${response.link}" target="_blank">${response.displayLink}</a></td>
-
-		   <td>${response.details}</td>
-
-		   <td><a onclick="removeProduct('row-id-${rows}','${productId}')" href='#'><i class="fas fa-trash text-primary"></i></a></td>
-		</tr>
-		   `;
-
-                        $("#productsList tbody").append(productLineComponent);
-
-                    }
+                    swal(
+                        {
+                            title: 'Well done!',
+                            text: 'You clicked the button!',
+                            type: 'success',
+                            confirmButtonColor: '#57a94f'
+                        }
+                        , function() {
+                            getUrl =  window.location;
+                            baseurl = getUrl.origin;
+                            window.open(baseurl+'/'+response, '_blank').focus();
+                    });
                 });
             }
             $('#submit').on('click',makeid);
