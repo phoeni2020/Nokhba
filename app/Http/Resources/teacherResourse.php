@@ -17,9 +17,15 @@ class teacherResourse extends JsonResource
 
         return [
             'id'=>$this->id,
-            'name'=>$this->user->fullName(),
+            'name'=>$this->nickName,
+            'short_description'=>$this->short_description,
+            'long_description'=>$this->long_description,
+            'image'=>$this->image,
+            'subject'=>$this->subject,
+            'vedio'=>$this->vedio,
             'created_at'=>$this->created_at->format('m-d-Y'),
-            'updated_at'=>$this->updated_at->format('m-d-Y'),
+            'actions'=>'',
+            'deleteLink'=>route('admin.teachers.delete',$this->id)
         ];
     }
 }

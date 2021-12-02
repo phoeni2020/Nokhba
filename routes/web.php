@@ -138,6 +138,8 @@ Route::group(['middleware'=>'auth'],function (){
      *
      */
     Route::group(['prefix'=>'teachers'],function (){
+        Route::view('/','dashbord.teachers.index')->name('admin.teachers.index');
+        Route::delete('/ban/{teacher}',[Admin\teachersController::class,'banTeacher'])->name('admin.teachers.delete');
         Route::view('/add/assitant','dashbord.teachers.asstitant.create')->name('admin.add.assitant');
         Route::post('/store/assitant',[Admin\teachersController::class,'addAssitant'])->name('admin.store.assitant');
         Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');

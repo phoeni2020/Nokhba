@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Teachers extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $casts =['id'=>'integer','user_id'=>'integer'];
     protected $fillable =['user_id','short_description','long_description','nickName','vedio','subject','image'];
     /**

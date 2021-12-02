@@ -110,6 +110,12 @@
                         <li>
                             <a class="slide-item" href="{{ route('admin.app.developer.settings') }}">
                                 <i class="fas fa-tools"></i>
+                                حظر المدرسين
+                            </a>
+                        </li>
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.app.developer.settings') }}">
+                                <i class="fas fa-tools"></i>
                                 اعدادت خاصه بالمطورين
                             </a>
                         </li>

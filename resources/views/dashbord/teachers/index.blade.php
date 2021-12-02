@@ -6,17 +6,28 @@
     @php
         $tableConfig = [
             'filter'=>true,
+            'hasActions' => true,
             'actionUrl'=>route('admin.teachers.dataTables'),
-            'tableHeaed'=>['Id','Category Name','Description','Main','Is Parent','Created At','Updated Date'],
-            'tableColumnsNames'=>json_encode(['id','name','desc','main','is_parent','created_at','updated_at']),
+            'tableHeaed'=>['Id','Teacher Name','Long Description','Short Description','Image','Subject','Vedio','Regstrierd At','Ban'],
+            'tableColumnsNames'=>json_encode([
+                                    'id','name','long_description','short_description',
+                                    'image','subject','vedio','created_at','actions'
+                                ]),
             'tableColumnsData'=> json_encode([
-                                                ['data'=>'id'],['data'=>'name'],['data'=>'desc'],['data'=>'main'],
-                                                ['data'=>'is_parent'],
-                                                ['data'=>'created_at'],['data'=>'updated_at'],
+                                                ['data'=>'id'],['data'=>'name'],['data'=>'short_description'],
+                                                ['data'=>'long_description'],
+                                                ['data'=>'image'],
+                                                ['data'=>'subject'],['data'=>'vedio'],
+                                                ['data'=>'created_at'],
+                                                 ['data'=>'actions','responsivePriority' => -1]
                                              ]),
+                                             'tableColumnDefs' => [
+                   'image'=>  [
+                                    ['targets' => 4, 'orderable' => "true", 'column'=>'image', 'link'=>'#']
+                              ]],
         ];
         $filterConfig = ['inputs' => [
-                    ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'name'],
+                    ['lable' => 'Name Arabic','type' => 'text','placeholder'=>'Name Arabic','name' => 'nickName'],
                 ]
         ];
         $buttonsSettings = [

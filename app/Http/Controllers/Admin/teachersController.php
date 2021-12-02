@@ -75,6 +75,11 @@ class teachersController extends Controller
         }
     }
 
+    public function banTeacher(Teachers $teacher)
+    {
+        $teacher->delete();
+        return redirect()->back()->with(['errorMessage'=>'Teacher Band']);
+    }
     /**
      * @param Request $request
      * @param Teachers $teacher
