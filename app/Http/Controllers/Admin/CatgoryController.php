@@ -205,6 +205,7 @@ class CatgoryController extends Controller
      */
     public function update(Request $request, Catgory $catgory)
     {
+        dd('ss');
         $validatedData = Validator::make(
             $request->all(),
             [
