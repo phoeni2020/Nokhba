@@ -112,7 +112,6 @@ class userController extends Controller
     public function update(Request $request)
     {
         try {
-            dd($request->all());
             $validatedData = Validator::make($request->all(), [
                 'fName' => 'required|string|min:3|max:15',
                 'mName' => 'required|string|min:3|max:15',
@@ -123,23 +122,23 @@ class userController extends Controller
                 //'center'=>'required|string|exists:center',
                 'parentPhone' => 'required|string|min:10',
             ]);
-                if ($validatedData->fails()) {
-                    return response()->json($validatedData->errors()->messages(),422);
-                }
-                $data = $validatedData->validate();
-                $user = $request->user();
-                $data = ['beforeUpdate'=>$user];
-                $user->fName = $data['fName'];
-                $user->mName = $data['mName'];
-                $user->lName = $data['lName'];
-                $user->phone = $data['phone'];
-                $user->city = $data['city'];
-                $user->parentPhone = $data['parentPhone'];
-                $user->save();
-                $data['afterUpdate']=$user;
-                Log::create(['log'=>'User Data Updated','user'=>request()->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+            if ($validatedData->fails()) {
+                return response()->json($validatedData->errors()->messages(), 422);
+            }
+            $validatedData = $validatedData->validate();
+            $user = $request->user();
+            $data = ['beforeUpdate' => $user];
+            $user->fName = $validatedData['fName'];
+            $user->mName = $validatedData['mName'];
+            $user->lName = $validatedData['lName'];
+            $user->phone = $validatedData['phone'];
+            $user->city = $validatedData['city'];
+            $user->parentPhone = $validatedData['parentPhone'];
+            $user->save();
+            $data['afterUpdate'] = $user;
+            Log::create(['log' => 'User Data Updated', 'user' => request()->user()->id, 'data' => $data, 'route' => request()->route()->getName()]);
 
-            return response()->json(['token'=>$request->header('token'),'user'=>$user,'dataComplete'=>true]);
+            return response()->json(['token' => $request->header('token'), 'user' => $user, 'dataComplete' => true]);
         }
         catch (Exception $e){
             return response()->json(['error'=>$e->getMessage()]);
