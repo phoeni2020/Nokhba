@@ -261,8 +261,7 @@ class CatgoryController extends Controller
             $catgory->name = $request->name;
             $catgory->desc = $request->desc;
             $catgory->main = $request->main;
-            $catgory->is_parent = $request->is_parent;
-            $catgory->is_parent = $request->is_parent;
+            $catgory->is_parent = $request->is_parent??0;
             $catgory->save();
             return redirect()->route('admin.catgory.index')->with(['message'=>'Category Updated']);
         }

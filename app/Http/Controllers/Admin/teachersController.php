@@ -75,6 +75,10 @@ class teachersController extends Controller
         }
     }
 
+    /**
+     * @param Teachers $teacher
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function banTeacher(Teachers $teacher)
     {
         $teacher->delete();
@@ -216,15 +220,15 @@ class teachersController extends Controller
                     break;
                 case false:
                     Link::create([
-                        'url'=>$data['url']??'#','title'=>$data['title'],'hint'=>$data['hint']??'',
-                        'img'=>$data['img']??'','teacher'=>$authId['user_id']
+                        'url'=>$data['links'][0]['url']??'#','title'=>$data['links'][0]['title'],'hint'=>$data['links'][0]['hint']??'',
+                        'img'=>$data['links'][0]['img']??'','teacher'=>$authId['user_id']
                     ]);
                     break;
             }
             return redirect(route('admin.teachers.links.index'))->with(['message'=>'Links Added']);
         }
         catch(\Exception $e){
-
+            dd($e);
         }
     }
 

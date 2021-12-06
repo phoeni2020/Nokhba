@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    use dataFilter;
     private $filterData =[];
     private $data = [];
     private $index = 0;
@@ -57,4 +56,19 @@ class NotificationController extends Controller
         return response()->json($response);
 
     }
+
+    private function filterData($filterData)
+    {
+        $this->filterData = [];
+        foreach ($filterData as $key => $value) {
+            $op='LIKE';
+            if($key=='teacher'){
+                $key='user_id';
+            }
+            (!empty($value)) ? array_push($this->filterData, ["$key","$op", "%$value%"]) : '';
+        }
+    }
+
+
+
 }
