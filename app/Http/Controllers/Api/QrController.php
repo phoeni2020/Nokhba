@@ -100,7 +100,7 @@ class QrController extends Controller
         switch ($result){
                case true:
                    $data = ['user'=>$request->user()->fullname(), 'QrText'=>$request->qrCode];
-                   Log::create(['log'=>'QrCode Scanned And It\'s Not Exists','user'=>$request->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+                   Log::create(['log'=>'QrCode Scanned And Its Not Exists','user'=>$request->user()->id,'data'=>json_encode($data),'route'=>request()->route()->getName()]);
                    return response()->json(['error'=>'QrCode Not Exists'],404);
                    break;
                case false:
@@ -127,13 +127,13 @@ class QrController extends Controller
                            'mac'=>$mac
                        ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
                        $data = ['user'=>$request->user()->fullname(), 'QrText'=>$request->qrCode];
-                       Log::create(['log'=>'QrCode Scanned Successfully','user'=>$request->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+                       Log::create(['log'=>'QrCode Scanned Successfully','user'=>$request->user()->id,'data'=>json_encode($data),'route'=>request()->route()->getName()]);
 
                        return response()->json($object);
                    }
                    if($QrCode[0]->used == 1){
                        $data = ['user'=>$request->user()->fullname(), 'QrText'=>$request->qrCode];
-                       Log::create(['log'=>'QrCode Has Been Used Before','user'=>$request->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+                       Log::create(['log'=>'QrCode Has Been Used Before','user'=>$request->user()->id,'data'=>json_encode($data),'route'=>request()->route()->getName()]);
                        return response()->json(['error'=>'This QrCode Has Been Used Before'],402);
                    }
                    break;
