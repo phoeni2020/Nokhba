@@ -258,6 +258,7 @@ class CatgoryController extends Controller
         }
 
         if($request->has('main')){
+            dd($request->all());
             $catgory->name = $request->name;
             $catgory->desc = $request->desc;
             $catgory->main = $request->main=='on'? 1:0 ;
