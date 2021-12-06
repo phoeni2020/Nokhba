@@ -112,16 +112,17 @@ class userController extends Controller
     public function update(Request $request)
     {
         try {
-                $validatedData = Validator::make($request->all(),[
-                'fName'=>'required|string|min:3|max:15',
-                'mName'=>'required|string|min:3|max:15',
-                'lName'=>'required|string|min:3|max:15',
-                'phone'=>'required|string|min:10|max:15',
+            dd($request->all());
+            $validatedData = Validator::make($request->all(), [
+                'fName' => 'required|string|min:3|max:15',
+                'mName' => 'required|string|min:3|max:15',
+                'lName' => 'required|string|min:3|max:15',
+                'phone' => 'required|string|min:10|max:15',
                 //'governorate'=>'required|string|exists:governorate',
-                'city'=>'required|string',
+                'city' => 'required|string',
                 //'center'=>'required|string|exists:center',
-                'parentPhone'=>'required|string|min:10',
-                ]);
+                'parentPhone' => 'required|string|min:10',
+            ]);
                 if ($validatedData->fails()) {
                     return response()->json($validatedData->errors()->messages(),422);
                 }
