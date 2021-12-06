@@ -25,7 +25,7 @@ class userController extends Controller
      */
     public function getResetToken(Request $request)
     {
-        Log::create(['log'=>'User Requested Reset Password','user'=>request()->user()->id?request()->user()->id:'','data'=>$request->email,'route'=>request()->route()->getName()]);
+        Log::create(['log' => 'User Requested Reset Password', 'user' => request()->user()->id ? request()->user()->id : '', 'data' => $request->email, 'route' => request()->route()->uri()]);
         $this->validate($request, ['email' => 'required|email|exists:users']);
         $sent = $this->sendResetLinkEmail($request);
         return ($sent)
@@ -90,7 +90,7 @@ class userController extends Controller
                 $user->city = $data['city'];
                 $user->parentPhone = $data['parentPhone'];
                 $user->save();
-                Log::create(['log'=>'User Completed His data','user'=>request()->user()->id,'data'=>$user,'route'=>request()->route()->getName()]);
+                Log::create(['log' => 'User Completed His data', 'user' => request()->user()->id, 'data' => $user, 'route' => request()->route()->uri()]);
 
                 return response()->json(['token'=>$request->header('token'),'user'=>$user,'dataComplete'=>true]);
             }
@@ -136,7 +136,7 @@ class userController extends Controller
             $user->parentPhone = $validatedData['parentPhone'];
             $user->save();
             $data['afterUpdate'] = $user;
-            Log::create(['log' => 'User Data Updated', 'user' => request()->user()->id, 'data' => $data, 'route' => request()->route()->getName()]);
+            Log::create(['log' => 'User Data Updated', 'user' => request()->user()->id, 'data' => $data, 'route' => request()->route()->uri()]);
 
             return response()->json(['token' => $request->header('token'), 'user' => $user, 'dataComplete' => true]);
         }
@@ -174,8 +174,8 @@ class userController extends Controller
                     else {
                         User::where('id', $userid)->update(['password' => Hash::make($input['newPassword'])]);
                         $arr = array("status" => 200, "message" => "Password updated successfully.",
-                            "data" => array('user' => $request->user(),'dataComplete'=>true, 'token' => $request->header('token')));
-                        Log::create(['log'=>'User Updated Password','user'=>request()->user()->id,'data'=>[],'route'=>request()->route()->getName()]);
+                            "data" => array('user' => $request->user(), 'dataComplete' => true, 'token' => $request->header('token')));
+                        Log::create(['log' => 'User Updated Password', 'user' => request()->user()->id, 'data' => [], 'route' => request()->route()->uri()]);
 
                     }
                 }
