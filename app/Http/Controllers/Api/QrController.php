@@ -127,7 +127,7 @@ class QrController extends Controller
                            'mac'=>$mac
                        ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
                        $data = ['user'=>$request->user()->fullname(), 'QrText'=>$request->qrCode];
-                       Log::create(['log'=>'QrCode Scanned Successfully','user'=>$request->user()->id,'data'=>json_encode($data),'route'=>request()->route()->getName()]);
+                       Log::create(['Log'=>'QrCode Scanned Successfully','user'=>$request->user()->id,'data'=>json_encode($data),'route'=>request()->route()->getName()]);
 
                        return response()->json($object);
                    }
