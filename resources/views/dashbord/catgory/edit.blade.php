@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                             <hr class="mb-10 mt-10">
-                            <div class="card-body">
+                            {{--<div class="card-body">
                                 <h3 class="mg-b-20">Advnced Information About Catgory</h3>
                                 <div class="pd-30 pd-sm-40 ">
                                     <div class="form-group col-md-10 col-sm-6 col-xs-12">
@@ -94,7 +94,7 @@
                                     <div class="form-group col-md-10 col-sm-6 col-xs-12">
                                         <fieldset>
                                             <legend>Is Parent :-</legend>
-                                            {{--Main Category Start --}}
+                                            --}}{{--Main Category Start --}}{{--
                                             <div class="row row-sm mb-5">
                                                 <!-- Dropdown -->
                                                 <div class="col-lg-3">
@@ -193,7 +193,7 @@
                                         </button>
                                     </a>
                                 </div>
-                            </div>
+                            </div>--}}
                         </form>
                     </div>
                 </div>
