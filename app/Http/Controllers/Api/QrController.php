@@ -133,6 +133,7 @@ class QrController extends Controller
                    }
                    if($QrCode[0]->used == 1){
                        $data = ['user'=>$request->user()->fullname(), 'QrText'=>$request->qrCode];
+                       dd(request()->route()->getName());
                        Log::create(['log'=>'QrCode Has Been Used Before','user'=>$request->user()->id,'data'=>json_encode($data),'route'=>request()->route()->getName()]);
                        return response()->json(['error'=>'This QrCode Has Been Used Before'],402);
                    }
