@@ -186,14 +186,15 @@
                                         </fieldset>
                                         <hr>
                                     </div>
-                                    <button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">Save</button>
-                                    <a href="{{route('admin.catgory.index')}}">
-                                        <button class="btn btn-dark pd-x-30 mg-t-5" type="button">
-                                            Cancel
-                                        </button>
-                                    </a>
+
                                 </div>
                             </div>--}}
+                            <button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">Save</button>
+                            <a href="{{route('admin.catgory.index')}}">
+                                <button class="btn btn-dark pd-x-30 mg-t-5" type="button">
+                                    Cancel
+                                </button>
+                            </a>
                         </form>
                     </div>
                 </div>
