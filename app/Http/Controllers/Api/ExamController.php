@@ -46,12 +46,8 @@ class ExamController extends Controller
             }
             $data = [
                 'user' => request()->user()->fullname(),
-                'QrText' => $qrCode->code_text,
-                'lesson' => $qrCode->lesson,
-                'title' => $qrCode->title,
-                'category_id' => $qrCode->category_id,
             ];
-            Log::create(['log'=>'Good To Start','user'=>request()->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+            Log::create(['log' => 'Good To Start', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
             return  response()->json(['massage'=>'Good To Start']);
         }
         catch (\Exception $e) {
