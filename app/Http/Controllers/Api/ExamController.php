@@ -23,25 +23,24 @@ class ExamController extends Controller
             $qrCode = view_teacher_lesson_qr::where('student_id','=',$id)
                 ->where('lesson_id','=',$course)->where('valid_till','>',Carbon::now());
             if(empty($qrCode->where('used','=',1)->get()->all())) {
+
                 $data = [
-                    'user'=>request()->user()->fullname,
-                    'QrText'=>$qrCode->code_text,
-                    'lesson'=>$qrCode->lesson,
-                    'title'=>$qrCode->title,
-                    'category_id'=>$qrCode->category_id];
-                Log::create(['log'=>'The QrCode Is Expirad OR You Never Enorlled In That Lesson','user'=>request()->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
-                return response()->json(['error'=>'The QrCode Is Expirad OR You Never Enorlled In That Lesson'],402);
+                    'user' => request()->user()->fullname(),
+                    'course' => $course,
+                ];
+                Log::create(['Log' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
+                return response()->json(['error' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson'], 402);
             }
             $exam = Exam::where('is_done','=',0)->where('course','>',$course)->where('user_id','=',$id)->get();
             if(!empty($exam->all())) {
                 $data = [
-                    'user'=>request()->user()->fullname,
-                    'QrText'=>$qrCode->code_text,
-                    'lesson'=>$qrCode->lesson,
-                    'title'=>$qrCode->title,
-                    'category_id'=>$qrCode->category_id,
-                    'examId'=>$exam[0]->id];
-                Log::create(['log'=>'You MUST Complete previous Test','user'=>request()->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+                    'user' => request()->user()->fullname,
+                    'QrText' => $qrCode->code_text,
+                    'lesson' => $qrCode->lesson,
+                    'title' => $qrCode->title,
+                    'category_id' => $qrCode->category_id,
+                    'examId' => $exam[0]->id];
+                Log::create(['log' => 'You MUST Complete previous Test', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
                 $boolResponse = $exam[0]->course == $course ? true : false;
                 return response()->json(['error'=>'You MUST Complete previous Test','course'=>Course::find($exam[0]->course),'is_same_lesson'=>$boolResponse],403);
             }
@@ -56,7 +55,7 @@ class ExamController extends Controller
             return  response()->json(['massage'=>'Good To Start']);
         }
         catch (\Exception $e) {
-            dd($e);
+            return $e;
         }
     }
 
@@ -67,8 +66,8 @@ class ExamController extends Controller
     public function getExam($course){
         $exam = Exam::where('course','=',$course)->where('user_id','=',request()->user()->id)->where('is_done','=',0)->get()->all();
         if(empty($exam)){
-            $data = ['course'=>$course];
-            Log::create(['log'=>'Sorry Your Exam Not Exists','user'=>request()->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+            $data = ['course' => $course];
+            Log::create(['log' => 'Sorry Your Exam Not Exists', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
             return response()->json(['error' =>'Sorry Your Exam Not Exists'],404);
         }
         else{
@@ -85,8 +84,8 @@ class ExamController extends Controller
             }
             $response['questions'] = $questions_decoded;
 
-            $data = ['course'=>$course];
-            Log::create(['log'=>'Sorry Your Exam Not Exists','user'=>request()->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
+            $data = ['course' => $course];
+            Log::create(['log' => 'Sorry Your Exam Not Exists', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
 
             return response()->json($response);
         }

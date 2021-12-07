@@ -1,5 +1,5 @@
 $(function() {
-	
+
 	/* Dashboard content */
 	$('#compositeline').sparkline('html', {
 		lineColor: 'rgba(255, 255, 255, 0.6)',
@@ -51,26 +51,56 @@ $(function() {
 		lineWidth: 2,
 		spotColor: false,
 		minSpotColor: false,
-		maxSpotColor: false,
-		highlightSpotColor: null,
-		highlightLineColor: null,
-		fillColor: 'rgba(255, 255, 255, 0.2)',
-		chartRangeMin: 0,
-		chartRangeMax: 20,
-		width: '100%',
-		height: 30,
-		disableTooltips: true
-	});
-	/* Dashboard content closed*/
-	
-	
-	/* Apexcharts (#bar) */
-	var optionsBar = {
-	  chart: {
-		height: 249,
-		type: 'bar',
-		toolbar: {
-		   show: false,
+        maxSpotColor: false,
+        highlightSpotColor: null,
+        highlightLineColor: null,
+        fillColor: 'rgba(255, 255, 255, 0.2)',
+        chartRangeMin: 0,
+        chartRangeMax: 20,
+        width: '100%',
+        height: 30,
+        disableTooltips: true
+    });
+    $('#compositeline5').sparkline('html', {
+        lineColor: 'rgba(255, 255, 255, 0.6)',
+        lineWidth: 2,
+        spotColor: false,
+        minSpotColor: false,
+        maxSpotColor: false,
+        highlightSpotColor: null,
+        highlightLineColor: null,
+        fillColor: 'rgba(255, 255, 255, 0.2)',
+        chartRangeMin: 0,
+        chartRangeMax: 20,
+        width: '100%',
+        height: 30,
+        disableTooltips: true
+    });
+    $('#compositeline6').sparkline('html', {
+        lineColor: 'rgba(255, 255, 255, 0.6)',
+        lineWidth: 2,
+        spotColor: false,
+        minSpotColor: false,
+        maxSpotColor: false,
+        highlightSpotColor: null,
+        highlightLineColor: null,
+        fillColor: 'rgba(255, 255, 255, 0.2)',
+        chartRangeMin: 0,
+        chartRangeMax: 20,
+        width: '100%',
+        height: 30,
+        disableTooltips: true
+    });
+    /* Dashboard content closed*/
+
+
+    /* Apexcharts (#bar) */
+    var optionsBar = {
+        chart: {
+            height: 249,
+            type: 'bar',
+            toolbar: {
+                show: false,
 		},
 		fontFamily: 'Nunito, sans-serif',
 		// dropShadow: {
@@ -110,9 +140,9 @@ $(function() {
 			  colors: ['transparent'],
 			},
 		  },
-		  
-		  
-	  }],
+
+
+      }],
 	   series: [{
 		  name: 'Impressions',
 		  data: [74, 85, 57, 56, 76, 35, 61, 98, 36 , 50, 48, 29, 57]
@@ -150,11 +180,11 @@ $(function() {
 	  }
 	}
 	new ApexCharts(document.querySelector('#bar'), optionsBar).render();
-	
+
 	/* Apexcharts (#bar) closed */
-	
-	
-	/*--- Apex (#chart) ---*/
+
+
+    /*--- Apex (#chart) ---*/
 	var options = {
 		chart: {
 		height: 205,
@@ -164,42 +194,42 @@ $(function() {
 	},
 	plotOptions: {
 	  radialBar: {
-		startAngle: -135,
-		endAngle: 135,
-		size: 120,
-		 imageWidth: 50,
-              imageHeight: 50,
-			  
-		 track: {	
-		 strokeWidth: "80%",	
-		 background: '#ecf0fa',	
-		},
-		 dropShadow: {
-                enabled: false,
-                top: 0,
-                left: 0,
-				 bottom: 0,
-                blur: 3,
-                opacity: 0.5
+          startAngle: -135,
+          endAngle: 135,
+          size: 120,
+          imageWidth: 50,
+          imageHeight: 50,
+
+          track: {
+              strokeWidth: "80%",
+              background: '#ecf0fa',
+          },
+          dropShadow: {
+              enabled: false,
+              top: 0,
+              left: 0,
+              bottom: 0,
+              blur: 3,
+              opacity: 0.5
+          },
+          dataLabels: {
+              name: {
+                  fontSize: '16px',
+                  color: undefined,
+                  offsetY: 30,
               },
-		dataLabels: {
-		  name: {
-			fontSize: '16px',
-			color: undefined,
-			offsetY: 30,
-		  },
-		  hollow: {	
-			 size: "60%"	
-			},
-		  value: {
-			offsetY: -10,
-			fontSize: '22px',
-			color: undefined,
-			formatter: function (val) {
-			  return val + "%";
-			}
-		  }
-		}
+              hollow: {
+                  size: "60%"
+              },
+              value: {
+                  offsetY: -10,
+                  fontSize: '22px',
+                  color: undefined,
+                  formatter: function (val) {
+                      return val + "%";
+                  }
+              }
+          }
 	  }
 	},
 	colors: ['#0db2de'],
@@ -209,27 +239,26 @@ $(function() {
     shade: "dark",
     type: "horizontal",
     shadeIntensity: .5,
-    gradientToColors: ['#005bea'],
-    inverseColors: !0,
-    opacityFrom: 1,
-    opacityTo: 1,
-    stops: [0, 100]
+       gradientToColors: ['#005bea'],
+       inverseColors: !0,
+       opacityFrom: 1,
+       opacityTo: 1,
+       stops: [0, 100]
    }
   },
-	stroke: {
-	  dashArray: 4
-	},
-   series: [83],	
-		labels: [""]
-	};
+        stroke: {
+            dashArray: 4
+        },
+        series: [83],
+        labels: [""]
+    };
 
 	var chart = new ApexCharts(document.querySelector("#chart"), options);
 	chart.render();
 	/*--- Apex (#chart)closed ---*/
-	
-	
-	
-	/*--- Apex (#spark1) ---*/
+
+
+    /*--- Apex (#spark1) ---*/
 	var spark1 = {
     chart: {
 		id: 'spark1',
@@ -282,8 +311,8 @@ $(function() {
 	  }
 	}
 	/*--- Apex (#spark1) closed ---*/
-	
-	/*--- Apex (#spark2) ---*/
+
+    /*--- Apex (#spark2) ---*/
 	var spark2 = {
 	  chart: {
 		id: 'spark2',
@@ -335,8 +364,8 @@ $(function() {
 	  }
 	}
 	/*--- Apex (#spark2) closed ---*/
-	
-	/*--- Apex (#spark3) ---*/
+
+    /*--- Apex (#spark3) ---*/
 	var spark3 = {
 	  chart: {
 		id: 'spark3',
@@ -393,8 +422,8 @@ $(function() {
 	  }
 	}
 	/*--- Apex (#spark3) closed ---*/
-	
-	/*--- Apex (#spark4) ---*/
+
+    /*--- Apex (#spark4) ---*/
 
 	var spark4 = {
 	  chart: {
@@ -452,8 +481,8 @@ $(function() {
 	  }
 	}
 	/*--- Apex (#spark4) closed ---*/
-	
-	/*--- Apex (#spark5) ---*/
+
+    /*--- Apex (#spark5) ---*/
 	var spark5 = {
 	  chart: {
 		id: 'spark5',
@@ -516,11 +545,11 @@ $(function() {
 	new ApexCharts(document.querySelector("#spark3"), spark3).render();
 	new ApexCharts(document.querySelector("#spark4"), spark4).render();
 	new ApexCharts(document.querySelector("#spark5"), spark5).render();
-	
-	/*--- Apex (#spark5) closed ---*/
-	
-	
-	/*--- Map ---*/
+
+    /*--- Apex (#spark5) closed ---*/
+
+
+    /*--- Map ---*/
 	$('#vmap2').vectorMap({
 		map: 'usa_en',
 		showTooltip: true,
@@ -542,5 +571,5 @@ $(function() {
 		hoverOpacity: .85
 	});
 	/*--- Map closed ---*/
-	
+
 });
