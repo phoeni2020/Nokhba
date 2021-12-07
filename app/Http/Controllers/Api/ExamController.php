@@ -17,23 +17,24 @@ class ExamController extends Controller
      * @param $course
      * @return \Illuminate\Http\JsonResponse|void
      */
-                        public function enroll(Course $course)
-                        {
-                            try {
-                                $id = request()->user()->id;
-                                $qrCode = view_teacher_lesson_qr::where('student_id', '=', $id)
-                                    ->where('lesson_id', '=', $course->id)->where('valid_till', '>', Carbon::now());
-                                if (empty($qrCode->where('used', '=', 1)->get()->all())) {
 
-                                    $data = [
-                                        'user' => request()->user()->fullname(),
-                                        'course' => $course->id,
-                                    ];
+    public function enroll(Course $course)
+    {
+        try {
+            $id = request()->user()->id;
+            $qrCode = view_teacher_lesson_qr::where('student_id', '=', $id)
+                ->where('lesson_id', '=', $course->id)->where('valid_till', '>', Carbon::now());
+            if (empty($qrCode->where('used', '=', 1)->get()->all())) {
+
+                $data = [
+                    'user' => request()->user()->fullname(),
+                    'course' => $course->id,
+                ];
                 Log::create(['Log' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
                 return response()->json(['error' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson'], 402);
             }
-                                $exam = Exam::where('is_done', '=', 0)->where('course', '>', $course->id)->where('user_id', '=', $id)->get();
-            if(!empty($exam->all())) {
+            $exam = Exam::where('is_done', '=', 0)->where('course', '>', $course->id)->where('user_id', '=', $id)->get();
+            if (!empty($exam->all())) {
                 $data = [
                     'user' => request()->user()->fullname,
                     'QrText' => $qrCode->code_text,
@@ -43,16 +44,15 @@ class ExamController extends Controller
                     'examId' => $exam[0]->id];
                 Log::create(['log' => 'You MUST Complete previous Test', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
                 $boolResponse = $exam[0]->course == $course ? true : false;
-                return response()->json(['error'=>'You MUST Complete previous Test','course'=>Course::find($exam[0]->course),'is_same_lesson'=>$boolResponse],403);
+                return response()->json(['error' => 'You MUST Complete previous Test', 'course' => Course::find($exam[0]->course), 'is_same_lesson' => $boolResponse], 403);
             }
             $data = [
                 'user' => request()->user()->fullname(),
             ];
             Log::create(['log' => 'Good To Start', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
-                                $course->vedio = json_decode($course->vedio, true);
+            $course->vedio = json_decode($course->vedio, true);
             return response()->json(['course' => $course]);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $e;
         }
     }

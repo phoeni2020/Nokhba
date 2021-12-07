@@ -105,14 +105,14 @@ class QrController extends Controller
                    break;
                case false:
                    if($QrCode[0]->used == 0){
-                       $id=$request->user()->id;
-                       $questions = Question::where('course','=',$QrCode[0]->lesson)->get()->random(4)->pluck('id');
+                       $id = $request->user()->id;
+                       $questions = Question::where('course', '=', $QrCode[0]->lesson)->get()->random($QrCode[0]['lessons']['question_no'])->pluck('id');
                        Exam::create([
-                            'questions'=>json_encode($questions->toArray()),
-                            'user_id'=>$id,
-                            'course'=>$QrCode[0]->lesson,
-                            'teacher'=>$QrCode[0]->teacher_id,
-                        ]);
+                           'questions' => json_encode($questions->toArray()),
+                           'user_id' => $id,
+                           'course' => $QrCode[0]->lesson,
+                           'teacher' => $QrCode[0]->teacher_id,
+                       ]);
                        $questions->toArray();
                        $QrCode[0]->used = 1;
                        $QrCode[0]->student_id =$id;
