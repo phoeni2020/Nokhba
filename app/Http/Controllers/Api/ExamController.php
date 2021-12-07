@@ -45,12 +45,12 @@ class ExamController extends Controller
                 return response()->json(['error'=>'You MUST Complete previous Test','course'=>Course::find($exam[0]->course),'is_same_lesson'=>$boolResponse],403);
             }
             $data = [
-                'user'=>request()->user()->fullname,
-                'QrText'=>$qrCode->code_text,
-                'lesson'=>$qrCode->lesson,
-                'title'=>$qrCode->title,
-                'category_id'=>$qrCode->category_id,
-                ];
+                'user' => request()->user()->fullname(),
+                'QrText' => $qrCode->code_text,
+                'lesson' => $qrCode->lesson,
+                'title' => $qrCode->title,
+                'category_id' => $qrCode->category_id,
+            ];
             Log::create(['log'=>'Good To Start','user'=>request()->user()->id,'data'=>$data,'route'=>request()->route()->getName()]);
             return  response()->json(['massage'=>'Good To Start']);
         }
