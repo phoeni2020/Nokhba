@@ -95,16 +95,17 @@ class ExamController extends Controller
     {
         $request=request()->all();
         $exam->is_done=1;
+        //$questions = Question::whereIn('id',json_decode($exam[0]->questions))->get()->all();
         $exam->grade=$request['grade'];
         $exam->save();
-        $questions=$request['questions'];
+        $questions = $request['answers'];
         foreach ($questions as $question) {
             Answer::create([
-                'answers'=>json_encode($question['answers']),
-                'Exam'=>$request['exam_id'],
-                'Course'=>$request['course_id'],
-                'question'=>$question['id'],
-                'student'=>request()->user()->id
+                'answers' => json_encode($question['answer']),
+                'Exam' => $request['exam_id'],
+                'Course' => $request['course_id'],
+                'question' => $question['question'],
+                'student' => request()->user()->id
             ]);
         }
         return response()->json(['massage'=>'Answer Saved',]);
