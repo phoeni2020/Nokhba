@@ -93,8 +93,8 @@ class ExamController extends Controller
      */
     public function answerExam(Exam $exam)
     {
-        $request=request()->all();
-        $exam->is_done=1;
+        $request = request()->all();
+        $exam->is_done = 0;
         //$questions = Question::whereIn('id',json_decode($exam[0]->questions))->get()->all();
         $exam->grade=$request['grade'];
         $exam->save();
