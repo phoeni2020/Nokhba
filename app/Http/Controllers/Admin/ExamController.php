@@ -130,9 +130,10 @@ class ExamController extends Controller
                 $imgAnswer = $this->uploadImage($answer,0);
                 $isCorrect = isset($data['answer']['correct'][$key]) ? true : false;
                 $answersArray['answers'][$key] = [
-                    'image_ansewr'=>$imgAnswer[0],
-                    'text'=>'',
-                    'is_correct'=>$isCorrect,];
+                    'id' => $key + 1,
+                    'image_ansewr' => $imgAnswer[0],
+                    'text' => '',
+                    'is_correct' => $isCorrect,];
             }
             $imgQuestion = isset($data['questionImage'])?$this->uploadImage($request->file('questionImage'),0):'';
             $object = ['question_text'=>$data['questionText']??'','teacher'=>$id['user_id'],'question_img'=>$imgQuestion[0]??'',
@@ -147,9 +148,10 @@ class ExamController extends Controller
             foreach ($data['answer']['text'] as $key => $answer) {
                 $isCorrect = isset($data['answer']['correct'][$key]) ? true : false;
                 $answersArray[$key] = [
-                    'image_ansewr'=>'',
-                    'text'=>$answer,
-                    'is_correct'=>$isCorrect,];
+                    'id' => $key + 1,
+                    'image_ansewr' => '',
+                    'text' => $answer,
+                    'is_correct' => $isCorrect,];
             }
             $imgQuestion = isset($data['questionImage'])?$this->uploadImage($request->file('questionImage'),0):'';
             $object = ['question_text'=>$data['questionText']??'','teacher'=>$id['user_id'],'question_img'=>$imgQuestion[0]??'',

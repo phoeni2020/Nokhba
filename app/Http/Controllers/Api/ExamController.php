@@ -65,26 +65,24 @@ class ExamController extends Controller
         $exam = Exam::where('course','=',$course)->where('user_id','=',request()->user()->id)->where('is_done','=',0)->get()->all();
         if(empty($exam)){
             $data = ['course' => $course];
-            Log::create(['log' => 'Sorry Your Exam Not Exists', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
+            Log::create(['Log' => 'Sorry Your Exam Not Exists', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
             return response()->json(['error' =>'Sorry Your Exam Not Exists'],404);
         }
         else{
             $questions = Question::whereIn('id',json_decode($exam[0]->questions))->get()->all();
             $response = ['exam_id'=>$exam[0]->id];
             $questions_decoded = [];
-            foreach ($questions as $question){
+            foreach ($questions as $question) {
                 $exam = $question->toArray();
                 unset($exam['answers']);
                 $answer = json_decode($question->answers);
-                $exam['answers']=$answer;
+                $exam['answers'] = $answer;
 
-               $questions_decoded[]=$exam;
+                $questions_decoded[] = $exam;
             }
             $response['questions'] = $questions_decoded;
-
-            $data = ['course' => $course];
-            Log::create(['log' => 'Sorry Your Exam Not Exists', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
-
+            //$data = ['course' => $course];
+            //Log::create(['Log' => 'Sorry Your Exam Not Exists', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
             return response()->json($response);
         }
     }

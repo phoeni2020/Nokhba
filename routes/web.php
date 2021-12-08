@@ -18,8 +18,11 @@ use \App\Http\Controllers\Admin;
 Auth::routes();
 
 Route::get('/restPasswords/student')->name('resetpassword.api');
-Route::get('/',[\App\Http\Controllers\Front\HomeController::class,'index']);
-Route::get('/teacher/{teacher}',[\App\Http\Controllers\Front\HomeController::class,'teacherCategories'])->name('teacher.profile');
-Route::get('/lesson/{course}',[\App\Http\Controllers\Front\HomeController::class,'lessonCourse'])->name('teacher.course');
+Route::get('/', [\App\Http\Controllers\Front\HomeController::class, 'index']);
+Route::get('/teacher/{teacher}', [\App\Http\Controllers\Front\HomeController::class, 'teacherCategories'])->name('teacher.profile');
+Route::get('/lesson/{course}', [\App\Http\Controllers\Front\HomeController::class, 'lessonCourse'])->name('teacher.course');
+
+Route::get('exam/{course}/{id}', [App\Http\Controllers\Front\HomeController::class, 'getExamPage']);
+Route::get('getexam/{course}/{id}', [App\Http\Controllers\Front\HomeController::class, 'getExam'])->name('getExam');
 
 //Route::get('/{page}',[\App\Http\Controllers\HomeController::class,'page']);
