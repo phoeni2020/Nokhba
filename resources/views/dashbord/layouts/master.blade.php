@@ -18,10 +18,8 @@
         @php
             $user =auth()->user();
         @endphp
-		@include('dashbord.layouts.main-sidebar')
 		<!-- main-content -->
 		<div class="main-content app-content">
-			@include('dashbord.layouts.main-header')
 			<!-- container -->
 			<div class="container-fluid">
 				@yield('page-header')
