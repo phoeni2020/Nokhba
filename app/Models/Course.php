@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory , Timestamp;
-    protected $fillable = ['title','description','question_no','img','vedio','category_id','user_id'];
+    protected $fillable = ['title', 'description', 'views', 'question_no', 'img', 'vedio', 'category_id', 'user_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

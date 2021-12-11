@@ -21,8 +21,8 @@ Route::group(['middleware'=>'auth','prefix'=>'admin'],function (){
      * Routes Ajax Request's
      */
     Route::group(['prefix'=>'index'],function (){
-        Route::view('/','dashbord.index')->name('admin.dashbord');
-        Route::get('/getdata',[Admin\DashbordController::class,'index'])->name('admin.dashbord.getdata');
+        Route::get('/', [Admin\DashbordController::class, 'Dashbord'])->name('admin.dashbord');
+        Route::get('/getdata', [Admin\DashbordController::class, 'index'])->name('admin.dashbord.getdata');
     });
 
     /**
@@ -115,17 +115,18 @@ Route::group(['middleware'=>'auth','prefix'=>'admin'],function (){
     /**
      *
      */
-    Route::group(['prefix'=>'students'],function (){
-        Route::view('/','dashbord.students.index')->name('admin.students.index');
+    Route::group(['prefix'=>'students'],function () {
+        Route::view('/', 'dashbord.students.index')->name('admin.students.index');
 
-        Route::delete('/destroy/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.delete');
+        Route::delete('/destroy/{user}', [Admin\usersController::class, 'destroy'])->name('admin.user.delete');
 
-        Route::get('/view/{user}',[Admin\usersController::class,'viewUser'])->name('admin.user.view');
-        //Route::get('/view/{user}',[Admin\usersController::class,'destroy'])->name('admin.user.view');
+        Route::get('/view/{user}', [Admin\usersController::class, 'viewUser'])->name('admin.user.view');
+        Route::get('/lessons/views/{user}', [Admin\usersController::class, 'displayViews'])->name('admin.user.view.lesson');
+        Route::get('/qrcodes/display/{user}', [Admin\usersController::class, 'displayViews'])->name('qrcodes.student');
 
-        Route::post('/ajax/getuser',[Admin\usersController::class,'getUser'])->name('admin.students.ajax.getuser');
-        Route::post('/fillTableUsers',[Admin\usersController::class,'fillTableUser'])->name('admin.students.fillTableUser');
-        Route::post('/fillTableUsersQr',[Admin\usersController::class,'userQrCodes'])->name('admin.students.fillTableExams');
+        Route::post('/ajax/getuser', [Admin\usersController::class, 'getUser'])->name('admin.students.ajax.getuser');
+        Route::post('/fillTableUsers', [Admin\usersController::class, 'fillTableUser'])->name('admin.students.fillTableUser');
+        Route::post('/fillTableUsersQr', [Admin\usersController::class, 'userQrCodes'])->name('admin.students.fillTableExams');
     });
 
     /**

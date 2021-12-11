@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'lName' => $data['lName'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'is_admin' => 1,
+            'role' => 'teacher',
         ]);
         Teachers::create(['user_id'=>$user->id]);
         return $user;

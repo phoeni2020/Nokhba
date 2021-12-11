@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'student',
         'role',
+        'belongs_to_teacher'
     ];
 
     /**

@@ -142,13 +142,15 @@ class teachersController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function addAssitant(Request $request){
-        $validatedData = Validator::make($request->all(),[
-            'fName'=>'required|string|min:3|max:15',
-            'mName'=>'required|string|min:3|max:15',
-            'lName'=>'required|string|min:3|max:15',
-            'email'=>'required|email|unique:users|confirmed',
-            'password'=>'required|confirmed|min:8',
-            'role'=>'required',
+        $id = $this->getTeacherId();
+
+        $validatedData = Validator::make($request->all(), [
+            'fName' => 'required|string|min:3|max:15',
+            'mName' => 'required|string|min:3|max:15',
+            'lName' => 'required|string|min:3|max:15',
+            'email' => 'required|email|unique:users|confirmed',
+            'password' => 'required|confirmed|min:8',
+            'role' => 'required',
         ]);
         $data = $validatedData->validated();
         $user = User::create([
@@ -156,6 +158,7 @@ class teachersController extends Controller
             'mName' => $data['mName'],
             'lName' => $data['lName'],
             'email' => $data['email'],
+            'belongs_to_teacher' => auth()->user()->role == 'admin' || auth()->user()->role == 'teacher' ? auth()->user()->id : $id['user_id'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
         ]);

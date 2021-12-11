@@ -107,6 +107,65 @@
                     </div><!-- main-profile-contact-list -->
                 </div>
             </div>
+            <div class="card mg-b-20">
+                <div class="card-body">
+                    <div class="main-content-label tx-13 mg-b-25">
+                        صفحات تهمك
+                    </div>
+                    <div class="main-profile-contact-list">
+
+                        <div class="media">
+                            <div class="media-icon bg-primary-transparent text-primary">
+                                <i class="icon ion-md-phone-portrait"></i>
+                            </div>
+                            <div class="media-body">
+                                <span>الدروس و المشاهدات</span>
+                                <hr>
+                                <div>
+                                    <a href="{{route('admin.user.view.lesson',$user->id)}}">عرض مشاهدات الدروس</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="media">
+                            <div class="media-icon bg-primary-transparent text-primary">
+                                <i class="icon ion-md-phone-portrait"></i>
+                            </div>
+                            <div class="media-body">
+                                <span>QrCodes</span>
+                                <hr>
+                                <div>
+                                    <a href="{{route('qrcodes.student',$user->id)}}">عرض الـqrcodes</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="media-icon bg-success-transparent text-success">
+                                <i class="icon ion-logo-slack"></i>
+                            </div>
+                            <div class="media-body">
+                                <span>الامتحانات و النتائج</span>
+                                <hr>
+                                <div>
+                                    <a href="{{route('examPage',$user->id)}}">عرض الامتحانات</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="media-icon bg-info-transparent text-info">
+                                <i class="icon ion-md-locate"></i>
+                            </div>
+                            <div class="media-body">
+                                <span>Current Address</span>
+                                <div>
+                                    San Francisco, CA
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- main-profile-contact-list -->
+                </div>
+            </div>
         </div>
         <div class="col-lg-8">
             @php
@@ -151,7 +210,6 @@
                 </div>
             </div>
         </div>
-
         <!-- /Col -->
     </div>
 @endsection

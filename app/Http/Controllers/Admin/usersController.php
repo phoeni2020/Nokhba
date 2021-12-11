@@ -73,14 +73,18 @@ class usersController extends Controller
      */
     public function viewUser(User $user)
     {
-        $totalQrCodes = QrCode::where('student_id','=',$user->id)->count();
-        $totalEnrolledLessons = QrCode::where('student_id','=',$user->id)->distinct('lesson')->count();
-        $totalViews = StudentViews::where('student','=',$user->id)->sum('views');
-        return view('dashbord.students.view' ,['user'=>$user,'totalQrCodes'=>$totalQrCodes ,
-            'totalEnrolledLessons'=>$totalEnrolledLessons,'totalViews'=>$totalViews]);
+        $totalQrCodes = QrCode::where('student_id', '=', $user->id)->count();
+        $totalEnrolledLessons = QrCode::where('student_id', '=', $user->id)->distinct('lesson')->count();
+        $totalViews = StudentViews::where('student', '=', $user->id)->sum('views');
+        return view('dashbord.students.view', ['user' => $user, 'totalQrCodes' => $totalQrCodes,
+            'totalEnrolledLessons' => $totalEnrolledLessons, 'totalViews' => $totalViews]);
     }
 
-    public function userQrCodes(){
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function userQrCodes()
+    {
         $authId = $this->getTeacherId();
         //order column
         $columnsOrder = request('order')[0]['column'];
@@ -88,8 +92,8 @@ class usersController extends Controller
         $orderColumn = request('columns')[$columnsOrder]['data'];
         /*======================================================================= */
         $CoursesObject = QrCode::query()
-            ->join('courses','qr_codes.lesson','=','courses.id')
-            ->select('courses.title','qr_codes.*')
+            ->join('courses', 'qr_codes.lesson', '=', 'courses.id')
+            ->select('courses.title', 'qr_codes.*')
             ->where('used','=',1)
             ->where('teacher_id','=',$authId['user_id']);
         if (!empty(request('filter'))) {
@@ -117,10 +121,54 @@ class usersController extends Controller
             ]);
         return $storeEventsData;
     }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function displayViews()
+    {
+        $authId = $this->getTeacherId();
+        //order column
+        $columnsOrder = request('order')[0]['column'];
+        $orderType = request('order')[0]['dir'];
+        $orderColumn = request('columns')[$columnsOrder]['data'];
+        /*======================================================================= */
+        $CoursesObject = QrCode::query()
+            ->join('courses', 'qr_codes.lesson', '=', 'courses.id')
+            ->select('courses.title', 'qr_codes.*')
+            ->where('used', '=', 1)
+            ->where('teacher_id', '=', $authId['user_id']);
+        if (!empty(request('filter'))) {
+            $filterData = [];
+            parse_str(html_entity_decode(request('filter')), $filterData);
+            $this->filterData($filterData);
+            $CoursesObject->where($this->filterData);
+        }
+        /*======================================================================= */
+        // filtered data
+        $filteredDataCount = $CoursesObject->count();
+        /*======================================================================= */
+        $recordsTotal = QrCode::where('teacher_id', '=', $authId['user_id'])->where('used', '=', 1)->count();
+        /*======================================================================= */
+        $CoursesObject->skip(request('start'))
+            ->take(request('length'))
+            ->orderBy($orderColumn, $orderType);
+        $storeEvents = $CoursesObject->get();
+        /*======================================================================= */
+        $storeEventsData = qrCodeResource::collection($storeEvents)
+            ->additional([
+                'draw' => intval(request('draw')),
+                'recordsTotal' => $recordsTotal,
+                'recordsFiltered' => $filteredDataCount,
+            ]);
+        return $storeEventsData;
+    }
+
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getStatics(){
+    public function getStatics()
+    {
         $user = Exam::where('')->get();
         return response()->json($user->toArray());
     }

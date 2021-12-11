@@ -23,7 +23,6 @@
 @endsection
 
 @section('content')
-
 				<!-- row -->
                 @if($user->student == 0)
 				<div class="row row-sm">
@@ -36,17 +35,18 @@
                                         TOTAL USED QRCODES
                                     </h6>
 								</div>
-								<div class="pb-0 mt-0">
-									<div class="d-flex">
-										<div class="">
-											<h4 class="tx-20 font-weight-bold mb-1 text-white counusedqr"></h4>
-										</div>
-									</div>
-								</div>
-							</div>
-							<span id="compositeline" class="pt-1">5,9,5,6,4,12,18,14,10,15,12,5,8,5,12,5,12,10,16,12</span>
-						</div>
-					</div>
+                                <div class="pb-0 mt-0">
+                                    <div class="d-flex">
+                                        <div class="">
+                                            <h4 class="tx-20 font-weight-bold mb-1 text-white counusedqr"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span id="compositeline"
+                                  class="pt-1">5,9,5,6,4,12,18,14,10,15,12,5,8,5,12,5,12,10,16,12</span>
+                        </div>
+                    </div>
                     {{-- compositeline2 --}}
 					<div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
 						<div class="card overflow-hidden sales-card bg-danger-gradient">
@@ -76,8 +76,7 @@
                                     <div class="d-flex">
                                         <div class="">
                                             <h4 class="tx-20 font-weight-bold mb-1 text-white totallessons"></h4>
-                                            <p class="mb-0 tx-12 text
--white op-7"></p>
+                                            <p class="mb-0 tx-12 text-white op-7"></p>
                                         </div>
                                         <span class="float-right my-auto mr-auto">
 											<i class="fas fa-arrow-circle-up text-white"></i>
@@ -157,22 +156,82 @@
                                         </div>
                                     </div>
                                 </div>
-                                <span id="compositeline5"
-                                      class="pt-1">3,2,4,6,12,14,8,7,14,16,12,7,8,4,3,2,2,5,6,7</span>
+                                <span id="compositeline6" class="pt-1">5,9,5,6,4,12,18,14,10,15,12,5,8,5,12,5,12,10,16,12</span>
                             </div>
                         </div>
                     @endif
-				</div>
+                </div>
+                <div class="row row--lg">
+                    <div class="col-xl-6">
+                        <div class="card mg-b-20">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="breadcrumb-header justify-content-between">
+                                        <div class="my-auto">
+                                            <div class="d-flex">
+                                                <h4 class="content-title mb-0 my-auto">اعلي 10 دروس مبيعا</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped mg-b-0 text-md-nowrap">
+                                        <thead>
+                                        <tr>
+                                            <th>الدرس</th>
+                                            <th>عدد مرات البيع</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @forelse($topLessons as $topLesson)
+                                            <tr>
+                                                <td>{{$topLesson->title}}</td>
+                                                <td>{{$topLesson->count}}</td>
+                                            </tr>
+                                        @empty
+                                            <center>لم يتم بيع اي درس او لم يتم اضافه اي درس</center>
+                                        @endforelse
+                                        </tbody>
+                                    </table>
+                                </div><!-- bd -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card mg-b-20">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped mg-b-0 text-md-nowrap">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Joan Powell</td>
+                                            <td>Associate Developer</td>
+                                            <td>$450,870</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @else
                     <center>
                         You'r Password Changed Successfully
                     </center>
                 @endif
-				<!-- row closed -->
+                <!-- row closed -->
 @endsection
 
 @section('js')
-<!--Internal  Chart.bundle js -->
+    <!--Internal  Chart.bundle js -->
 <script src="{{URL::asset('assets/plugins/chart.js/Chart.bundle.min.js')}}"></script>
 <!-- Moment js -->
 <script src="{{URL::asset('assets/plugins/raphael/raphael.min.js')}}"></script>
@@ -205,6 +264,7 @@
             $('.totallessons').text(response.countLessons);
             $('.plat_qr_sales').text(response.platformSales);
             $('.total_teacher_qr_codes').text(response.qrcodeSales);
+
         });
 
     });

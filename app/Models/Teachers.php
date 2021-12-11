@@ -40,13 +40,16 @@ class Teachers extends Model
      * @return array
      */
     public static function isTeacher(){
-        $id = auth()->id();
-        $result = parent::where('user_id','=',$id)->get();
-        if(empty($result->toArray())){
-            return ['error' =>'No Teacher Found'];
+        $id = auth()->user()->belongs_to_teacher == 0 ? auth()->id() : auth()->user()->belongs_to_teacher;
+
+        $result = parent::where('user_id', '=', $id)->get();
+
+        if (empty($result->toArray())) {
+            return ['error' => 'No Teacher Found'];
         }
-        if(is_null($result)){
-            return ['userId'=>$id,'object'=>$result,'isTeacher'=>false];
+
+        if (is_null($result)) {
+            return ['userId' => $id, 'object' => $result, 'isTeacher' => false];
         }
         return ['userId'=>$id,'object'=>$result,'isTeacher'=>true];
     }

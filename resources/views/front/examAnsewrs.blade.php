@@ -154,26 +154,47 @@
         </a>
 
         <p class="text-muted">Multiple Choice Question</p>
+        @foreach($questionsAnsewrs as $questionsAnsewr)
+            <p class="text-justify h5 pb-2 font-weight-bold">
+                {{$questionsAnsewr['question']['question_text']}}
+            </p>
+            @if(strlen($questionsAnsewr['question']['question_img']) > 0)
+                <img src="{{$questionsAnsewr['question']['question_img']}}">
+            @endif
+            <div class="options py-3">
+                @php
+                    $rightAnsewr = '';
+                @endphp
+                @foreach($questionsAnsewr['question']['answers'] as $answer)
+                    @if(strlen($answer['image_ansewr']) > 0)
+                        <div class="rounded p-2 option {{$answer['is_correct']==true?'bg-success':'bg-danger'}}">
+                            <img src="{{$answer['image_ansewr']}}">
+                        </div>
+                    @else
+                        <label class="rounded p-2 option {{$answer['is_correct']==true?'bg-success':'bg-danger'}}">
+                            {{$answer['text']}}
+                            <span class="crossmark"></span>
+                        </label>
+                        @if($answer['is_correct']==true)
+                            @php
+                                $rightAnsewr =
+                            @endphp
+                        @endif
+                    @endif
+                @endforeach
+            </div>
+            @if($questionsAnsewr['question'])
+                <b></b>
+                <p class="mt-2 mb-4 pl-2 text-justify">
+                    Well done! He was scared of flying so picked up the parachute from an
+                    support store before the trip. He won gold
+                </p>
+            @else
+                <b>Incorrect Feedback</b>
+                <p class="my-2 pl-2"> That was incorrect. Try again </p>
+            @endif
+        @endforeach
 
-        <p class="text-justify h5 pb-2 font-weight-bold">
-            What did Radha Krishnan (Cassius Clay at the time) wear while flying to Rome for the 1960 Games?
-        </p>
-
-        <div class="options py-3">
-            <label class="rounded p-2 option">
-                His boxing gloves
-                <input type="radio" name="radio">
-                <span class="crossmark"></span>
-            </label>
-        </div>
-
-        <b>Correct Feedback</b>
-        <p class="mt-2 mb-4 pl-2 text-justify">
-            Well done! He was scared of flying so picked up the parachute from an
-            support store before the trip. He won gold
-        </p>
-        <b>Incorrect Feedback</b>
-        <p class="my-2 pl-2"> That was incorrect. Try again </p>
     </div>
 </div>
 <script type='text/javascript'

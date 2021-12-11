@@ -22,8 +22,8 @@ Route::get('/', [\App\Http\Controllers\Front\HomeController::class, 'index']);
 Route::get('/teacher/{teacher}', [\App\Http\Controllers\Front\HomeController::class, 'teacherCategories'])->name('teacher.profile');
 Route::get('/lesson/{course}', [\App\Http\Controllers\Front\HomeController::class, 'lessonCourse'])->name('teacher.course');
 
-Route::get('exam/{id}', [App\Http\Controllers\Front\HomeController::class, 'getExamPage']);
+Route::get('exam/{id}', [App\Http\Controllers\Front\HomeController::class, 'getExamPage'])->name('examPage');
 Route::get('exam/result/{exam}', [App\Http\Controllers\Front\HomeController::class, 'examResults'])->name('resultExam');
 Route::post('studentExams/{id}', [App\Http\Controllers\Front\HomeController::class, 'fillTableStudentExams'])->name('getExams');
 
-//Route::get('/{page}',[\App\Http\Controllers\HomeController::class,'page']);
+Route::get('page/{page}', [\App\Http\Controllers\HomeController::class, 'page']);

@@ -88,14 +88,17 @@ class HomeController extends Controller
     public function examResults(Exam $exam)
     {
         $questions = json_decode($exam->questions);
-        $questions = Answer::whereIn('question', $questions)->get();
-        $questionsArr = [];
+        $questionsAnsewrs = [];
         foreach ($questions as $question) {
-            $question = Question::find($question->question);
-            $question->answers = json_decode($question->answers, true);
-            dd($question->toArray());
-            $questionsArr[] = ['question_text' => $question->question_text, 'question_img' => $question->question_img];
+            $answers = Answer::where('question', $question)->where('Exam', '=', $exam->id)->get();
+            foreach ($answers as $answer) {
+                $question = Question::find($answer->question);
+                $question->answers = json_decode($question->answers, true);
+                $answer->answers = json_decode($answer->answers, true);
+                $questionsAnsewrs[] = ['question' => $question->toArray(), 'answer' => $answer->toArray()];
+            }
         }
+        return view('front.examAnsewrs')->with(['questionsAnsewrs' => $questionsAnsewrs]);
     }
 
     /*    public function getExam($course, $id)
