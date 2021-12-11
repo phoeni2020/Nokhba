@@ -157,7 +157,7 @@
                 {{$questionsAnsewr['question']['question_text']}}
             </p>
             @if(strlen($questionsAnsewr['question']['question_img']) > 0)
-                <img style="width:50px;height:50px;" src="{{$questionsAnsewr['question']['question_img']}}">
+                <img style="width:100px;height:100px;" src="{{$questionsAnsewr['question']['question_img']}}">
             @endif
             <div class="options py-3">
                 @php
@@ -166,7 +166,7 @@
                 @foreach($questionsAnsewr['question']['answers'] as $answer)
                     @if(strlen($answer['image_ansewr']) > 0)
                         <div class="rounded p-2 option {{$answer['is_correct']==true?'bg-success':'bg-danger'}}">
-                            <img style="width:50px;height:50px;" src="{{$answer['image_ansewr']}}">
+                            <img style="width:100px;height:100px;" src="{{$answer['image_ansewr']}}">
                         </div>
                     @else
                         <label class="rounded p-2 option {{$answer['is_correct']==true?'bg-success':'bg-danger'}}">
