@@ -25,7 +25,7 @@ class userController extends Controller
      */
     public function getResetToken(Request $request)
     {
-        Log::create(['log' => 'User Requested Reset Password', 'user' => request()->user()->id ? request()->user()->id : '', 'data' => $request->email, 'route' => request()->route()->uri()]);
+        Log::create(['log' => 'User Requested Reset Password', 'user' => '', 'data' => $request->email, 'route' => request()->route()->uri()]);
         $this->validate($request, ['email' => 'required|email|exists:users']);
         $sent = $this->sendResetLinkEmail($request);
         return ($sent)

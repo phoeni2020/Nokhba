@@ -9,7 +9,7 @@ class QrCode extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code_text','center','price','code_url','lesson','teacher_id','used','student_id','created_at','updated_at','valid_till'];
+    protected $fillable = ['code_text', 'mac', 'center', 'price', 'code_url', 'lesson', 'teacher_id', 'used', 'student_id', 'created_at', 'updated_at', 'valid_till'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
