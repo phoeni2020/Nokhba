@@ -5,8 +5,8 @@
 @section('page-header')
     @php
         $tableConfig = [
-            'actionUrl'=>route('getExams',request('id')),
-            'tableHeaed'=>['Id','الدرس','الدرجة','عرض النتيجة'],
+            'actionUrl'=>route('admin.user.view.datatablelesson',$id),
+            'tableHeaed'=>['المشاهدات','الدرس'],
             'tableColumnsNames'=>json_encode(['id','lesson','grade','resultLink']),
             'tableColumnsData'=> json_encode([
                                                 ['data'=>'id'],

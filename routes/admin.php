@@ -121,7 +121,8 @@ Route::group(['middleware'=>'auth','prefix'=>'admin'],function (){
         Route::delete('/destroy/{user}', [Admin\usersController::class, 'destroy'])->name('admin.user.delete');
 
         Route::get('/view/{user}', [Admin\usersController::class, 'viewUser'])->name('admin.user.view');
-        Route::get('/lessons/views/{user}', [Admin\usersController::class, 'displayViews'])->name('admin.user.view.lesson');
+        Route::get('/lessons/views/id/', [Admin\usersController::class, 'getviewspage'])->name('admin.user.view.lesson');
+        Route::get('/lessons/views/{user}', [Admin\usersController::class, 'displayViews'])->name('admin.user.view.datatablelesson');
         Route::get('/qrcodes/display/{user}', [Admin\usersController::class, 'displayViews'])->name('qrcodes.student');
 
         Route::post('/ajax/getuser', [Admin\usersController::class, 'getUser'])->name('admin.students.ajax.getuser');

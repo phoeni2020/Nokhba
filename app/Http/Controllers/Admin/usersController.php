@@ -80,6 +80,11 @@ class usersController extends Controller
             'totalEnrolledLessons' => $totalEnrolledLessons, 'totalViews' => $totalViews]);
     }
 
+    public function getviewspage()
+    {
+        return view('dashbord.students.lessons')->with('id', auth()->id());
+    }
+
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -133,7 +138,7 @@ class usersController extends Controller
         $orderType = request('order')[0]['dir'];
         $orderColumn = request('columns')[$columnsOrder]['data'];
         /*======================================================================= */
-        $CoursesObject = QrCode::query()
+        $CoursesObject = StudentViews::query()
             ->join('courses', 'qr_codes.lesson', '=', 'courses.id')
             ->select('courses.title', 'qr_codes.*')
             ->where('used', '=', 1)

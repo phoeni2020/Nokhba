@@ -39,7 +39,8 @@ Route::prefix('v1')->group(function (){
             Route::put('/update',[User\userController::class,'update']);
             Route::put('/updatePassword',[User\userController::class,'changePassword']);
             Route::delete('/destroy/{id}',[User\userController::class,'destroy']);
-            Route::get('/logout',[User\userController::class,'logOut']);
+            Route::get('/logout', [User\userController::class, 'logOut']);
+            Route::post('/firebase', [User\userController::class, 'updateFireBase']);
         });
 
         Route::prefix('qrcode')->group(function (){
@@ -66,6 +67,7 @@ Route::prefix('v1')->group(function (){
             Route::post('/answer/{exam}', [Api\ExamController::class, 'answerExam']);
         });
     });
+
 
     Route::post('notifications/{start}/{limit}',[Api\NotificationController::class,'index']);
 });

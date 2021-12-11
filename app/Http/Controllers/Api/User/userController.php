@@ -218,14 +218,18 @@ class userController extends Controller
         return \Response::json($arr);
     }
 
-    public function logOut(Request $request){
-        try{
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logOut(Request $request)
+    {
+        try {
             $user = $request->user();
             // Revoke a specific token...
             $user->currentAccessToken()->delete();
-            return response()->json(['massage' =>'user logged out'],200);
-        }
-        catch (\Exception $ex){
+            return response()->json(['massage' => 'user logged out'], 200);
+        } catch (\Exception $ex) {
             if (isset($ex->errorInfo[2])) {
                 $msg = $ex->errorInfo[2];
             } else {
@@ -236,5 +240,11 @@ class userController extends Controller
 
     }
 
+    public function updateFireBase()
+    {
+        $user = request()->user()->fcm_token = request('firebase_token');
+        $user->save();
+        return response()->json(array("status" => 200, "message" => 'firebase token updated '));
+    }
 
 }
