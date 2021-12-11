@@ -26,6 +26,7 @@ class ExamController extends Controller
             $qrCode = view_teacher_lesson_qr::where('student_id', '=', $id)
                 ->where('lesson_id', '=', $course->id)->where('valid_till', '>', Carbon::now());
             $mac = $qrCode->where('used', '=', 1)->get()->all();
+            dd($mac);
             if ($mac->mac != $userMac) {
                 return response()->json(['error' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson'], 500);
 
