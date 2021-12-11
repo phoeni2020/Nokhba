@@ -21,6 +21,12 @@ class ExamController extends Controller
     public function enroll(Course $course)
     {
         try {
+            if ($course->isfree == 1) {
+
+                $course->vedio = json_decode($course->vedio, true);
+                return response()->json(['course' => $course]);
+
+            }
             $id = request()->user()->id;
             $userMac = request()->user()->mac;
             $qrCode = view_teacher_lesson_qr::where('student_id', '=', $id)
@@ -42,7 +48,7 @@ class ExamController extends Controller
             $exam = Exam::where('is_done', '=', 0)->where('course', '>', $course->id)->where('user_id', '=', $id)->get();
             if (!empty($exam->all())) {
                 $data = [
-                    'user' => request()->user()->fullname,
+                    'user' => request()->user()->fullname(),
                     'QrText' => $qrCode->code_text,
                     'lesson' => $qrCode->lesson,
                     'title' => $qrCode->title,
@@ -56,6 +62,7 @@ class ExamController extends Controller
                 'user' => request()->user()->fullname(),
             ];
             Log::create(['log' => 'Good To Start', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
+
             $course->vedio = json_decode($course->vedio, true);
             return response()->json(['course' => $course]);
         } catch (\Exception $e) {
