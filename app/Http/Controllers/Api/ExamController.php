@@ -49,11 +49,7 @@ class ExamController extends Controller
             if (!empty($exam->all())) {
                 $data = [
                     'user' => request()->user()->fullname(),
-                    'QrText' => $qrCode->code_text,
-                    'lesson' => $qrCode->lesson,
-                    'title' => $qrCode->title,
-                    'category_id' => $qrCode->category_id,
-                    'examId' => $exam[0]->id];
+                ];
                 Log::create(['log' => 'You MUST Complete previous Test', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
                 $boolResponse = $exam[0]->course == $course ? true : false;
                 return response()->json(['error' => 'You MUST Complete previous Test', 'course' => Course::find($exam[0]->course), 'is_same_lesson' => $boolResponse], 403);
