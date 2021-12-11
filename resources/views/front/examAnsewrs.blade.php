@@ -148,18 +148,16 @@
 <body oncontextmenu='return false' class='snippet-body'>
 <div class="wrapper bg-white rounded">
     <div class="content">
-        <a href="#">
+        <a onclick="history.back()">
             <span class="fa fa-angle-left pr-2"></span>
             العوده لصفحه نتائج اﻻمتحانات
         </a>
-
-        <p class="text-muted">Multiple Choice Question</p>
         @foreach($questionsAnsewrs as $questionsAnsewr)
             <p class="text-justify h5 pb-2 font-weight-bold">
                 {{$questionsAnsewr['question']['question_text']}}
             </p>
             @if(strlen($questionsAnsewr['question']['question_img']) > 0)
-                <img src="{{$questionsAnsewr['question']['question_img']}}">
+                <img style="width:50px;height:50px;" src="{{$questionsAnsewr['question']['question_img']}}">
             @endif
             <div class="options py-3">
                 @php
@@ -168,7 +166,7 @@
                 @foreach($questionsAnsewr['question']['answers'] as $answer)
                     @if(strlen($answer['image_ansewr']) > 0)
                         <div class="rounded p-2 option {{$answer['is_correct']==true?'bg-success':'bg-danger'}}">
-                            <img src="{{$answer['image_ansewr']}}">
+                            <img style="width:50px;height:50px;" src="{{$answer['image_ansewr']}}">
                         </div>
                     @else
                         <label class="rounded p-2 option {{$answer['is_correct']==true?'bg-success':'bg-danger'}}">
