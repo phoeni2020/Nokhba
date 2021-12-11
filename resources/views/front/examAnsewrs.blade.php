@@ -177,22 +177,12 @@
                         </label>
                         @if($answer['is_correct']==true)
                             @php
-                                $rightAnsewr =
+                                $rightAnsewr = '';
                             @endphp
                         @endif
                     @endif
                 @endforeach
             </div>
-            @if($questionsAnsewr['question'])
-                <b></b>
-                <p class="mt-2 mb-4 pl-2 text-justify">
-                    Well done! He was scared of flying so picked up the parachute from an
-                    support store before the trip. He won gold
-                </p>
-            @else
-                <b>Incorrect Feedback</b>
-                <p class="my-2 pl-2"> That was incorrect. Try again </p>
-            @endif
         @endforeach
 
     </div>
