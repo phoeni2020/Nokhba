@@ -41,8 +41,7 @@ class ExamController extends Controller
                 return response()->json(['error' => 'الكيو ار كود انتهت صلاحياته او لم يتم اضافته'], 402);
             }
             $mac = $qrCode->where('used', '=', 1)->get()->all();
-            dd($mac);
-            if ($mac->mac != $userMac) {
+            if ($mac[0]->mac != $userMac) {
                 return response()->json(['error' => 'عفوا يجب مشاهده الدرس من نفس الجهاز الذي تم تفعيله عليه'], 403);
             }
             $exam = Exam::where('is_done', '=', 0)->where('course', '>', $course->id)->where('user_id', '=', $id)->get();
