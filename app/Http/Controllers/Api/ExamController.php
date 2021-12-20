@@ -37,7 +37,8 @@ class ExamController extends Controller
                     'course' => $course->id,
                 ];
                 Log::create(['Log' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
-                return response()->json(['error' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson'], 402);
+                //The QrCode Is Expirad OR You Never Enorlled In That Lesson
+                return response()->json(['error' => 'الكيو ار كود انتهت صلاحياته او لم يتم اضافته'], 402);
             }
             $mac = $qrCode->where('used', '=', 1)->get()->all();
             if ($mac->mac != $userMac) {
