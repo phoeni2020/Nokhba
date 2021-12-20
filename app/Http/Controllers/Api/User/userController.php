@@ -54,10 +54,19 @@ class userController extends Controller
      */
     public function show(Request $request){
         $user = $request->user();
-        if(is_null($user->fName)){
-            return response()->json(['user'=>$user,'token'=>$request->header('token'),'dataComplete'=>false]);
+        if (is_null($user->fName)) {
+            return response()->json([
+                'verified' => !($user->email_verified_at == null),
+                'user' => $user,
+                'token' => $request->header('token'),
+                'dataComplete' => false
+            ]);
         }
-        return response()->json(['user'=>$user,'token'=>$request->header('token'),'dataComplete'=>true]);
+        return response()->json([
+            'verified' => !($user->email_verified_at == null),
+            'user' => $user,
+            'token' => $request->header('token'), 'dataComplete' => true
+        ]);
     }
 
     /**
@@ -92,7 +101,12 @@ class userController extends Controller
                 $user->save();
                 Log::create(['log' => 'User Completed His data', 'user' => request()->user()->id, 'data' => json_encode($user), 'route' => request()->route()->uri()]);
 
-                return response()->json(['token'=>$request->header('token'),'user'=>$user,'dataComplete'=>true]);
+                return response()->json([
+                    'verified' => !($user->email_verified_at == null),
+                    'token' => $request->header('token'),
+                    'user' => $user,
+                    'dataComplete' => true
+                ]);
             }
             return response()->json(['error' =>401,'errorMsg'=>'You Must Send User Token In Header As Token Header Regardless Of Authorization']);
         }
@@ -138,7 +152,11 @@ class userController extends Controller
             $data['afterUpdate'] = $user;
             Log::create(['log' => 'User Data Updated', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
 
-            return response()->json(['token' => $request->header('token'), 'user' => $user, 'dataComplete' => true]);
+            return response()->json([
+                'verified' => !($user->email_verified_at == null),
+                'token' => $request->header('token'),
+                'user' => $user, 'dataComplete' => true
+            ]);
         }
         catch (Exception $e){
             return response()->json(['error'=>$e->getMessage()]);
@@ -152,29 +170,25 @@ class userController extends Controller
     public function changePassword(Request $request)
     {
         try {
-                $input = $request->all();
-                $userid = Auth::guard('sanctum')->user()->id;
-
-                $rules = array(
-                    'oldPassword' => 'required',
-                    'newPassword' => 'required|min:6',
-                    'confirmPassword' => 'required|same:newPassword',
-                );
-                $validator = Validator::make($input, $rules);
-
-                if ($validator->fails()) {
-                    $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
+            $input = $request->all();
+            $userid = Auth::guard('sanctum')->user()->id;
+            $rules = array(
+                'oldPassword' => 'required',
+                'newPassword' => 'required|min:6',
+                'confirmPassword' => 'required|same:newPassword',
+            );
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
+            } else {
+                if ((Hash::check(request('oldPassword'), Auth::user()->password)) == false) {
+                    $arr = array("status" => 400, "message" => "Check your old password.", "data" => array());
+                } else if ((Hash::check(request('newPassword'), Auth::user()->password)) == true) {
+                    $arr = array("status" => 400, "message" => "Please enter a password which is not similar then current password.", "data" => array());
                 } else {
-                    if ((Hash::check(request('oldPassword'), Auth::user()->password)) == false) {
-                        $arr = array("status" => 400, "message" => "Check your old password.", "data" => array());
-                    }
-                    else if ((Hash::check(request('newPassword'), Auth::user()->password)) == true) {
-                        $arr = array("status" => 400, "message" => "Please enter a password which is not similar then current password.", "data" => array());
-                    }
-                    else {
-                        User::where('id', $userid)->update(['password' => Hash::make($input['newPassword'])]);
-                        $arr = array("status" => 200, "message" => "Password updated successfully.",
-                            "data" => array('user' => $request->user(), 'dataComplete' => true, 'token' => $request->header('token')));
+                    User::where('id', $userid)->update(['password' => Hash::make($input['newPassword'])]);
+                    $arr = array("status" => 200, "message" => "Password updated successfully.",
+                        "data" => array('user' => $request->user(), 'dataComplete' => true, 'token' => $request->header('token')));
                         Log::create(['log' => 'User Updated Password', 'user' => request()->user()->id, 'data' => '', 'route' => request()->route()->uri()]);
 
                     }

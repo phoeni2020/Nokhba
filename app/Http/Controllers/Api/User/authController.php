@@ -48,17 +48,19 @@ class authController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             if(is_null($user->fName)){
                 return response()->json([
+                    'verified' => !($user->email_verified_at == null),
                     'token' => $token,
                     'token_type' => 'Bearer',
-                    'user'=>$user,
-                    'dataComplete' =>false
+                    'user' => $user,
+                    'dataComplete' => false
                 ]);
             }
             return response()->json([
+                'verified' => !($user->email_verified_at == null),
                 'token' => $token,
                 'token_type' => 'Bearer',
-                'user'=>$user,
-                'dataComplete' =>true
+                'user' => $user,
+                'dataComplete' => true
             ]);
         }
     }
@@ -80,17 +82,19 @@ class authController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
         if(is_null($user->fName)){
             return response()->json([
+                'verified' => !($user->email_verified_at == null),
                 'token' => $token,
                 'token_type' => 'Bearer',
-                'user'=>$user,
-                'dataComplete' =>false
+                'user' => $user,
+                'dataComplete' => false
             ]);
         }
         return response()->json([
+            'verified' => !($user->email_verified_at == null),
             'token' => $token,
             'token_type' => 'Bearer',
-            'user'=>$user,
-            'dataComplete' =>true
+            'user' => $user,
+            'dataComplete' => true
         ]);
     }
 }
