@@ -31,11 +31,6 @@ class ExamController extends Controller
             $userMac = request()->user()->mac;
             $qrCode = view_teacher_lesson_qr::where('student_id', '=', $id)
                 ->where('lesson_id', '=', $course->id)->where('valid_till', '>', Carbon::now());
-            $mac = $qrCode->where('used', '=', 1)->get()->all();
-            if ($mac->mac != $userMac) {
-                return response()->json(['error' => 'عفوا يجب مشاهده الدرس من نفس الجهاز الذي تم تفعيله عليه'], 403);
-
-            }
             if (empty($qrCode->where('used', '=', 1)->get()->all())) {
                 $data = [
                     'user' => request()->user()->fullname(),
@@ -44,7 +39,11 @@ class ExamController extends Controller
                 Log::create(['Log' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
                 return response()->json(['error' => 'The QrCode Is Expirad OR You Never Enorlled In That Lesson'], 402);
             }
+            $mac = $qrCode->where('used', '=', 1)->get()->all();
+            if ($mac->mac != $userMac) {
+                return response()->json(['error' => 'عفوا يجب مشاهده الدرس من نفس الجهاز الذي تم تفعيله عليه'], 403);
 
+            }
             $exam = Exam::where('is_done', '=', 0)->where('course', '>', $course->id)->where('user_id', '=', $id)->get();
 
             if (!empty($exam->all())) {
