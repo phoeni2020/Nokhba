@@ -63,7 +63,7 @@ Route::prefix('v1')->group(function (){
         });
 
         Route::prefix('exam')->group(function () {
-            Route::get('/{course}', [Api\ExamController::class, 'geExam'])->name('getExam');
+            Route::get('/{course}', [Api\ExamController::class, 'getExam'])->name('getExam');
             Route::post('/answer/{exam}', [Api\ExamController::class, 'answerExam']);
         });
     });
