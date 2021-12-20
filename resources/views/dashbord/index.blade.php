@@ -2,7 +2,7 @@
 
 @section('css')
 <!--  Owl-carousel css-->
-<link href="{{URL::asset('assets/plugins/owl-carousel/owl.carousel.css')}}" rel="stylesheet" />
+<link href="{{URL::asset('assets/plugins/owl-carousel/owl.carousel.css')}}" rel="stylesheet"/>
 <!-- Maps css -->
 <link href="{{URL::asset('assets/plugins/jqvmap/jqvmap.min.css')}}" rel="stylesheet">
 @endsection
@@ -11,21 +11,22 @@
     @php
         $user =auth()->user();
     @endphp
-				<!-- breadcrumb -->
-				<div class="breadcrumb-header justify-content-between">
-					<div class="left-content">
-						<div>
-						  <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Hi, {{ $user->fullname() }} Welcome</h2>
-						</div>
-					</div>
-				</div>
-				<!-- /breadcrumb -->
+    <h1>test</h1>
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="left-content">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Hi, {{ $user->fullname() }} Welcome</h2>
+            </div>
+        </div>
+    </div>
+    <!-- /breadcrumb -->
 @endsection
 
 @section('content')
-				<!-- row -->
-                @if($user->student == 0)
-				<div class="row row-sm">
+    <!-- row -->
+    @if($user->student == 0)
+        <div class="row row-sm">
                     {{-- compositeline --}}
 					<div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
 						<div class="card overflow-hidden sales-card bg-primary-gradient">
