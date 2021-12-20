@@ -28,7 +28,7 @@ class ExamController extends Controller
 
             }
             $id = request()->user()->id;
-            $userMac = request()->user()->mac;
+            $userMac = request()->mac;
             $qrCode = view_teacher_lesson_qr::where('student_id', '=', $id)
                 ->where('lesson_id', '=', $course->id)->where('valid_till', '>', Carbon::now());
             if (empty($qrCode->where('used', '=', 1)->get()->all())) {
