@@ -101,7 +101,7 @@ class QrController extends Controller
                case true:
                    $data = ['user' => $request->user()->fullname(), 'QrText' => $request->qrCode];
                    Log::create(['log' => 'QrCode Scanned And Its Not Exists', 'user' => $request->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
-                   return response()->json(['error'=>'QrCode Not Exists'],404);
+                   return response()->json(['error' => 'هذا الكيو ار غير موجود'], 404);
                    break;
                case false:
                    if($QrCode[0]->used == 0) {
