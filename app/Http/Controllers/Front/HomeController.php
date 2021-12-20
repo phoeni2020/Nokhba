@@ -2,21 +2,12 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Http\Controllers\Api\ExamController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\studentExamResource;
 use App\Models\Answer;
-use App\Models\Attch;
-use App\Models\Course;
 use App\Models\Exam;
-use App\Models\Link;
-use App\Models\Log;
 use App\Models\Question;
-use App\Models\Teachers;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
+
 
 class HomeController extends Controller
 {

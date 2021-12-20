@@ -119,13 +119,14 @@ class CourseController extends Controller
 
         $lessonObject = Course::create(
             [
-                'title'=>$data['title'],
-                'desc'=>$data['desc'],
-                'question_no'=>$data['q_no'],
-                'img'=>$thumbnailsUrl,
-                'vedio'=>isset($data['vedios'])?json_encode($data['vedios']):'',
-                'category_id'=>$data['category_id'],
-                'user_id'=>$id['user_id'],
+                'title' => $data['title'],
+                'desc' => $data['desc'],
+                'question_no' => $data['q_no'],
+                'description' => $data['description'],
+                'img' => $thumbnailsUrl,
+                'vedio' => isset($data['vedios']) ? json_encode($data['vedios']) : '',
+                'category_id' => $data['category_id'],
+                'user_id' => $id['user_id'],
             ]
         );
 

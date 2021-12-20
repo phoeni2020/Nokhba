@@ -99,10 +99,13 @@ class MassagesController extends Controller
                 $imageUrl = asset('storage') . '/' . $name;
 
             }
+
             $student = $request->user();
+
             $converstionId = Converstion::where('user_id', '=', $student->id)->where('teahcer', '=', $teacher[0]->user_id)->get();
+            dd();
             $converstionId = empty($converstionId->all()) ?
-                Converstion::create(['user_id' => $student->id, 'teahcer' => $teacher[0]->user_id])->id : $converstionId[0]->id;
+                Converstion::create(['user_id' => $student->id, 'teahcer' => $teacher[0]->user_id, 'not_read' => 0])->id : $converstionId[0]->id;
             $massage = Massge::create(
                 [
                     'massge' => $request->massage ?? null, 'attchment' => $imageUrl ?? null, 'user_id' => $student->id,

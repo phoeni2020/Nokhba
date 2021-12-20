@@ -3,20 +3,17 @@
     @php
         $tableConfig = [
                 'filter'=>true,
-                'actionUrl'=>route('admin.students.fillTableUser'),
+                'actionUrl'=>route('admin.chats.fillTableChat'),
                 'hasActions' => true,
-                'tableHeaed'=>['Id','Full Name','Email','Phone','Parent Phone','Created At','Actions'],
-                'tableColumnsNames'=>json_encode(['id','fullName','email','phone','parentPhone','created_at','actions']),
+                'tableHeaed'=>['Id','Full Name','Is Readed','Actions'],
+                'tableColumnsNames'=>json_encode(['id','fullName','read','actions']),
                 'tableColumnsData'=> json_encode([
-                                                    ['data'=>'id'],['data'=>'fullName'],['data'=>'email'],
-                                                    ['data'=>'phone'],
-                                                    ['data'=>'parentPhone'],
-                                                    ['data'=>'created_at'],
+                                                    ['data'=>'id'],['data'=>'fullName'],['data'=>'read'],
                                                     ['data'=>'actions','responsivePriority' => -1]
                                                  ]),
                 'tableColumnDefs' => [
-                       'link'=>  [
-                                        ['targets' => 1, 'orderable' => "true", 'column'=>'name', 'link'=>'#']
+                       'label'=>  [
+                                        ['targets' => 1, 'orderable' => "true", 'column'=>'name','columnLabel'=>'status','link'=>'#']
                                   ]
                                   ],
                 'customActions' => json_encode([[
@@ -60,8 +57,8 @@
                             <div class="example">
                                 <div class="panel panel-primary tabs-style-2">
                                     <div class="table-responsive">
-                                        <x-table-filter :filterConfig="$filterConfig" />
-                                        <x-data-table :tableConfig="$tableConfig" />
+                                        <x-table-filter :filterConfig="$filterConfig"/>
+                                        <x-data-table :tableConfig="$tableConfig"/>
                                     </div>
                                 </div>
                             </div>

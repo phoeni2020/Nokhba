@@ -58,7 +58,6 @@ class ExamController extends Controller
                 'user' => request()->user()->fullname(),
             ];
             Log::create(['log' => 'Good To Start', 'user' => request()->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
-
             $course->vedio = json_decode($course->vedio, true);
             return response()->json(['course' => $course]);
         } catch (\Exception $e) {

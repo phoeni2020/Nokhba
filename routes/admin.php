@@ -14,6 +14,7 @@ use \App\Http\Controllers\Admin;
 */
 
 Route::group(['middleware'=>'auth','prefix'=>'admin'],function (){
+
     Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout');
 
     /**
@@ -133,12 +134,22 @@ Route::group(['middleware'=>'auth','prefix'=>'admin'],function (){
     /**
      *
      */
-    Route::group(['prefix'=>'teachers'],function (){
-        Route::view('/','dashbord.teachers.index')->name('admin.teachers.index');
-        Route::delete('/ban/{teacher}',[Admin\teachersController::class,'banTeacher'])->name('admin.teachers.delete');
-        Route::view('/add/assitant','dashbord.teachers.asstitant.create')->name('admin.add.assitant');
-        Route::post('/store/assitant',[Admin\teachersController::class,'addAssitant'])->name('admin.store.assitant');
-        Route::get('/settings',[Admin\teachersController::class,'settingPage'])->name('admin.teachers.settings');
+    Route::group(['prefix' => 'chats'], function () {
+        Route::view('/', 'dashbord.chats.index')->name('admin.chat.index');
+        Route::post('/fillTableChats', [Admin\MassageController::class, 'fillTableMassage'])->name('admin.chats.fillTableChat');
+        //Route::get('/converstion/{converstion}', [Admin\MassageController::class, 'fillTableMassage'])->name('admin.chats.fillTableChat');
+
+    });
+
+    /**
+     *
+     */
+    Route::group(['prefix' => 'teachers'], function () {
+        Route::view('/', 'dashbord.teachers.index')->name('admin.teachers.index');
+        Route::delete('/ban/{teacher}', [Admin\teachersController::class, 'banTeacher'])->name('admin.teachers.delete');
+        Route::view('/add/assitant', 'dashbord.teachers.asstitant.create')->name('admin.add.assitant');
+        Route::post('/store/assitant', [Admin\teachersController::class, 'addAssitant'])->name('admin.store.assitant');
+        Route::get('/settings', [Admin\teachersController::class, 'settingPage'])->name('admin.teachers.settings');
         Route::put('/update',[Admin\teachersController::class,'teacherSettings'])->name('admin.teachers.update.settings');
         Route::post('/fillTableTeachers',[Admin\teachersController::class,'fillTableTeachers'])->name('admin.teachers.dataTables');
         Route::prefix('urls')->group(function (){
@@ -165,15 +176,18 @@ Route::group(['middleware'=>'auth','prefix'=>'admin'],function (){
     /**
      *
      */
-    Route::group(['prefix'=>'about'],function (){
-        Route::view('/create','dashbord.about.create');
-        Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
+    Route::group(['prefix' => 'about'], function () {
+        Route::view('/create', 'dashbord.about.create')->name('admin.about.create');
+        Route::post('/store', [Admin\AboutusController::class, 'store'])->name('admin.about.store');
     });
 
-    Route::group(['prefix'=>'app'],function (){
-        Route::get('/',[Admin\AboutusController::class,'store'])->name('admin.app.settings');
-        Route::get('/developer/settings',[Admin\AppSettingsController::class,'index'])->name('admin.app.developer.settings');
-        Route::post('/developer/settings',[Admin\AppSettingsController::class,'store'])->name('admin.app.developer.settings.store');
-        Route::post('/store',[Admin\AboutusController::class,'store'])->name('admin.about.store');
+    /**
+     *
+     */
+    Route::group(['prefix' => 'app'], function () {
+        Route::get('/', [Admin\AboutusController::class, 'store'])->name('admin.app.settings');
+        Route::get('/developer/settings', [Admin\AppSettingsController::class, 'index'])->name('admin.app.developer.settings');
+        Route::post('/developer/settings', [Admin\AppSettingsController::class, 'store'])->name('admin.app.developer.settings.store');
+        Route::post('/store', [Admin\AboutusController::class, 'store'])->name('admin.about.store');
     });
 });

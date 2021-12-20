@@ -157,9 +157,10 @@
                 {{$questionsAnsewr['question']['question_text']}}
             </p>
             @if(strlen($questionsAnsewr['question']['question_img']) > 0)
-                <img style="width:100px;height:100px;" src="{{$questionsAnsewr['question']['question_img']}}">
+                <img style="width:200px;height:200px;" src="{{$questionsAnsewr['question']['question_img']}}">
             @endif
             <div class="options py-3">
+                <p class="text-justify h5 pb-2 font-weight-bold">اجاباتك</p>
                 @php
                     $rightAnsewr = '';
                 @endphp
@@ -175,14 +176,24 @@
                         </label>
                         @if($answer['is_correct']==true)
                             @php
-                                $rightAnsewr = '';
+                                $rightAnsewr = $answer;
                             @endphp
                         @endif
                     @endif
                 @endforeach
+                <p class="text-justify h5 pb-2 font-weight-bold">اﻻجابه الصحيحه هي :-</p>
+                @if(strlen($rightAnsewr['image_ansewr']) > 0)
+                    <div class="rounded p-2 option bg-success">
+                        <img style="width:100px;height:100px;" src="{{$rightAnsewr['image_ansewr']}}">
+                    </div>
+                @else
+                    <label class="rounded p-2 option bg-success">
+                        {{$answer['text']}}
+                        <span class="crossmark"></span>
+                    </label>
+                @endif
             </div>
         @endforeach
-
     </div>
 </div>
 <script type='text/javascript'

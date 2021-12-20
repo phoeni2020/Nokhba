@@ -114,7 +114,6 @@ class QrCodeController extends Controller
         $authId = $this->getTeacherId();
         $qrArray = [];
         $qrCodes = json_decode($request->qrObject,true);
-        $lessonId = $request->lesson;
         foreach($qrCodes as $qrCode){
             $validatedData = Validator::make(
                 ['qrCode'=>$qrCode],
@@ -133,11 +132,11 @@ class QrCodeController extends Controller
 
             $qrCodeObject = qrModel::create(
                 [
-                    'code_text'=>$qrCode,'code_url'=>$pathUrl,
-                    'price'=>50,'center'=>$request->center,
-                    'teacher_id'=>$authId['user_id'],'lesson'=>$lessonId
+                    'code_text' => $qrCode, 'code_url' => $pathUrl,
+                    'price' => 50, 'center' => $request->center,
+                    'teacher_id' => $authId['user_id'],
                 ]);
-            $qrArray []= ['text'=>$qrCode,'img'=>$path,'lessonTitle'=>$qrCodeObject->lessons->title];
+            $qrArray [] = ['text' => $qrCode, 'img' => $path];
         }
         $pdf = PDF::loadView('dashbord.qrcode.pdf', ['qrArray'=>$qrArray])->setPaper('a4', 'portrait');
         $path = public_path();

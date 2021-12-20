@@ -58,18 +58,28 @@ Route::prefix('v1')->group(function (){
         });
 
         Route::prefix('chat')->group(function (){
-            Route::post('/store/{teacher}',[Api\MassagesController::class,'store']);
-            Route::post('/get/{teacher}',[Api\MassagesController::class,'index']);
+            Route::post('/store/{teacher}', [Api\MassagesController::class, 'store']);
+            Route::post('/get/{teacher}', [Api\MassagesController::class, 'index']);
         });
 
-        Route::prefix('exam')->group(function (){
-            Route::get('/{course}', [Api\ExamController::class, 'getExam'])->name('getExam');
+        Route::prefix('exam')->group(function () {
+            Route::get('/{course}', [Api\ExamController::class, 'geExam'])->name('getExam');
             Route::post('/answer/{exam}', [Api\ExamController::class, 'answerExam']);
         });
     });
 
+    // Verify email
+    Route::get('/email/verify/{id}/{hash}', [Api\VerifyEmailController::class, '__invoke'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
 
-    Route::post('notifications/{start}/{limit}',[Api\NotificationController::class,'index']);
+// Resend link to verify email
+    Route::post('/email/verify/resend', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Verification link sent!');
+    })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+
+    Route::post('notifications/{start}/{limit}', [Api\NotificationController::class, 'index']);
 });
 
 

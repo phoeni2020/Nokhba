@@ -127,7 +127,7 @@ class ExamController extends Controller
         if(isset($data['answer']['img'])){
             $answersArray = [];
             foreach ($data['answer']['img'] as $key => $answer) {
-                $imgAnswer = $this->uploadImage($answer,0);
+                $imgAnswer = $this->uploadImage($answer, 0);
                 $isCorrect = isset($data['answer']['correct'][$key]) ? true : false;
                 $answersArray['answers'][$key] = [
                     'id' => $key + 1,
@@ -135,13 +135,17 @@ class ExamController extends Controller
                     'text' => '',
                     'is_correct' => $isCorrect,];
             }
-            $imgQuestion = isset($data['questionImage'])?$this->uploadImage($request->file('questionImage'),0):'';
-            $object = ['question_text'=>$data['questionText']??'','teacher'=>$id['user_id'],'question_img'=>$imgQuestion[0]??'',
-                'answers'=>json_encode($answersArray),
-                'course'=>'6'
+            $imgQuestion = isset($data['questionImage']) ? $this->uploadImage($request->file('questionImage'), 0) : '';
+            $object = [
+                'question_text' => $data['questionText'] ?? '',
+                'teacher' => $id['user_id'],
+                'question_img' => $imgQuestion[0] ?? '',
+                'answers' => json_encode($answersArray),
+                'grade' => $data['grade'],
+                'course' => '6'
             ];
             Question::create($object);
-            return redirect(url('/exams/question'))->with(['massage'=>'Question Created Successfully']);
+            return redirect(url('/exams/question'))->with(['massage' => 'Question Created Successfully']);
         }
         else{
             $answersArray = [];
@@ -154,9 +158,10 @@ class ExamController extends Controller
                     'is_correct' => $isCorrect,];
             }
             $imgQuestion = isset($data['questionImage'])?$this->uploadImage($request->file('questionImage'),0):'';
-            $object = ['question_text'=>$data['questionText']??'','teacher'=>$id['user_id'],'question_img'=>$imgQuestion[0]??'',
-                'answers'=>json_encode($answersArray),
-                'course'=>'6'
+            $object = ['question_text' => $data['questionText'] ?? '', 'teacher' => $id['user_id'], 'question_img' => $imgQuestion[0] ?? '',
+                'answers' => json_encode($answersArray),
+                'course' => '6',
+                'grade' => $data['grade'],
             ];
             Question::create($object);
             return redirect(url('/exams/question'))->with(['massage'=>'Question Created Successfully']);

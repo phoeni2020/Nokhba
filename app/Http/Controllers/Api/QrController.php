@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\triats\dataFilter;
 use App\Http\Resources\Api\qrResource;
+use App\Models\Course;
 use App\Models\Exam;
 use App\Models\Log;
 use App\Models\QrCode;
@@ -91,7 +92,6 @@ class QrController extends Controller
     public function showUpdate(Request $request)
     {
         $mac=$request->mac;
-
         if(empty($request->qrCode)||is_null($request->qrCode)){
             return response()->json(['error'=>'QrCode Is Required Field'],400);
         }
@@ -104,28 +104,30 @@ class QrController extends Controller
                    return response()->json(['error'=>'QrCode Not Exists'],404);
                    break;
                case false:
-                   if($QrCode[0]->used == 0){
+                   if($QrCode[0]->used == 0) {
+                       $lesson = Course::find($request->lesson);
                        $id = $request->user()->id;
-                       $questions = Question::where('course', '=', $QrCode[0]->lesson)->get()->random($QrCode[0]['lessons']['question_no'])->pluck('id');
+                       $questions = Question::where('course', '=', $lesson->id)->get()->random($lesson->question_no)->pluck('id');
+                       $QrCode[0]->used = 1;
+                       $QrCode[0]->student_id = $id;
+                       $QrCode[0]->mac = $mac;
+                       $QrCode[0]->lesson = $request->lesson;
+                       $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');
+                       $QrCode[0]->save();
                        Exam::create([
                            'questions' => json_encode($questions->toArray()),
                            'user_id' => $id,
                            'course' => $QrCode[0]->lesson,
                            'teacher' => $QrCode[0]->teacher_id,
                        ]);
-                       $questions->toArray();
-                       $QrCode[0]->used = 1;
-                       $QrCode[0]->student_id =$id;
-                       $QrCode[0]->mac =$mac;
-                       $QrCode[0]->valid_till = Carbon::now()->addDays(7)->format('Y-m-d');
-                       $QrCode[0]->save();
-                       $QrCode[0]['lessons']['vedio']= json_decode($QrCode[0]['lessons']['vedio']);
-                       $object = ['qr_Code'=>[
-                           'qrcode_id'=>$QrCode[0]->id,'code_text'=>$QrCode[0]->code_text,
-                           'code_url'=>$QrCode[0]->code_url,'used'=>$QrCode[0]->used,
-                           'student_id'=>$QrCode[0]->student_id,'valid_till'=>$QrCode[0]->valid_till,
-                           'mac'=>$mac
-                       ],'lessons'=>$QrCode[0]['lessons'],'teacher'=>$QrCode[0]['teacher']];
+                       $QrCode[0]['lessons']['vedio'] = json_decode($lesson->vedio);
+
+                       $object = ['qr_Code' => [
+                           'qrcode_id' => $QrCode[0]->id, 'code_text' => $QrCode[0]->code_text,
+                           'code_url' => $QrCode[0]->code_url, 'used' => $QrCode[0]->used,
+                           'student_id' => $QrCode[0]->student_id, 'valid_till' => $QrCode[0]->valid_till,
+                           'mac' => $mac
+                       ], 'lessons' => $QrCode[0]['lessons'], 'teacher' => $QrCode[0]['teacher']];
                        $data = ['user' => $request->user()->fullname(), 'QrText' => $request->qrCode];
                        Log::create(['Log' => 'QrCode Scanned Successfully', 'user' => $request->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
 
@@ -138,6 +140,5 @@ class QrController extends Controller
                    }
                    break;
            }
-
     }
 }

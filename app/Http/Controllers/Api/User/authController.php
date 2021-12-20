@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ class authController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function signUp(Request $request){
+
 
         $validatedData = Validator::make($request->all(), [
                 'email' => 'required|string|email|max:255|unique:users',
@@ -40,6 +42,7 @@ class authController extends Controller
                 'password' => Hash::make($data['password']),
                 'student' => 1,
             ]);
+            event(new Registered($user));
             unset($data);
 
             $token = $user->createToken('auth_token')->plainTextToken;

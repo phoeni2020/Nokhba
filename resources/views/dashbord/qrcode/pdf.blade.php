@@ -28,7 +28,6 @@
                 <tbody>
                     @foreach($qrArray as $qr)
                         <tr>
-                            <td><center>{{$qr['lessonTitle']}}</center></td>
                             <td><center>{{$qr['text']}}</center></td>
                             <td padding="10px"><center> <img class="" src="{{$qr['img']}}"></center></td>
                         </tr>

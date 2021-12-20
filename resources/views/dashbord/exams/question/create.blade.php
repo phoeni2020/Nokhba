@@ -64,40 +64,57 @@
                                                 <label class="form-label mg-b-0">Grade</label>
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                <input class="form-control" placeholder="Enter Grade" name="grade" type="number" min="0"/>
+                                                <input class="form-control" placeholder="Enter Grade" name="grade"
+                                                       type="number" min="0"/>
                                             </div>
                                         </div>
-                                        <div id="holder">
-                                            <div class="A">
-                                                <div class="row row-xs align-items-center mg-b-20 ">
-                                                    <div class="col-md-4">
-                                                        <label class="form-label mg-b-0">Answers</label>
-                                                    </div>
-                                                    <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                        <input class="form-control Answer" placeholder="Enter Answer Text" name="answer[text][]" type="text">
-                                                        <hr>
-                                                        <div class="imgHolder">
-                                                            <input type="file" name="answer[img][]" class="dropify uploadimg "  data-height="200" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row row-xs align-items-center mg-b-20 ">
-                                                    <div class="col-md-4">
-                                                        <label for="">Correct Answer</label>
-                                                    </div>
-                                                    <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                        <input class="answerCorrect" name="answer[correct][]" type="checkbox" value="0">
-                                                    </div>
-                                                </div>
-                                                <hr>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-4">
+                                                <label class="form-label mg-b-0">Lesson</label>
+                                            </div>
+                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                <select class="js-example-basic-single form-control lesson"
+                                                        name="lesson">
+
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+                                <div class="pd-30 pd-sm-40 bg-danger-transparent">
+                                    <div id="holder">
+                                        <div class="A">
+                                            <div class="row row-xs align-items-center mg-b-20 ">
+                                                <div class="col-md-4">
+                                                    <label class="form-label mg-b-0">Answers</label>
+                                                </div>
+                                                <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control Answer" placeholder="Enter Answer Text"
+                                                           name="answer[text][]" type="text">
+                                                    <hr>
+                                                    <div class="imgHolder">
+                                                        <input type="file" name="answer[img][]"
+                                                               class="dropify uploadimg " data-height="200"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20 ">
+                                                <div class="col-md-4">
+                                                    <label for="">Correct Answer</label>
+                                                </div>
+                                                <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                    <input class="answerCorrect" name="answer[correct][]"
+                                                           type="checkbox" value="0">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
                             <hr class="mb-10 mt-10">
                             <div class="card-body">
                                 <div class="pd-15 pd-sm-40 ">
-                                    <button class="btn btn-primary B-0" type="button" data-acount="0" >Add More</button>
+                                    <button class="btn btn-primary B-0" type="button" data-acount="0">Add More</button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -119,9 +136,31 @@
     <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
     <script>
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        $(document).ready(function() {
-            $(function(){
-                function attachCount(){
+        $(document).ready(function () {
+            $(function () {
+                $('.lesson').select2({
+                    placeholder: 'choose Lesson',
+                    ajax: {
+                        url: "{{route('admin.course.dropdown')}}",
+                        type: "post",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                _token: CSRF_TOKEN,
+                                search: params.term // search term
+                            };
+                        },
+                        processResults: function (response) {
+                            return {
+                                results: response
+                            };
+                        },
+                        cache: true
+                    }
+                });
+
+                function attachCount() {
                     var _this = $(this);
 
                     var rows = (typeof _this.data('acount') == undefined || typeof _this.data('acount') == "undefined") ? rows : _this.data('acount');
@@ -129,7 +168,7 @@
                     $('#holder').append($('.A').first().clone());
 
 
-                    $(_this).data('acount',rows+1);
+                    $(_this).data('acount', rows + 1);
 
                     var lastRow = $('#holder .A:last');
 
@@ -164,8 +203,4 @@
 
 
     </script>
-    <!--Internal Fileuploads js-->
-
-    <!--Internal  Form-elements js-->
-
 @endsection

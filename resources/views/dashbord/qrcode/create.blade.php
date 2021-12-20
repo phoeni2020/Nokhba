@@ -54,16 +54,6 @@
                                             </div>
                                             <div class="row row-xs align-items-center mg-b-20">
                                                 <div class="col-md-4">
-                                                    <label class="form-label mg-b-0">Lesson</label>
-                                                </div>
-                                                <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                    <select class="js-example-basic-single form-control lesson" name="lesson">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row row-xs align-items-center mg-b-20">
-                                                <div class="col-md-4">
                                                     <label class="form-label mg-b-0">Center</label>
                                                 </div>
                                                 <div class="col-md-8 mg-t-5 mg-md-t-0">
@@ -84,20 +74,21 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 @endsection
 @section('js')
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
     <script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
     <script src="{{URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js')}}"></script>
     <!-- Sweet-alert js  -->
     <script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
     <script>
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        $(function (){
+        $(function () {
             $('.lesson').select2({
                 placeholder: 'choose Lesson',
                 ajax: {
@@ -185,5 +176,4 @@
             $('#submit').on('click',makeid);
         });
     </script>
-    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
 @endsection

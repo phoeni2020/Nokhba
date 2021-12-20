@@ -70,6 +70,12 @@
                     </a>
                 </li>
                 <li class="slide">
+                    <a class="side-menu__item" href="{{ route('admin.chat.index') }}">
+                        <i class="fas fa-question side-menu__icon"></i>
+                        <span class="side-menu__label">المحادثات</span>
+                    </a>
+                </li>
+                <li class="slide">
                     <a class="side-menu__item" data-toggle="slide" href="#">
                         <i class="fas fa-cogs side-menu__icon"></i>
                         <span class="side-menu__label">اعدادت اﻻستاذ</span><i class="angle fe fe-chevron-down"></i>
@@ -108,9 +114,15 @@
                     </a>
                     <ul class="slide-menu">
                         <li>
-                            <a class="slide-item" href="{{ route('admin.app.developer.settings') }}">
+                            <a class="slide-item" href="{{ route('admin.teachers.index') }}">
                                 <i class="fas fa-tools"></i>
                                 حظر المدرسين
+                            </a>
+                        </li>
+                        <li>
+                            <a class="slide-item" href="{{ route('admin.about.create') }}">
+                                <i class="fas fa-tools"></i>
+                                About Us
                             </a>
                         </li>
                         <li>
@@ -239,7 +251,6 @@
             </ul>
         </div>
     </aside>
-
 @elseif($user->role == 'teacher')
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar sidebar-scroll">

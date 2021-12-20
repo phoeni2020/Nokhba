@@ -101,23 +101,27 @@ class teachersController extends Controller
                     'image' => 'mimes:jpg,jpeg,png,bmp,tiff|max:10000',
                 ]
             );
+
             $teacher = Teachers::where('id','=',$request->teacher)->get();
+
             $validatedData->validated();
+
             $image='';
             if($request->has('image')) {
                 $image = $request->file('image');
                 $response = $this->uploadImage($image,0);
                 $image = $response[0];
             }
+
             if(empty($teacher->toArray())){
                 $teacher=Teachers::create([
-                    'nickName'=>$request->nickName,
-                    'short_description'=>$request->short_description,
-                    'long_description'=>$request->long_description,
-                    'vedio'=>$request->vedio,
-                    'subject'=>$request->subject,
-                    'image'=>$image,
-                    'user_id'=>auth()->id(),
+                    'nickName' => $request->nickName,
+                    'short_description' => $request->short_description,
+                    'long_description' => $request->long_description,
+                    'vedio' => $request->video,
+                    'subject' => $request->subject,
+                    'image' => $image,
+                    'user_id' => auth()->id(),
                 ]);
             }
             else{
