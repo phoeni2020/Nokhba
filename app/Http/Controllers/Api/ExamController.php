@@ -31,11 +31,11 @@ class ExamController extends Controller
             $userMac = request()->user()->mac;
             $qrCode = view_teacher_lesson_qr::where('student_id', '=', $id)
                 ->where('lesson_id', '=', $course->id)->where('valid_till', '>', Carbon::now());
-            /*$mac = $qrCode->where('used', '=', 1)->get()->all();
+            $mac = $qrCode->where('used', '=', 1)->get()->all();
             if ($mac->mac != $userMac) {
                 return response()->json(['error' => 'عفوا يجب مشاهده الدرس من نفس الجهاز الذي تم تفعيله عليه'], 403);
 
-            }*/
+            }
             if (empty($qrCode->where('used', '=', 1)->get()->all())) {
                 $data = [
                     'user' => request()->user()->fullname(),
