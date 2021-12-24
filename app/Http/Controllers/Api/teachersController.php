@@ -109,10 +109,11 @@ class teachersController extends Controller
             $course->save();
             $userId = request()->user();
             $views = StudentViews::where('student', '=', $userId->id)->where('course', '=', $course->id)->get()->all();
-            $views[0]->views += 1;
-            $views[0]->save();
             if (empty($views)) {
                 StudentViews::create(['student' => $userId->id, 'course' => $course->id, 'views' => 1]);
+            } else {
+                $views[0]->views += 1;
+                $views[0]->save();
             }
         }
         catch (\Exception $e) {
