@@ -27,3 +27,4 @@ Route::get('exam/result/{exam}', [App\Http\Controllers\Front\HomeController::cla
 Route::post('studentExams/{id}', [App\Http\Controllers\Front\HomeController::class, 'fillTableStudentExams'])->name('getExams');
 
 Route::get('page/{page}', [\App\Http\Controllers\HomeController::class, 'page']);
+//Route::view('/email/verify/success', 'front.mailDone');
