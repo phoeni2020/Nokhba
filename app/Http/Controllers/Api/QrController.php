@@ -123,7 +123,7 @@ class QrController extends Controller
                        $QrCode[0]['lessons']['vedio'] = json_decode($lesson->vedio);
 
                        $object = [
-                           'error' => 'صلاحيه الكيو ار كود سبعه ايام',
+                           'messages' => 'Done',
                            'qr_Code' => [
                                'qrcode_id' => $QrCode[0]->id, 'code_text' => $QrCode[0]->code_text,
                                'code_url' => $QrCode[0]->code_url, 'used' => $QrCode[0]->used,
