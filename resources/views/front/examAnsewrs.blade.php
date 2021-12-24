@@ -193,6 +193,7 @@
                     </label>
                 @endif
             </div>
+            <hr>
         @endforeach
     </div>
 </div>

@@ -32,7 +32,7 @@ class testingAPI extends Controller
         $apiBody = [
             'notification' => $notifData,
             'data' => $notifData,
-            'to' => request('token') // Replace 'mytargettopic' with your intended notification audience
+            'to' => 'dCbVVDa4RCu7ZV2_9SoSeF:APA91bFkbrS_RJMI2qGT72XvMeZQI7fWUhlgVID-sO3G5SnRqxybGr4TE_Z_gpCe8kxDRYztnrNotGWWkZto3BOtCtogr_2ww2uQ6nRQRgUpNPP-hp7ui8TktAvxfEqkEoXWYWNdLMt_' // Replace 'mytargettopic' with your intended notification audience
         ];
 
         // Initialize curl with the prepared headers and body
