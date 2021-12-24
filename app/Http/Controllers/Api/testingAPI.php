@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class testingAPI extends Controller
 {
-    function sendGCM($token)
+    function sendFCM($token)
     {
         // FCM API Url
         $url = 'https://fcm.googleapis.com/fcm/send';
