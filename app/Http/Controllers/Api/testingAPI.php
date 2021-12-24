@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class testingAPI extends Controller
 {
-    function sendFCM($token)
+    function sendFCM()
     {
         // FCM API Url
         $url = 'https://fcm.googleapis.com/fcm/send';
@@ -32,7 +32,7 @@ class testingAPI extends Controller
         $apiBody = [
             'notification' => $notifData,
             'data' => $notifData,
-            'to' => $token // Replace 'mytargettopic' with your intended notification audience
+            'to' => request('token') // Replace 'mytargettopic' with your intended notification audience
         ];
 
         // Initialize curl with the prepared headers and body
