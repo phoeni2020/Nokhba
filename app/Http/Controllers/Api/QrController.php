@@ -122,12 +122,14 @@ class QrController extends Controller
                        ]);
                        $QrCode[0]['lessons']['vedio'] = json_decode($lesson->vedio);
 
-                       $object = ['qr_Code' => [
-                           'qrcode_id' => $QrCode[0]->id, 'code_text' => $QrCode[0]->code_text,
-                           'code_url' => $QrCode[0]->code_url, 'used' => $QrCode[0]->used,
-                           'student_id' => $QrCode[0]->student_id, 'valid_till' => $QrCode[0]->valid_till,
-                           'mac' => $mac
-                       ], 'lessons' => $QrCode[0]['lessons'], 'teacher' => $QrCode[0]['teacher']];
+                       $object = [
+                           'error' => 'صلاحيه الكيو ار كود سبعه ايام',
+                           'qr_Code' => [
+                               'qrcode_id' => $QrCode[0]->id, 'code_text' => $QrCode[0]->code_text,
+                               'code_url' => $QrCode[0]->code_url, 'used' => $QrCode[0]->used,
+                               'student_id' => $QrCode[0]->student_id, 'valid_till' => $QrCode[0]->valid_till,
+                               'mac' => $mac
+                           ], 'lessons' => $QrCode[0]['lessons'], 'teacher' => $QrCode[0]['teacher']];
                        $data = ['user' => $request->user()->fullname(), 'QrText' => $request->qrCode];
                        Log::create(['Log' => 'QrCode Scanned Successfully', 'user' => $request->user()->id, 'data' => json_encode($data), 'route' => request()->route()->uri()]);
 
