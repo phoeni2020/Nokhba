@@ -122,7 +122,7 @@ class CourseController extends Controller
                 'title' => $data['title'],
                 'desc' => $data['desc'],
                 'question_no' => $data['q_no'],
-                'description' => $data['description'],
+                'description' => $data['desc'],
                 'img' => $thumbnailsUrl,
                 'vedio' => isset($data['vedios']) ? json_encode($data['vedios']) : '',
                 'category_id' => $data['category_id'],
