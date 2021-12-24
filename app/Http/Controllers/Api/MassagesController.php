@@ -37,8 +37,12 @@ class MassagesController extends Controller
             $length = $validatedData['requestOrder']['length'];
             /*======================================================================= */
             $converstionObject = Converstion::query()
-                ->select(['converstion.id'])->where('user_id','=',$user->id)->get('id');
-            $CoursesObject = Massge::where('convsertion','=',$converstionObject[0]->id)
+                ->select(['converstion.id'])->where('user_id', '=', $user->id)->get('id');
+            if (empty($converstionObject->toArray())) {
+                $massagesObject['count'] = 0;
+                return response()->json($massagesObject);
+            }
+            $CoursesObject = Massge::where('convsertion', '=', $converstionObject[0]->id)
                 ->with('user');
 
             if (!empty(request('filter'))) {
