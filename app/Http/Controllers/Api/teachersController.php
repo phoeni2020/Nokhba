@@ -104,7 +104,7 @@ class teachersController extends Controller
         try{
             $course->views += 1;
             $vedioObject = json_decode($course->vedio, true);
-            $vedioObject[0]['views'] += 1;
+            $vedioObject[$vedio]['views'] += 1;
             $course->vedio = json_encode($vedioObject);
             $course->save();
             $userId = request()->user();

@@ -40,11 +40,11 @@ class MassagesController extends Controller
                 ->select(['converstion.id'])->where('user_id', '=', $user->id)->get('id');
             if (empty($converstionObject->toArray())) {
                 $massagesObject['count'] = 0;
+                $massagesObject['massages'] = [];
                 return response()->json($massagesObject);
             }
             $CoursesObject = Massge::where('convsertion', '=', $converstionObject[0]->id)
                 ->with('user');
-
             if (!empty(request('filter'))) {
                 $filterData = [];
                 parse_str(html_entity_decode(request('filter')), $filterData);
